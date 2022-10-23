@@ -16,8 +16,6 @@
     "@tailwindcss/forms": "^0.5.3",
     "astro": "^1.5.2",
     "cookie": "^0.5.0",
-    "prettier": "^2.7.1",
-    "prettier-plugin-astro": "^0.6.0",
     "svelte": "^3.46.4",
     "tailwindcss": "^3.2.1",
     "wrangler": "^2.1.13"

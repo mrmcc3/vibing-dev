@@ -1,20 +1,22 @@
 ---
 export interface Props {
   title: string;
+  searchTitle?: string; // title for search engines
   description: string;
 }
-const { title, description } = Astro.props;
+const { title, searchTitle, description } = Astro.props;
 ---
 
 <title>{title}</title>
-<meta name="title" content={title} />
+{searchTitle && <meta name="title" content={searchTitle} />}
 <meta name="description" content={description} />
+<link rel="canonical" href={Astro.url} />
 
 <meta property="og:type" content="website" />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="twitter:card" content="summary_large_image" />
-<!-- <meta property="og:url" content={Astro.url} /> -->
+<meta property="og:url" content={Astro.url} />
 <!-- <meta property="og:image" content="" /> -->
 
 <slot />

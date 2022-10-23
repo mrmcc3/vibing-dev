@@ -1,0 +1,25 @@
+---
+import Html from "../components/Html.astro";
+import Head from "../components/site/head/Head.astro";
+import Header from "../components/site/header/Header.astro";
+import Footer from "../components/site/footer/Footer.astro";
+---
+
+<Html>
+  <Head slot="head" title="No Vibe" description="Not Found" />
+  <Header />
+  <main
+    class="mx-auto flex w-full max-w-7xl flex-grow flex-col px-4 sm:px-6 lg:px-8"
+  >
+    <div class="flex-shrink-0 py-16 sm:py-24">
+      <p class="text-base font-semibold text-red-600">404</p>
+      <h1 class="mt-2 -ml-0.5 text-4xl font-bold tracking-tight sm:text-5xl">
+        Page not found
+      </h1>
+      <p class="mt-2 text-base text-gray-700 dark:text-gray-300">
+        Sorry, we couldn't find the page you're looking for.
+      </p>
+    </div>
+  </main>
+  <Footer />
+</Html>

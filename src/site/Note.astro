@@ -17,10 +17,12 @@ const {
     noindex={draft}
   />
   <Header />
-  <article
-    class="prose prose-sm sm:prose-base mx-auto px-4 sm:px-0 break-words"
-  >
-    <slot />
-  </article>
+  <main class="flex-1 px-4">
+    <article
+      class="prose dark:prose-invert prose-sm sm:prose-base mx-auto break-words"
+    >
+      <slot />
+    </article>
+  </main>
   <Footer />
 </Html>

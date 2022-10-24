@@ -1,5 +1,5 @@
 ---
-layout: ../../components/site/Note.astro
+layout: "@site/Note.astro"
 title: "Theming"
 description: "Thoughts on theming for the web"
 draft: true

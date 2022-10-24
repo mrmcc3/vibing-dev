@@ -1,5 +1,5 @@
 ---
-layout: ../../components/site/Note.astro
+layout: "@site/Note.astro"
 title: "Web Color Schemes"
 description: "Notes on how to implement color schemes (Dark Mode) for the web"
 draft: true

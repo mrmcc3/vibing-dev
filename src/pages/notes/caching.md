@@ -1,5 +1,5 @@
 ---
-layout: ../../components/site/Note.astro
+layout: "@site/Note.astro"
 title: "Theming"
 description: "Notes on caching with cloudflare pages"
 draft: true

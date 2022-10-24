@@ -1,5 +1,4 @@
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
 import svelte from "@astrojs/svelte";
 
 // https://astro.build/config
@@ -8,9 +7,10 @@ export default defineConfig({
   markdown: {
     drafts: true,
   },
-  integrations: [tailwind(), svelte()],
+  integrations: [svelte()],
   vite: {
     build: {
+      assetsInlineLimit: 0,
       rollupOptions: {
         output: {
           entryFileNames: "static/build/[hash].js",

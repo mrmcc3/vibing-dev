@@ -11,6 +11,7 @@ export interface Props {
   ogDescription?: string;
   ogImage?: string;
   twitterCard?: "sumary_large_image";
+  noindex?: boolean;
 }
 
 const {
@@ -22,6 +23,7 @@ const {
   ogDescription = description,
   ogImage = "/static/img/221aadd8.jpg",
   twitterCard = "sumary_large_image",
+  noindex,
 } = Astro.props;
 ---
 
@@ -29,6 +31,7 @@ const {
 {searchTitle && <meta name="title" content={searchTitle} />}
 <meta name="description" content={description} />
 <link rel="canonical" href={Astro.url} />
+{noindex && <meta name="robots" content="noindex" />}
 
 <slot name="og">
   <meta property="og:type" content={ogType} />

@@ -4,15 +4,21 @@ import Head from "./Head.astro";
 import Header from "./header/Header.astro";
 import Footer from "./footer/Footer.astro";
 const {
-  frontmatter: { title, description },
+  frontmatter: { title, description, draft },
 } = Astro.props;
 ---
 
 <Html>
-  <Head slot="head" title={title} description={description} ogType="article" />
+  <Head
+    slot="head"
+    title={title}
+    description={description}
+    ogType="article"
+    noindex={draft}
+  />
   <Header />
   <article
-    class="prose prose-sm sm:prose-base font-light mx-auto px-4 sm:px-0 break-words"
+    class="prose prose-sm sm:prose-base mx-auto px-4 sm:px-0 break-words"
   >
     <slot />
   </article>

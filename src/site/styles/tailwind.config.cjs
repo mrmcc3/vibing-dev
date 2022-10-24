@@ -12,11 +12,12 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["Lexend", ...defaultTheme.fontFamily.sans],
+        mono: ['"Jetbrains Mono"', ...defaultTheme.fontFamily.mono],
       },
       colors: ({ colors }) => ({
         gray: colors.neutral,
       }),
     },
   },
-  plugins: [require("@tailwindcss/forms")],
+  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],
 };

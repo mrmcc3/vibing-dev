@@ -11,6 +11,10 @@ const {
 <Html>
   <Head slot="head" title={title} description={description} ogType="article" />
   <Header />
-  <slot />
+  <article
+    class="prose prose-sm sm:prose-base font-light mx-auto px-4 sm:px-0 break-words"
+  >
+    <slot />
+  </article>
   <Footer />
 </Html>

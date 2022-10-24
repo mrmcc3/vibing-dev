@@ -5,6 +5,8 @@ import ColorSchemeToggle from "@shared/colorscheme/Toggle.svelte";
 // https://css-tricks.com/a-clever-sticky-footer-technique/
 ---
 
-<footer class="sticky top-[100vh]">
+<footer
+  class="sticky flex items-center justify-end top-[100vh] p-4 bg-gray-100 dark:bg-gray-800"
+>
   <ColorSchemeToggle client:idle />
 </footer>

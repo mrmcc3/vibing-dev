@@ -6,6 +6,9 @@ export default defineConfig({
   site: "https://vibing.dev",
   markdown: {
     drafts: true,
+    shikiConfig: {
+      theme: "css-variables",
+    },
   },
   integrations: [svelte()],
   vite: {

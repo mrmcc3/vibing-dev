@@ -3,4 +3,5 @@
 @import "tailwindcss/utilities";
 @import "../../shared/styles/lexend.css";
 @import "../../shared/styles/jetbrains-mono.css";
+@import "../../shared/styles/code-blocks.css";
 @config "./tailwind.config.cjs";

@@ -1,0 +1,16 @@
+---
+import Html from "../shared/Html.astro";
+import Head from "./Head.astro";
+import Header from "./header/Header.astro";
+import Footer from "./footer/Footer.astro";
+const {
+  frontmatter: { title, description },
+} = Astro.props;
+---
+
+<Html>
+  <Head slot="head" title={title} description={description} ogType="article" />
+  <Header />
+  <slot />
+  <Footer />
+</Html>

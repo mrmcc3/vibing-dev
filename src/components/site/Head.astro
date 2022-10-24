@@ -1,0 +1,39 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  // optional overrides
+  searchTitle?: string; // title for search engines
+  ogType?: "website" | "article";
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  twitterCard?: "sumary_large_image";
+}
+const {
+  title,
+  searchTitle,
+  description,
+  ogType = "website",
+  ogTitle = title,
+  ogDescription = description,
+  ogImage = "/static/img/221aadd8.jpg",
+  twitterCard = "sumary_large_image",
+} = Astro.props;
+---
+
+<title>{title}</title>
+{searchTitle && <meta name="title" content={searchTitle} />}
+<meta name="description" content={description} />
+<link rel="canonical" href={Astro.url} />
+
+<slot name="og">
+  <meta property="og:type" content={ogType} />
+  <meta property="og:title" content={ogTitle} />
+  <meta property="og:description" content={ogDescription} />
+  <meta property="og:url" content={Astro.url} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="twitter:card" content={twitterCard} />
+</slot>
+
+<slot />

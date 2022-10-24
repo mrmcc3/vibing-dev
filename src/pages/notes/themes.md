@@ -1,3 +1,10 @@
+---
+layout: ../../components/site/Note.astro
+title: "Theming"
+description: "Thoughts on theming for the web"
+draft: true
+---
+
 ### Theming with css variables
 
 While light/dark mode variations can be handled explicitly via `dark:` variants

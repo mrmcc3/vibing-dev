@@ -1,3 +1,10 @@
+---
+layout: ../../components/site/Note.astro
+title: "Web Color Schemes"
+description: "Notes on how to implement color schemes (Dark Mode) for the web"
+draft: true
+---
+
 ### Color Scheme
 
 Also known as dark mode. In our implementation

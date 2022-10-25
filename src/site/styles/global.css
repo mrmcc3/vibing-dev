@@ -1,4 +1,8 @@
 @import "../../shared/styles/radix-colors/gray.css";
+@import "../../shared/styles/radix-colors/teal.css";
+@import "../../shared/styles/radix-colors/purple.css";
+@import "../../shared/styles/radix-colors/bronze.css";
+
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
@@ -11,11 +15,11 @@
   --astro-code-color-text: hsl(var(--gray12));
   --astro-code-color-background: hsl(var(--gray2));
   --astro-code-token-constant: var(--astro-code-color-text);
-  --astro-code-token-string: #0a3069;
-  --astro-code-token-comment: #6e7781;
-  --astro-code-token-keyword: #cf222e;
+  --astro-code-token-string: hsl(var(--bronze9));
+  --astro-code-token-comment: hsl(var(--gray9));
+  --astro-code-token-keyword: hsl(var(--teal9));
   --astro-code-token-parameter: var(--astro-code-color-text);
-  --astro-code-token-function: #8250df;
+  --astro-code-token-function: hsl(var(--purple9));
   --astro-code-token-string-expression: var(--astro-code-token-string);
   --astro-code-token-punctuation: var(--astro-code-color-text);
   --astro-code-token-link: var(--astro-code-token-string-expression);

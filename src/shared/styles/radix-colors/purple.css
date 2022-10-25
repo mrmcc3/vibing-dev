@@ -1,0 +1,29 @@
+:root {
+  --purple1: 280deg 65% 99.4%;
+  --purple2: 276deg 100% 99%;
+  --purple3: 276deg 83.1% 97%;
+  --purple4: 275deg 76.4% 94.7%;
+  --purple5: 275deg 70.8% 91.8%;
+  --purple6: 274deg 65.4% 87.8%;
+  --purple7: 273deg 61% 81.7%;
+  --purple8: 272deg 60% 73.5%;
+  --purple9: 272deg 51% 54%;
+  --purple10: 272deg 46.8% 50.3%;
+  --purple11: 272deg 50% 45.8%;
+  --purple12: 272deg 66% 16%;
+}
+
+.dark {
+  --purple1: 284deg 20% 9.6%;
+  --purple2: 283deg 30% 11.8%;
+  --purple3: 281deg 37.5% 16.5%;
+  --purple4: 280deg 41.2% 20%;
+  --purple5: 279deg 43.8% 23.3%;
+  --purple6: 277deg 46.4% 27.5%;
+  --purple7: 275deg 49.3% 34.6%;
+  --purple8: 272deg 52.1% 45.9%;
+  --purple9: 272deg 51% 54%;
+  --purple10: 273deg 57.3% 59.1%;
+  --purple11: 275deg 80% 71%;
+  --purple12: 279deg 75% 95.7%;
+}

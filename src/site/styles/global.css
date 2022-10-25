@@ -1,7 +1,22 @@
+@import "../../shared/styles/radix-colors/gray.css";
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 @import "../../shared/styles/lexend.css";
 @import "../../shared/styles/jetbrains-mono.css";
-@import "../../shared/styles/code-blocks.css";
 @config "./tailwind.config.cjs";
+
+/* Syntax Highlighting in Mardown */
+:root {
+  --astro-code-color-text: hsl(var(--gray12));
+  --astro-code-color-background: hsl(var(--gray2));
+  --astro-code-token-constant: var(--astro-code-color-text);
+  --astro-code-token-string: #0a3069;
+  --astro-code-token-comment: #6e7781;
+  --astro-code-token-keyword: #cf222e;
+  --astro-code-token-parameter: var(--astro-code-color-text);
+  --astro-code-token-function: #8250df;
+  --astro-code-token-string-expression: var(--astro-code-token-string);
+  --astro-code-token-punctuation: var(--astro-code-color-text);
+  --astro-code-token-link: var(--astro-code-token-string-expression);
+}

@@ -21,7 +21,8 @@ module.exports = {
         DEFAULT: {
           css: {
             code: {
-              fontWeight: "400",
+              color: "var(--astro-code-color-text)",
+              fontWeight: "500",
               backgroundColor: "var(--astro-code-color-background)",
               borderRadius: "6px",
               paddingTop: "0.2em",

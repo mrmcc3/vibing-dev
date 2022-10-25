@@ -22,10 +22,10 @@ module.exports = {
   ],
   theme: {
     colors: {
-      gray: radixScale("gray"),
+      gray: radixScale("slate"),
       teal: radixScale("teal"),
-      purple: radixScale("purple"),
-      bronze: radixScale("bronze"),
+      indigo: radixColor("indigo"),
+      purple: radixScale("plum"),
     },
     extend: {
       fontFamily: {
@@ -36,14 +36,8 @@ module.exports = {
         DEFAULT: {
           css: {
             code: {
-              color: "var(--astro-code-color-text)",
+              color: "hsl(var(--teal10))",
               fontWeight: "500",
-              backgroundColor: "var(--astro-code-color-background)",
-              borderRadius: "6px",
-              paddingTop: "0.2em",
-              paddingRight: "0.4em",
-              paddingBottom: "0.2em",
-              paddingLeft: "0.4em",
             },
             "code::before": {
               content: "normal",

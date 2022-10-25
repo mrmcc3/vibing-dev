@@ -3,7 +3,6 @@ lockfileVersion: 5.4
 specifiers:
   '@astrojs/svelte': ^1.0.2
   '@cloudflare/workers-types': ^3.18.0
-  '@radix-ui/colors': ^0.1.8
   '@tailwindcss/forms': ^0.5.3
   '@tailwindcss/typography': ^0.5.7
   astro: ^1.5.2
@@ -17,7 +16,6 @@ specifiers:
 dependencies:
   '@astrojs/svelte': 1.0.2_svelte@3.52.0
   '@cloudflare/workers-types': 3.18.0
-  '@radix-ui/colors': 0.1.8
   '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.1
   '@tailwindcss/typography': 0.5.7_tailwindcss@3.2.1
   astro: 1.5.2
@@ -735,10 +733,6 @@ packages:
     dependencies:
       '@proload/core': 0.3.3
       tsm: 2.2.2
-    dev: false
-
-  /@radix-ui/colors/0.1.8:
-    resolution: {integrity: sha512-jwRMXYwC0hUo0mv6wGpuw254Pd9p/R6Td5xsRpOmaWkUHlooNWqVcadgyzlRumMq3xfOTXwJReU0Jv+EIy4Jbw==}
     dev: false
 
   /@rollup/pluginutils/4.2.1:

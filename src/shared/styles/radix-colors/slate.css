@@ -1,0 +1,29 @@
+:root {
+  --slate1: 206deg 30% 98.8%;
+  --slate2: 210deg 16.7% 97.6%;
+  --slate3: 209deg 13.3% 95.3%;
+  --slate4: 209deg 12.2% 93.2%;
+  --slate5: 208deg 11.7% 91.1%;
+  --slate6: 208deg 11.3% 88.9%;
+  --slate7: 207deg 11.1% 85.9%;
+  --slate8: 205deg 10.7% 78%;
+  --slate9: 206deg 6% 56.1%;
+  --slate10: 206deg 5.8% 52.3%;
+  --slate11: 206deg 6% 43.5%;
+  --slate12: 206deg 24% 9%;
+}
+
+.dark {
+  --slate1: 200deg 7% 8.8%;
+  --slate2: 195deg 7.1% 11%;
+  --slate3: 197deg 6.8% 13.6%;
+  --slate4: 198deg 6.6% 15.8%;
+  --slate5: 199deg 6.4% 17.9%;
+  --slate6: 201deg 6.2% 20.5%;
+  --slate7: 203deg 6% 24.3%;
+  --slate8: 207deg 5.6% 31.6%;
+  --slate9: 206deg 6% 43.9%;
+  --slate10: 206deg 5.2% 49.5%;
+  --slate11: 206deg 6% 63%;
+  --slate12: 210deg 6% 93%;
+}

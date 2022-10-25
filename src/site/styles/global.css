@@ -1,7 +1,7 @@
-@import "../../shared/styles/radix-colors/gray.css";
+@import "../../shared/styles/radix-colors/slate.css";
 @import "../../shared/styles/radix-colors/teal.css";
-@import "../../shared/styles/radix-colors/purple.css";
-@import "../../shared/styles/radix-colors/bronze.css";
+@import "../../shared/styles/radix-colors/plum.css";
+@import "../../shared/styles/radix-colors/indigo.css";
 
 @import "tailwindcss/base";
 @import "tailwindcss/components";
@@ -12,14 +12,14 @@
 
 /* Syntax Highlighting in Mardown */
 :root {
-  --astro-code-color-text: hsl(var(--gray12));
-  --astro-code-color-background: hsl(var(--gray2));
+  --astro-code-color-text: hsl(var(--slate12));
+  --astro-code-color-background: inherit;
   --astro-code-token-constant: var(--astro-code-color-text);
-  --astro-code-token-string: hsl(var(--bronze9));
-  --astro-code-token-comment: hsl(var(--gray9));
-  --astro-code-token-keyword: hsl(var(--teal9));
+  --astro-code-token-string: hsl(var(--indigo10));
+  --astro-code-token-comment: hsl(var(--slate10));
+  --astro-code-token-keyword: hsl(var(--teal10));
   --astro-code-token-parameter: var(--astro-code-color-text);
-  --astro-code-token-function: hsl(var(--purple9));
+  --astro-code-token-function: hsl(var(--plum10));
   --astro-code-token-string-expression: var(--astro-code-token-string);
   --astro-code-token-punctuation: var(--astro-code-color-text);
   --astro-code-token-link: var(--astro-code-token-string-expression);

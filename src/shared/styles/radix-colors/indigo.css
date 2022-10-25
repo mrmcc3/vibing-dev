@@ -1,0 +1,29 @@
+:root {
+  --indigo1: 225deg 60% 99.4%;
+  --indigo2: 223deg 100% 98.6%;
+  --indigo3: 223deg 98.4% 97.1%;
+  --indigo4: 223deg 92.9% 95%;
+  --indigo5: 224deg 87.1% 92%;
+  --indigo6: 224deg 81.9% 87.8%;
+  --indigo7: 225deg 77.4% 82.1%;
+  --indigo8: 226deg 75.4% 74.5%;
+  --indigo9: 226deg 70% 55.5%;
+  --indigo10: 226deg 58.6% 51.3%;
+  --indigo11: 226deg 55% 45%;
+  --indigo12: 226deg 62% 17%;
+}
+
+.dark {
+  --indigo1: 229deg 24% 10%;
+  --indigo2: 230deg 36.4% 12.9%;
+  --indigo3: 228deg 43.3% 17.5%;
+  --indigo4: 227deg 47.2% 21%;
+  --indigo5: 227deg 50% 24.1%;
+  --indigo6: 226deg 52.9% 28.2%;
+  --indigo7: 226deg 56% 34.5%;
+  --indigo8: 226deg 58.2% 44.1%;
+  --indigo9: 226deg 70% 55.5%;
+  --indigo10: 227deg 75.2% 61.6%;
+  --indigo11: 228deg 100% 75.9%;
+  --indigo12: 226deg 83% 96.3%;
+}

@@ -24,8 +24,8 @@ module.exports = {
     colors: {
       gray: radixScale("slate"),
       teal: radixScale("teal"),
-      indigo: radixColor("indigo"),
-      purple: radixScale("plum"),
+      indigo: radixScale("indigo"),
+      plum: radixScale("plum"),
     },
     extend: {
       fontFamily: {

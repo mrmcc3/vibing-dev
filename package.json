@@ -4,16 +4,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "wrangler pages dev --proxy 3000 -- astro dev",
+    "dev": "astro dev",
+    "dev:pages": "wrangler pages dev --proxy 3000 -- astro dev",
     "build": "astro build",
-    "preview": "wrangler pages dev dist",
+    "pre": "astro build && wrangler pages dev dist",
     "pub": "astro build && wrangler pages publish dist"
   },
   "dependencies": {
     "@astrojs/svelte": "^1.0.2",
     "@cloudflare/workers-types": "^3.18.0",
     "@tailwindcss/forms": "^0.5.3",
-    "astro": "^1.5.2",
+    "astro": "^1.5.3",
     "autoprefixer": "^10.4.12",
     "cookie": "^0.5.0",
     "postcss-import": "^15.0.0",

@@ -18,7 +18,9 @@ import ColorScheme from "./colorscheme/Head.astro";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <ColorScheme />
   </head>
-  <body class="h-full flex flex-col bg-gray-1 text-gray-12">
+  <body
+    class="h-full flex flex-col bg-gray-1 text-gray-12 font-light selection:bg-indigo-5"
+  >
     <slot />
   </body>
 </html>

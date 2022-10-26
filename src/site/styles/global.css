@@ -27,14 +27,33 @@
   --astro-code-token-link: var(--astro-code-token-string-expression);
 }
 
+/* global link styles */
+
+a {
+  color: hsl(var(--teal10));
+}
+
+a:hover {
+  text-decoration: underline;
+  text-decoration-color: hsl(var(--teal5));
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+
 /* Markdown TODO */
+.prose {
+  text-align: left;
+  overflow-wrap: break-word;
+  /* line-height: theme(lineHeight.normal); */
+}
+
 .prose code {
-  font-weight: 500;
-  color: hsl(var(--teal9));
+  font-weight: 400;
+  letter-spacing: theme(letterSpacing.tighter);
+  color: hsl(var(--plum10));
 }
 
 .prose pre {
-  letter-spacing: theme(letterSpacing.tight);
   margin-top: theme(margin.4);
   margin-bottom: theme(margin.4);
 }

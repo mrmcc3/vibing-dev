@@ -5,9 +5,7 @@ description: "Thoughts on early hints"
 draft: true
 ---
 
-Chrome info
-
-https://developer.chrome.com/blog/early-hints/
+[Chrome info](https://developer.chrome.com/blog/early-hints/) On early hints
 
 Cloudflare info
 

@@ -1,8 +1,8 @@
 {
   "name": "@mrmcc3/vibing-dev",
-  "type": "module",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "wrangler pages dev --proxy 3000 -- astro dev",
     "build": "astro build",

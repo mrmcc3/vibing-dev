@@ -13,7 +13,6 @@ export default defineConfig({
   integrations: [svelte()],
   vite: {
     build: {
-      assetsInlineLimit: 0,
       rollupOptions: {
         output: {
           entryFileNames: "static/build/[hash].js",

@@ -32,23 +32,7 @@ module.exports = {
         sans: ["Lexend", ...defaultTheme.fontFamily.sans],
         mono: ['"Jetbrains Mono"', ...defaultTheme.fontFamily.mono],
       },
-      typography: ({ theme }) => ({
-        DEFAULT: {
-          css: {
-            code: {
-              color: "hsl(var(--teal10))",
-              fontWeight: "500",
-            },
-            "code::before": {
-              content: "normal",
-            },
-            "code::after": {
-              content: "normal",
-            },
-          },
-        },
-      }),
     },
   },
-  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],
+  plugins: [require("@tailwindcss/forms")],
 };

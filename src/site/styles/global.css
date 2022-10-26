@@ -6,11 +6,13 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
 @import "../../shared/styles/lexend.css";
 @import "../../shared/styles/jetbrains-mono.css";
+
 @config "./tailwind.config.cjs";
 
-/* Syntax Highlighting in Mardown */
+/* Syntax Highlighting */
 :root {
   --astro-code-color-text: hsl(var(--slate12));
   --astro-code-color-background: inherit;
@@ -23,4 +25,16 @@
   --astro-code-token-string-expression: var(--astro-code-token-string);
   --astro-code-token-punctuation: var(--astro-code-color-text);
   --astro-code-token-link: var(--astro-code-token-string-expression);
+}
+
+/* Markdown TODO */
+.prose code {
+  font-weight: 500;
+  color: hsl(var(--teal9));
+}
+
+.prose pre {
+  letter-spacing: theme(letterSpacing.tight);
+  margin-top: theme(margin.4);
+  margin-bottom: theme(margin.4);
 }

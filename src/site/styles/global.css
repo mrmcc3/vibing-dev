@@ -30,6 +30,7 @@
 /* global link styles */
 
 a {
+  font-weight: 400;
   color: hsl(var(--teal10));
 }
 
@@ -40,20 +41,105 @@ a:hover {
   text-underline-offset: 2px;
 }
 
-/* Markdown TODO */
+/* Prose */
+
 .prose {
+  font-weight: 300; /* lexend is a heavy font */
   text-align: left;
   overflow-wrap: break-word;
-  /* line-height: theme(lineHeight.normal); */
 }
+
+.prose em {
+  font-weight: 400;
+}
+
+.prose strong {
+  font-weight: 500;
+}
+
+.prose p {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+}
+
+.prose hr {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+/* headings */
+
+.prose h1 {
+  font-weight: 800;
+  font-size: 2.25em;
+  line-height: 1.25;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.prose h2 {
+  font-weight: 700;
+  font-size: 1.5em;
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+
+.prose h3 {
+  font-weight: 600;
+  font-size: 1.25em;
+  margin-top: 1.6em;
+  margin-bottom: 0.6em;
+}
+
+.prose h4 {
+  font-weight: 500;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+/* block quotes */
+
+/* lists */
+
+.prose ul {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  padding-left: 1.625em;
+  list-style: disc;
+}
+
+.prose li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose ul > li {
+  padding-left: 0.375em;
+}
+
+.prose ul > li::marker {
+  color: hsl(var(--slate9));
+}
+
+.prose > ul > li p {
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+}
+
+/* code */
 
 .prose code {
   font-weight: 400;
-  letter-spacing: theme(letterSpacing.tighter);
+  letter-spacing: -0.025em;
+}
+
+.prose :not(pre) code {
+  font-weight: 500;
   color: hsl(var(--plum10));
 }
 
 .prose pre {
-  margin-top: theme(margin.4);
-  margin-bottom: theme(margin.4);
+  font-size: 0.875em;
+  margin-top: 2em;
+  margin-bottom: 2em;
 }

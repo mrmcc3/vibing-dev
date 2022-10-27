@@ -7,7 +7,7 @@ draft: true
 
 ### Color Scheme
 
-Also known as dark mode. In our implementation
+Also known as **dark mode**. In our *implementation*
 
 - We'll deliver CSS that supports both schemes light and dark
   - Styling is done via tailwind. which supports `dark:` variant.
@@ -21,13 +21,16 @@ Also known as dark mode. In our implementation
     - it's all managed on the client device
     - the server is completely unaware of the details of color scheme
 - There are 3 modes
-  - the user explicitly sets the color scheme to `light`.
+  - the [user explicitly](http://www.google.com) sets the color scheme to `light`.
     - the preference is stored in localstorage on the device
     - meta color-scheme needs to be set to `light`
     - the system prefered color scheme is ignored
   - the user explicity sets the color scheme to `dark`.
     - again in localstorage
     - meta color-scheme needs to be `dark`
+     
+      aslkdjfl asdkfjsld
+      sadflkj asdlkfj
   - system (default). the user hasn't chosen or they've chosen system
     - remove the color scheme in localstorage
     - meta color-scheme needs to be set to `dark light` (browser can determine)

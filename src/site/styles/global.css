@@ -41,7 +41,7 @@ a:hover {
   text-underline-offset: 2px;
 }
 
-/* Prose */
+/* Prose. Adapted from https://github.com/tailwindlabs/tailwindcss-typography */
 
 .prose {
   font-weight: 300; /* lexend is a heavy font */
@@ -99,6 +99,16 @@ a:hover {
 
 /* block quotes */
 
+.prose blockquote {
+  margin-top: 1.6em;
+  margin-bottom: 1.6em;
+  padding-left: 1em;
+  font-weight: 400;
+  font-style: italic;
+  border-left-width: 0.25rem;
+  border-left-color: hsl(var(--indigo10));
+}
+
 /* lists */
 
 .prose ul {
@@ -106,6 +116,13 @@ a:hover {
   margin-bottom: 1.25em;
   padding-left: 1.625em;
   list-style: disc;
+}
+
+.prose ol {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  padding-left: 1.625em;
+  list-style-type: decimal;
 }
 
 .prose li {
@@ -117,11 +134,39 @@ a:hover {
   padding-left: 0.375em;
 }
 
-.prose ul > li::marker {
-  color: hsl(var(--slate9));
+.prose ol > li {
+  padding-left: 0.375em;
+}
+
+.prose ol > li::marker {
+  font-weight: 400;
 }
 
 .prose > ul > li p {
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+}
+
+.prose > ul > li > *:first-child {
+  margin-top: 1.25em;
+}
+
+.prose > ul > li > *:last-child {
+  margin-bottom: 1.25em;
+}
+
+.prose > ol > li > *:first-child {
+  margin-top: 1.25em;
+}
+
+.prose > ol > li > *:last-child {
+  margin-bottom: 1.25em;
+}
+
+ul ul,
+ul ol,
+ol ul,
+ol ol {
   margin-top: 0.75em;
   margin-bottom: 0.75em;
 }

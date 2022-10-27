@@ -9,11 +9,12 @@
 
 @import "../../shared/styles/lexend.css";
 @import "../../shared/styles/jetbrains-mono.css";
+@import "./prose.css";
 
 @config "./tailwind.config.cjs";
 
-/* Syntax Highlighting */
 :root {
+  /* Syntax Highlighting */
   --astro-code-color-text: hsl(var(--slate12));
   --astro-code-color-background: inherit;
   --astro-code-token-constant: var(--astro-code-color-text);
@@ -25,166 +26,12 @@
   --astro-code-token-string-expression: var(--astro-code-token-string);
   --astro-code-token-punctuation: var(--astro-code-color-text);
   --astro-code-token-link: var(--astro-code-token-string-expression);
-}
 
-/* global link styles */
-
-a {
-  font-weight: 400;
-  color: hsl(var(--teal10));
-}
-
-a:hover {
-  text-decoration: underline;
-  text-decoration-color: hsl(var(--teal5));
-  text-decoration-thickness: 2px;
-  text-underline-offset: 2px;
-}
-
-/* Prose. Adapted from https://github.com/tailwindlabs/tailwindcss-typography */
-
-.prose {
-  font-weight: 300; /* lexend is a heavy font */
-  text-align: left;
-  overflow-wrap: break-word;
-}
-
-.prose em {
-  font-weight: 400;
-}
-
-.prose strong {
-  font-weight: 500;
-}
-
-.prose p {
-  margin-top: 1.25em;
-  margin-bottom: 1.25em;
-}
-
-.prose hr {
-  margin-top: 2em;
-  margin-bottom: 2em;
-}
-
-/* headings */
-
-.prose h1 {
-  font-weight: 800;
-  font-size: 2.25em;
-  line-height: 1.25;
-  margin-top: 0;
-  margin-bottom: 1em;
-}
-
-.prose h2 {
-  font-weight: 700;
-  font-size: 1.5em;
-  margin-top: 2em;
-  margin-bottom: 1em;
-}
-
-.prose h3 {
-  font-weight: 600;
-  font-size: 1.25em;
-  margin-top: 1.6em;
-  margin-bottom: 0.6em;
-}
-
-.prose h4 {
-  font-weight: 500;
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
-}
-
-/* block quotes */
-
-.prose blockquote {
-  margin-top: 1.6em;
-  margin-bottom: 1.6em;
-  padding-left: 1em;
-  font-weight: 400;
-  font-style: italic;
-  border-left-width: 0.25rem;
-  border-left-color: hsl(var(--indigo10));
-}
-
-/* lists */
-
-.prose ul {
-  margin-top: 1.25em;
-  margin-bottom: 1.25em;
-  padding-left: 1.625em;
-  list-style: disc;
-}
-
-.prose ol {
-  margin-top: 1.25em;
-  margin-bottom: 1.25em;
-  padding-left: 1.625em;
-  list-style-type: decimal;
-}
-
-.prose li {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-}
-
-.prose ul > li {
-  padding-left: 0.375em;
-}
-
-.prose ol > li {
-  padding-left: 0.375em;
-}
-
-.prose ol > li::marker {
-  font-weight: 400;
-}
-
-.prose > ul > li p {
-  margin-top: 0.75em;
-  margin-bottom: 0.75em;
-}
-
-.prose > ul > li > *:first-child {
-  margin-top: 1.25em;
-}
-
-.prose > ul > li > *:last-child {
-  margin-bottom: 1.25em;
-}
-
-.prose > ol > li > *:first-child {
-  margin-top: 1.25em;
-}
-
-.prose > ol > li > *:last-child {
-  margin-bottom: 1.25em;
-}
-
-ul ul,
-ul ol,
-ol ul,
-ol ol {
-  margin-top: 0.75em;
-  margin-bottom: 0.75em;
-}
-
-/* code */
-
-.prose code {
-  font-weight: 400;
-  letter-spacing: -0.025em;
-}
-
-.prose :not(pre) code {
-  font-weight: 500;
-  color: hsl(var(--plum10));
-}
-
-.prose pre {
-  font-size: 0.875em;
-  margin-top: 2em;
-  margin-bottom: 2em;
+  /* Prose */
+  --prose-base-weight: 300; /* lexend is a heavy font */
+  --prose-code-weight: 400;
+  --prose-code-color: var(--plum10);
+  --prose-quote-color: var(--indigo10);
+  --prose-link-color: var(--teal10);
+  --prose-hr-color: var(--slate10);
 }

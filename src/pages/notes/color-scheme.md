@@ -2,6 +2,7 @@
 layout: "@site/Note.astro"
 title: "Web Color Schemes"
 description: "Notes on how to implement color schemes (Dark Mode) for the web"
+pubDate: "2022-10-28T09:16:07Z"
 draft: true
 ---
 

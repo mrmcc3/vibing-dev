@@ -17,7 +17,10 @@
     "astro": "^1.6.0",
     "autoprefixer": "^10.4.13",
     "cookie": "^0.5.0",
+    "date-fns": "^2.29.3",
+    "mdast-util-to-string": "^3.1.0",
     "postcss-import": "^15.0.0",
+    "reading-time": "^1.5.0",
     "svelte": "^3.46.4",
     "tailwindcss": "^3.2.1",
     "wrangler": "^2.1.13"

@@ -5,7 +5,12 @@ description: "Notes on how to implement color schemes (Dark Mode) for the web"
 draft: true
 ---
 
-### Color Scheme
+Notes on how to implement color schemes (Dark Mode) for the web
+
+> Update: **2022-11-11** blah blah laskdjfl aslkdfjl s aslkdfj
+> asldkfjl asdlkf jasd asdlkfjlsadjf
+
+## Color Scheme
 
 Also known as **dark mode**. In our *implementation*
 

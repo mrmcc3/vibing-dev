@@ -19,6 +19,20 @@ const {
   <Header />
   <main class="flex-1 px-4">
     <article class="mx-auto max-w-prose prose">
+      <h1 class="text-indigo-10">{title}</h1>
+      <div class="flex -mt-7 space-x-2">
+        <div>Draft</div>
+        <div>5 min read</div>
+      </div>
+      {
+        draft && (
+          <div class="bg-plum-3 p-3 tracking-tight my-5 rounded-md border border-plum-6">
+            What follows is a <strong>draft!</strong> I don't consider it ready
+            for public consumption. It likely contains half-formed ideas or
+            statements that are flat out wrong.
+          </div>
+        )
+      }
       <slot />
     </article>
   </main>

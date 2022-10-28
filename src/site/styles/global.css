@@ -33,5 +33,6 @@
   --prose-code-color: var(--plum10);
   --prose-quote-color: var(--indigo10);
   --prose-link-color: var(--teal10);
+  --prose-link-dec-color: var(--teal5);
   --prose-hr-color: var(--slate10);
 }

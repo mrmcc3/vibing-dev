@@ -17,7 +17,7 @@
 /* Syntax Highlighting */
 :root {
   --astro-code-color-text: hsl(var(--slate12));
-  --astro-code-color-background: hsl(var(--slate2));
+  --astro-code-color-background: hsl(var(--slate1));
   --astro-code-token-constant: var(--astro-code-color-text);
   --astro-code-token-string: hsl(var(--indigo10));
   --astro-code-token-comment: hsl(var(--slate10));
@@ -114,14 +114,14 @@
   padding-left: 1rem;
   padding-right: 1rem;
   background-color: hsl(var(--indigo3));
-  border-color: hsl(var(--indigo6));
+  border-color: hsl(var(--indigo5));
   border-top-width: 1px;
   border-bottom-width: 1px;
 }
 
 .prose .lead {
   background-color: hsl(var(--plum3));
-  border-color: hsl(var(--plum6));
+  border-color: hsl(var(--plum5));
 }
 
 @media (min-width: 640px) {
@@ -209,7 +209,7 @@ ol ol {
   font-size: 0.875em;
   margin: 1.25em -1rem;
   padding: 1rem;
-  border-color: hsl(var(--slate6));
+  border-color: hsl(var(--slate5));
   border-top-width: 1px;
   border-bottom-width: 1px;
 }

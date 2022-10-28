@@ -26,11 +26,13 @@ const {
       </div>
       {
         draft && (
-          <div class="bg-plum-3 p-3 tracking-tight my-5 rounded-md border border-plum-6">
-            What follows is a <strong>draft!</strong> I don't consider it ready
-            for public consumption. It likely contains half-formed ideas or
-            statements that are flat out wrong.
-          </div>
+          <blockquote class="lead">
+            <p>
+              What follows is a <strong>draft!</strong> I don't consider it
+              ready for public consumption. It likely contains half-formed ideas
+              or statements that are flat out wrong.
+            </p>
+          </blockquote>
         )
       }
       <slot />

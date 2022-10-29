@@ -2,27 +2,26 @@
 layout: "@site/Note.astro"
 title: "Site Information"
 description: "General info about vibing.dev"
-draft: true
 pubDate: "2022-10-29T01:12:23Z"
 ---
 
-[Vibing.dev](/) exists as a creative outlet for whatever I'm currently interested
-in.
+### Feedback
 
-### How to follow
+Have something to say? Found an error or have suggestions? 
+Contact me via email [feedback@vibing.dev](mailto:contact@vibing.dev) 
+or open an issue at 
+[mrmcc3/vibing-dev](https://github.com/mrmcc3/vibing-dev).
 
-RSS Feed info here
+### How to follow?
 
-### How to contact
-
-Email me [feedback@vibing.dev](mailto:contact@vibing.dev) or suggest a change on [Github](https://github.com/mrmcc3/vibing-dev/issues).
+There's an [RSS Feed](/rss.xml). Otherwise just visit regularly 😅
 
 ### License
 
 Except where otherwise noted, content on this site is licensed under
-[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
-
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). 
 Code snippets and the code for the site itself are 
 [MIT Licensed](https://github.com/mrmcc3/vibing-dev/blob/main/LICENSE).
 
-### Sitemap
+<!-- TODO SITEMAP -->
+<!-- TODO support/sponser? -->

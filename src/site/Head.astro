@@ -30,6 +30,7 @@ const {
 <title>{title}</title>
 {searchTitle && <meta name="title" content={searchTitle} />}
 <meta name="description" content={description} />
+<meta name="generator" content={Astro.generator} />
 <link rel="canonical" href={Astro.url} />
 {noindex && <meta name="robots" content="noindex" />}
 
@@ -41,6 +42,8 @@ const {
   <meta property="og:image" content={ogImage} />
   <meta property="twitter:card" content={twitterCard} />
 </slot>
+
+<link rel="alternate" type="application/rss+xml" href="/rss.xml" title="RSS" />
 
 <meta
   name="theme-color"

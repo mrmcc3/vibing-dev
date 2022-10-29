@@ -11,6 +11,7 @@
     "pub": "astro build && wrangler pages publish dist"
   },
   "dependencies": {
+    "@astrojs/rss": "^1.0.3",
     "@astrojs/svelte": "^1.0.2",
     "@cloudflare/workers-types": "^3.18.0",
     "@tailwindcss/forms": "^0.5.3",

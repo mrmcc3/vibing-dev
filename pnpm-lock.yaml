@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@astrojs/rss': ^1.0.3
   '@astrojs/svelte': ^1.0.2
   '@cloudflare/workers-types': ^3.18.0
   '@tailwindcss/forms': ^0.5.3
@@ -16,6 +17,7 @@ specifiers:
   wrangler: ^2.1.13
 
 dependencies:
+  '@astrojs/rss': 1.0.3
   '@astrojs/svelte': 1.0.2_svelte@3.52.0
   '@cloudflare/workers-types': 3.18.0
   '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.1
@@ -116,6 +118,12 @@ packages:
     engines: {node: ^14.18.0 || >=16.12.0}
     dependencies:
       prismjs: 1.29.0
+    dev: false
+
+  /@astrojs/rss/1.0.3:
+    resolution: {integrity: sha512-SkAUMnp/LpryOR5B69rlF69AjKE3YlIPRmWad5WoRVeAH1CEEvSh8sC8/qhtG9haPFYa9JoX6zp5V5MkUOop3A==}
+    dependencies:
+      fast-xml-parser: 4.0.11
     dev: false
 
   /@astrojs/svelte/1.0.2_svelte@3.52.0:
@@ -2233,6 +2241,13 @@ packages:
       micromatch: 4.0.5
     dev: false
 
+  /fast-xml-parser/4.0.11:
+    resolution: {integrity: sha512-4aUg3aNRR/WjQAcpceODG1C3x3lFANXRo8+1biqfieHmg9pyMt7qB4lQV/Ta6sJCTbA5vfD8fnA8S54JATiFUA==}
+    hasBin: true
+    dependencies:
+      strnum: 1.0.5
+    dev: false
+
   /fastq/1.13.0:
     resolution: {integrity: sha512-YpkpUnK8od0o1hmeSc7UUs/eB/vIPWJYjKck2QKIzAf71Vm1AAQ3EbuZB3g2JIy+pg+ERD0vqI79KyZiB2e2Nw==}
     dependencies:
@@ -4237,6 +4252,10 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       min-indent: 1.0.1
+    dev: false
+
+  /strnum/1.0.5:
+    resolution: {integrity: sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==}
     dev: false
 
   /style-to-object/0.3.0:

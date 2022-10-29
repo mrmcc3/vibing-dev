@@ -23,5 +23,6 @@ Except where otherwise noted, content on this site is licensed under
 Code snippets and the code for the site itself are 
 [MIT Licensed](https://github.com/mrmcc3/vibing-dev/blob/main/LICENSE).
 
+<!-- TODO Attribution. icons, fonts, typography, colors >
 <!-- TODO SITEMAP -->
 <!-- TODO support/sponser? -->

@@ -13,9 +13,6 @@ module.exports = {
       fontFamily: {
         sans: ["Lexend", ...defaultTheme.fontFamily.sans],
       },
-      colors: ({ colors }) => ({
-        gray: colors.neutral,
-      }),
     },
   },
   plugins: [require("@tailwindcss/forms")],

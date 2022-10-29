@@ -3,7 +3,7 @@
 </script>
 
 <button
-  class="text-gray-12 inline-flex items-center p-1 transition duration-200 motion-safe:hover:scale-110 motion-safe:hover:rotate-12 motion-reduce:transition-none"
+  class="text-teal-10 hover:text-teal-12 inline-flex items-center p-1 transition duration-200 sm:motion-safe:hover:scale-110 sm:motion-safe:hover:rotate-12 motion-reduce:transition-none"
   aria-label="Switch color scheme"
   on:click={() =>
     colorScheme.update((s) =>

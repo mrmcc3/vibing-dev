@@ -27,7 +27,6 @@ module.exports = {
       transparent: "transparent",
       black: "#000",
       white: "#fff",
-      sun: "#ffb224",
       gray: radixScale("slate"),
       teal: radixScale("teal"),
       indigo: radixScale("indigo"),

@@ -1,29 +1,31 @@
-:root {
-  --bronze1: 15deg 30% 99.1%;
-  --bronze2: 17deg 63.6% 97.8%;
-  --bronze3: 17deg 42.1% 95.2%;
-  --bronze4: 17deg 35.2% 92.1%;
-  --bronze5: 17deg 31.5% 88.2%;
-  --bronze6: 17deg 29% 83%;
-  --bronze7: 17deg 26.9% 75.6%;
-  --bronze8: 17deg 25.1% 66.5%;
-  --bronze9: 17deg 20% 54%;
-  --bronze10: 17deg 18.1% 50.1%;
-  --bronze11: 15deg 20% 43.1%;
-  --bronze12: 12deg 22% 21.5%;
-}
+@layer base {
+  :root {
+    --bronze1: 15deg 30% 99.1%;
+    --bronze2: 17deg 63.6% 97.8%;
+    --bronze3: 17deg 42.1% 95.2%;
+    --bronze4: 17deg 35.2% 92.1%;
+    --bronze5: 17deg 31.5% 88.2%;
+    --bronze6: 17deg 29% 83%;
+    --bronze7: 17deg 26.9% 75.6%;
+    --bronze8: 17deg 25.1% 66.5%;
+    --bronze9: 17deg 20% 54%;
+    --bronze10: 17deg 18.1% 50.1%;
+    --bronze11: 15deg 20% 43.1%;
+    --bronze12: 12deg 22% 21.5%;
+  }
 
-.dark {
-  --bronze1: 17 10% 8.8%;
-  --bronze2: 15 14.8% 10.6%;
-  --bronze3: 15 16.3% 14.3%;
-  --bronze4: 16 17.1% 17.2%;
-  --bronze5: 16 17.6% 19.6%;
-  --bronze6: 16 18.1% 22.9%;
-  --bronze7: 17 18.8% 28.8%;
-  --bronze8: 17 19.6% 38%;
-  --bronze9: 17 20% 54%;
-  --bronze10: 18 24% 59%;
-  --bronze11: 18 35% 68.5%;
-  --bronze12: 18 57% 94.1%;
+  .dark {
+    --bronze1: 17 10% 8.8%;
+    --bronze2: 15 14.8% 10.6%;
+    --bronze3: 15 16.3% 14.3%;
+    --bronze4: 16 17.1% 17.2%;
+    --bronze5: 16 17.6% 19.6%;
+    --bronze6: 16 18.1% 22.9%;
+    --bronze7: 17 18.8% 28.8%;
+    --bronze8: 17 19.6% 38%;
+    --bronze9: 17 20% 54%;
+    --bronze10: 18 24% 59%;
+    --bronze11: 18 35% 68.5%;
+    --bronze12: 18 57% 94.1%;
+  }
 }

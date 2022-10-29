@@ -1,29 +1,31 @@
-:root {
-  --amber1: 39deg 70% 99%;
-  --amber2: 40deg 100% 96.5%;
-  --amber3: 44deg 100% 91.7%;
-  --amber4: 43deg 100% 86.8%;
-  --amber5: 42deg 100% 81.8%;
-  --amber6: 38deg 99.7% 76.3%;
-  --amber7: 36deg 86.1% 67.1%;
-  --amber8: 35deg 85.2% 55.1%;
-  --amber9: 39deg 100% 57%;
-  --amber10: 35deg 100% 55.5%;
-  --amber11: 30deg 100% 34%;
-  --amber12: 20deg 80% 17%;
-}
+@layer base {
+  :root {
+    --amber1: 39deg 70% 99%;
+    --amber2: 40deg 100% 96.5%;
+    --amber3: 44deg 100% 91.7%;
+    --amber4: 43deg 100% 86.8%;
+    --amber5: 42deg 100% 81.8%;
+    --amber6: 38deg 99.7% 76.3%;
+    --amber7: 36deg 86.1% 67.1%;
+    --amber8: 35deg 85.2% 55.1%;
+    --amber9: 39deg 100% 57%;
+    --amber10: 35deg 100% 55.5%;
+    --amber11: 30deg 100% 34%;
+    --amber12: 20deg 80% 17%;
+  }
 
-.dark {
-  --amber1: 36deg 100% 6.1%;
-  --amber2: 35deg 100% 7.6%;
-  --amber3: 32deg 100% 10.2%;
-  --amber4: 32deg 100% 12.4%;
-  --amber5: 33deg 100% 14.6%;
-  --amber6: 35deg 100% 17.1%;
-  --amber7: 35deg 91% 21.6%;
-  --amber8: 36deg 100% 25.5%;
-  --amber9: 39deg 100% 57%;
-  --amber10: 43deg 100% 64%;
-  --amber11: 39deg 90% 49.8%;
-  --amber12: 39deg 97% 93.2%;
+  .dark {
+    --amber1: 36deg 100% 6.1%;
+    --amber2: 35deg 100% 7.6%;
+    --amber3: 32deg 100% 10.2%;
+    --amber4: 32deg 100% 12.4%;
+    --amber5: 33deg 100% 14.6%;
+    --amber6: 35deg 100% 17.1%;
+    --amber7: 35deg 91% 21.6%;
+    --amber8: 36deg 100% 25.5%;
+    --amber9: 39deg 100% 57%;
+    --amber10: 43deg 100% 64%;
+    --amber11: 39deg 90% 49.8%;
+    --amber12: 39deg 97% 93.2%;
+  }
 }

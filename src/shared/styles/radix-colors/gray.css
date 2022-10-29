@@ -1,29 +1,31 @@
-:root {
-  --gray1: 0deg 0% 99%;
-  --gray2: 0deg 0% 97.3%;
-  --gray3: 0deg 0% 95.1%;
-  --gray4: 0deg 0% 93%;
-  --gray5: 0deg 0% 90.9%;
-  --gray6: 0deg 0% 88.7%;
-  --gray7: 0deg 0% 85.8%;
-  --gray8: 0deg 0% 78%;
-  --gray9: 0deg 0% 56.1%;
-  --gray10: 0deg 0% 52.3%;
-  --gray11: 0deg 0% 43.5%;
-  --gray12: 0deg 0% 9%;
-}
+@layer base {
+  :root {
+    --gray1: 0deg 0% 99%;
+    --gray2: 0deg 0% 97.3%;
+    --gray3: 0deg 0% 95.1%;
+    --gray4: 0deg 0% 93%;
+    --gray5: 0deg 0% 90.9%;
+    --gray6: 0deg 0% 88.7%;
+    --gray7: 0deg 0% 85.8%;
+    --gray8: 0deg 0% 78%;
+    --gray9: 0deg 0% 56.1%;
+    --gray10: 0deg 0% 52.3%;
+    --gray11: 0deg 0% 43.5%;
+    --gray12: 0deg 0% 9%;
+  }
 
-.dark {
-  --gray1: 0deg 0% 8.5%;
-  --gray2: 0deg 0% 11%;
-  --gray3: 0deg 0% 13.6%;
-  --gray4: 0deg 0% 15.8%;
-  --gray5: 0deg 0% 17.9%;
-  --gray6: 0deg 0% 20.5%;
-  --gray7: 0deg 0% 24.3%;
-  --gray8: 0deg 0% 31.2%;
-  --gray9: 0deg 0% 43.9%;
-  --gray10: 0deg 0% 49.4%;
-  --gray11: 0deg 0% 62.8%;
-  --gray12: 0deg 0% 93%;
+  .dark {
+    --gray1: 0deg 0% 8.5%;
+    --gray2: 0deg 0% 11%;
+    --gray3: 0deg 0% 13.6%;
+    --gray4: 0deg 0% 15.8%;
+    --gray5: 0deg 0% 17.9%;
+    --gray6: 0deg 0% 20.5%;
+    --gray7: 0deg 0% 24.3%;
+    --gray8: 0deg 0% 31.2%;
+    --gray9: 0deg 0% 43.9%;
+    --gray10: 0deg 0% 49.4%;
+    --gray11: 0deg 0% 62.8%;
+    --gray12: 0deg 0% 93%;
+  }
 }

@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config";
 import svelte from "@astrojs/svelte";
+import sitemap from "@astrojs/sitemap";
 import getReadingTime from "reading-time";
 import { toString } from "mdast-util-to-string";
 
@@ -15,14 +16,11 @@ export function remarkReadingTime() {
 export default defineConfig({
   site: "https://vibing.dev",
   markdown: {
-    drafts: true,
     remarkPlugins: [remarkReadingTime],
     extendDefaultPlugins: true,
-    shikiConfig: {
-      theme: "css-variables",
-    },
+    shikiConfig: { theme: "css-variables" },
   },
-  integrations: [svelte()],
+  integrations: [svelte(), sitemap()],
   vite: {
     build: {
       rollupOptions: {

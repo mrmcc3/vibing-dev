@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@astrojs/rss': ^1.0.3
+  '@astrojs/sitemap': ^1.0.0
   '@astrojs/svelte': ^1.0.2
   '@cloudflare/workers-types': ^3.18.0
   '@tailwindcss/forms': ^0.5.3
@@ -18,6 +19,7 @@ specifiers:
 
 dependencies:
   '@astrojs/rss': 1.0.3
+  '@astrojs/sitemap': 1.0.0
   '@astrojs/svelte': 1.0.2_svelte@3.52.0
   '@cloudflare/workers-types': 3.18.0
   '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.1
@@ -124,6 +126,13 @@ packages:
     resolution: {integrity: sha512-SkAUMnp/LpryOR5B69rlF69AjKE3YlIPRmWad5WoRVeAH1CEEvSh8sC8/qhtG9haPFYa9JoX6zp5V5MkUOop3A==}
     dependencies:
       fast-xml-parser: 4.0.11
+    dev: false
+
+  /@astrojs/sitemap/1.0.0:
+    resolution: {integrity: sha512-42GxuF5FP7RaKXZrwGLBLOX3hPv+Wl7ExJC43O0J5e34ojJkLeKf7QfwN1UwrJlqH0Ywi0Fm4/xGe482G09+wg==}
+    dependencies:
+      sitemap: 7.1.1
+      zod: 3.19.1
     dev: false
 
   /@astrojs/svelte/1.0.2_svelte@3.52.0:
@@ -879,6 +888,10 @@ packages:
       '@types/unist': 2.0.6
     dev: false
 
+  /@types/node/17.0.45:
+    resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
+    dev: false
+
   /@types/node/18.11.3:
     resolution: {integrity: sha512-fNjDQzzOsZeKZu5NATgXUPsaFaTxeRgFXoosrHivTl8RGeV733OLawXsGfEk9a8/tySyZUyiZ6E8LcjPFZ2y1A==}
     dev: false
@@ -897,6 +910,12 @@ packages:
 
   /@types/sass/1.43.1:
     resolution: {integrity: sha512-BPdoIt1lfJ6B7rw35ncdwBZrAssjcwzI5LByIrYs+tpXlj/CAkuVdRsgZDdP4lq5EjyWzwxZCqAoFyHKFwp32g==}
+    dependencies:
+      '@types/node': 18.11.3
+    dev: false
+
+  /@types/sax/1.2.4:
+    resolution: {integrity: sha512-pSAff4IAxJjfAXUG6tFkO7dsSbTmf8CtUpfhhZ5VhkRpC4628tJhh3+V6H1E+/Gs9piSzYKT5yzHO5M4GG9jkw==}
     dependencies:
       '@types/node': 18.11.3
     dev: false
@@ -4035,6 +4054,10 @@ packages:
       suf-log: 2.5.3
     dev: false
 
+  /sax/1.2.4:
+    resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}
+    dev: false
+
   /section-matter/1.0.0:
     resolution: {integrity: sha512-vfD3pmTzGpufjScBh50YHKzEu2lxBWhVEHsNGoEXmCmn2hKGfeNLYMzCJpe8cD7gqX7TJluOVpBkAequ6dgMmA==}
     engines: {node: '>=4'}
@@ -4118,6 +4141,17 @@ packages:
 
   /sisteransi/1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
+    dev: false
+
+  /sitemap/7.1.1:
+    resolution: {integrity: sha512-mK3aFtjz4VdJN0igpIJrinf3EO8U8mxOPsTBzSsy06UtjZQJ3YY3o3Xa7zSc5nMqcMrRwlChHZ18Kxg0caiPBg==}
+    engines: {node: '>=12.0.0', npm: '>=5.6.0'}
+    hasBin: true
+    dependencies:
+      '@types/node': 17.0.45
+      '@types/sax': 1.2.4
+      arg: 5.0.2
+      sax: 1.2.4
     dev: false
 
   /slash/4.0.0:

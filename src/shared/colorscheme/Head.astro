@@ -4,6 +4,8 @@
   // it can be explicitly set to light or dark by the user (localstorage)
   // or left unset (the default) where the system mode is used.
 
+  // TODO also control <meta name="theme-color" content="" /> ?
+
   const pref = globalThis.matchMedia("(prefers-color-scheme: dark)");
   const html = document.documentElement.classList;
 

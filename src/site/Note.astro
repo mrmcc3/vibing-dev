@@ -5,8 +5,9 @@ import Header from "./header/Header.astro";
 import Footer from "./footer/Footer.astro";
 import { format } from "date-fns";
 const {
-  frontmatter: { title, description, draft, minutesRead, pubDate },
+  frontmatter: { title, description, minutesRead, pubDate, draft },
 } = Astro.props;
+const unpub = draft || !pubDate;
 ---
 
 <Html>
@@ -15,7 +16,7 @@ const {
     title={title}
     description={description}
     ogType="article"
-    noindex={draft}
+    noindex={unpub}
   />
   <Header />
   <main class="flex-1 px-4">
@@ -46,7 +47,7 @@ const {
         </div>
       </div>
       {
-        draft && (
+        unpub && (
           <blockquote class="lead">
             <p>
               What follows is a <strong>draft!</strong> I don't consider it

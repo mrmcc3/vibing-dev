@@ -11,11 +11,21 @@ There's an [RSS Feed](/rss.xml). Otherwise just visit regularly 😅
 
 ### License
 
-Except where otherwise noted, content on this site is licensed under
-[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). 
-Code snippets and the code for the site itself are 
-[MIT Licensed](https://github.com/mrmcc3/vibing-dev/blob/main/LICENSE).
+Except where otherwise noted, content on this site is licensed under [CC BY 4.0][CC]. 
+Code snippets and the code for the site itself are [MIT Licensed][MIT].
 
-<!-- TODO Attribution. icons, fonts, typography, colors >
-<!-- TODO SITEMAP -->
+### Attribution
+
+- Icons on the site are [Heroicons][icons]
+- Color scales are from [Radix Colors][colors]
+- Fonts are [Lexend][sans] and [JetBrains Mono][mono]
+
 <!-- TODO support/sponser? -->
+
+[CC]: https://creativecommons.org/licenses/by/4.0/
+[MIT]: https://github.com/mrmcc3/vibing-dev/blob/main/LICENSE
+[repo]: https://github.com/mrmcc3/vibing-dev
+[icons]: https://github.com/tailwindlabs/heroicons
+[colors]: https://github.com/radix-ui/colors
+[sans]: https://fonts.google.com/specimen/Lexend/about?query=lexend&vfonly=true
+[mono]: https://fonts.google.com/specimen/JetBrains+Mono/about?query=mono&vfonly=true

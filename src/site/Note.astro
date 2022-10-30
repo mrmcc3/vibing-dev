@@ -1,8 +1,7 @@
 ---
 import Html from "@shared/Html.astro";
 import Head from "./Head.astro";
-import Header from "./header/Header.astro";
-import Footer from "./footer/Footer.astro";
+import Header from "./Header.astro";
 import { format } from "date-fns";
 const {
   frontmatter: { title, description, minutesRead, pubDate, draft },
@@ -104,5 +103,4 @@ const unpub = draft || !pubDate;
       </div>
     </article>
   </main>
-  <Footer />
 </Html>

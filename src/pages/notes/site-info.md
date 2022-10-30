@@ -5,13 +5,6 @@ description: "General info about vibing.dev"
 pubDate: "2022-10-29T01:12:23Z"
 ---
 
-### Feedback
-
-Have something to say? Found an error or have suggestions? 
-Contact me via email [feedback@vibing.dev](mailto:contact@vibing.dev) 
-or open an issue at 
-[mrmcc3/vibing-dev](https://github.com/mrmcc3/vibing-dev).
-
 ### How to follow?
 
 There's an [RSS Feed](/rss.xml). Otherwise just visit regularly 😅

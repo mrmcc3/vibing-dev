@@ -2,6 +2,13 @@
 import Html from "@shared/Html.astro";
 import Head from "@site/Head.astro";
 import Header from "@site/Header.astro";
+import NoteItem from "@site/NoteItem.astro";
+
+const allNotes = await Astro.glob("./notes/**/*.md");
+const pubNotes = allNotes.filter(
+  ({ frontmatter: { draft, pubDate } }) =>
+    import.meta.env.DEV || (!draft && pubDate)
+);
 ---
 
 <Html>
@@ -11,7 +18,11 @@ import Header from "@site/Header.astro";
     description="Outlet for whatever I'm vibing. Mostly web dev."
   />
   <Header />
-  <main class="flex-1 px-4">
-    <div>Under Construction.</div>
+  <main class="px-4 sm:px-8">
+    <ul
+      class="mx-auto max-w-7xl grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+    >
+      {pubNotes.map((note) => <NoteItem {...note} />)}
+    </ul>
   </main>
 </Html>

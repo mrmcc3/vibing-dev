@@ -5,31 +5,51 @@ description: "Thoughts on early hints"
 draft: true
 ---
 
-[Chrome info](https://developer.chrome.com/blog/early-hints/) On early hints
+## What are early hints? 
 
-Cloudflare info
+Here's one defenition:
 
-https://developers.cloudflare.com/cache/about/early-hints/
-https://blog.cloudflare.com/early-hints/
+> Early Hints is an HTTP status code (103 Early Hints) used to send a preliminary HTTP response ahead of a final response. This allows a server to send hints to the browser about critical sub-resources (for example, stylesheet for the page, critical JavaScript) or origins that will be likely used by the page, while the server is busy generating the main resource. 
+>
+> The browser can use those hints to warm up connections, and request sub-resources, while waiting for the main resource. In other words, Early Hints helps the browser take advantage of such "server think-time" by doing some work in advance, thereby speeding up page loads.
+>
+> **from the [chrome developer blog][1]**
 
+
+### Cached sub-resources
+
+We're talking about speeding up page loads by kicking-off requests to critical sub-resources sooner.
+This has no effect if the resources are already cached client side. So in the case of
+site-wide, immutable resources only the cache misses benefit from early hints. This occurs
+
+   - on initial visit
+   - after deploys
+
+On the other hand, dynamic sub-resources are good EH candidates on every request.
+
+### Server think time
+   
+The hint mechanism is a preliminary response that is sent before the main response. 
+If the main response can be sent immediately then there's no need for early hints.
+On the other hand if the main response can't be sent 
+(in whole or initiated via streaming) without a delay then early hints
+can be effective. In practice when does this happen?
+
+  - The server has to wait for data fetching and html rendering to complete before
+    initiaing the response (not the case for streaming).
+  - In particular this isn't the case for static, public pages which are often 
+    cached on a CDN
+
+### Automatic Early Hints with Cloudflare
+   
 Cloudflare implements EH using a cache/invalidate mechanism on the
-response `Link` headers of normal responses.
+response `Link` headers of the main responses.
 
 This means it will only send 103 on the second request to a resource
 the first time it hasn't yet seen the Link headers.
 
-Note that if the response is at hand (no async loading) or streamed
-such that the document head is returned immediately then EHs provide 
-next to no benefit (over `<link rel="preload">` in the document head)
+### Previous Notes
 
-Why pre-emptively send resources to load in an early response when you 
-can just send them right away in the normal response.
-  - (EH for tailwind css doesn't really matter for SSG)
-  - (it does matter for font resource embeded in the CSS, secondary res)
-
-DA: If you use a SWR strategy for public content, so that responses are always
-at hand then what benefit does EH give you at all vs `<link rel="preload">` in the
-html? Probably best answered by an experiment.
 
 Also due to the caching nature of the CF EH implementation if the 
 EH response is always invalidated by the real response then it's not much 
@@ -62,3 +82,6 @@ and generate link headers for `_headers`.
 
 THIS NEEDS MORE THOUGHT
 
+[1]: https://developer.chrome.com/blog/early-hints/
+[2]: https://developers.cloudflare.com/cache/about/early-hints/
+[3]: https://blog.cloudflare.com/early-hints/

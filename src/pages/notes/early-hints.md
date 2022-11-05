@@ -2,7 +2,6 @@
 layout: "@site/Note.astro"
 title: "Early Hints"
 description: "Thoughts on early hints"
-draft: true
 ---
 
 ## What are early hints? 
@@ -19,18 +18,25 @@ Here's one defenition:
 ### Cached sub-resources
 
 We're talking about speeding up page loads by kicking-off requests to critical sub-resources sooner.
-This has no effect if the resources are already cached client side. So in the case of
-site-wide, immutable resources only the cache misses benefit from early hints. This occurs
+Some typical sub-resources are:
 
-   - on initial visit
-   - after deploys
+  - stylesheets
+  - fonts
+  - above the fold images
+
+It's often the case that these are static build assets that are served with immutable cache headers.
+Preemptively fetching these resources when they are already cached by the client has virtually no
+effect on page loads. In this case it's the **cache misses** that benefit from early hints which occurs:
+
+  - on initial visit
+  - after deploys (new assets)
 
 On the other hand, dynamic sub-resources are good EH candidates on every request.
 
 ### Server think time
    
 The hint mechanism is a preliminary response that is sent before the main response. 
-If the main response can be sent immediately then there's no need for early hints.
+If the main response can be sent immediately then there's **no need for early hints**.
 On the other hand if the main response can't be sent 
 (in whole or initiated via streaming) without a delay then early hints
 can be effective. In practice when does this happen?
@@ -40,48 +46,54 @@ can be effective. In practice when does this happen?
   - In particular this isn't the case for static, public pages which are often 
     cached on a CDN
 
-### Automatic Early Hints with Cloudflare
-   
-Cloudflare implements EH using a cache/invalidate mechanism on the
-response `Link` headers of the main responses.
+### Implementation
 
-This means it will only send 103 on the second request to a resource
-the first time it hasn't yet seen the Link headers.
+Ideally critical sub-resources are known at build time for each route and a early
+hint can be sent as soon as a request arives. If that's not possible a more generic approach
+is to
 
-### Previous Notes
+  1. generate a normal response and cache the `Link` headers which indicate the 
+     resources to preload.
+  2. on subsequent requests assume the `Link` headers will be the same and send them
+     as an early hint. If they aren't, update the cache for future requests.
 
+> The generic approach is used by cloudflare and does have some downsides. If the sub-resources
+are different on every request then the early hints will always be a mismatch. The benefit as 
+a developer is that you can just add `Link` headers to normal responses and the platform will
+handle the rest (actually sending the preliminary responses).
+>
+> See [Early Hints: How Cloudflare Can Improve Website Load Times by 30%][3]
 
-Also due to the caching nature of the CF EH implementation if the 
-EH response is always invalidated by the real response then it's not much 
-use. 
+Of course you need to actually check that your server is capable of sending early hints. I'm unsure
+if platforms like Cloudflare Workers have this capability.
 
-This implies the number of requests where the resource is constant should
-be large. 
+#### Early hints on cloudflare pages
 
-Also if the resource is immutable then EH for subsequent requests by the same
-client are also irrelevant.
+How do you specify `Link` preload headers for all the routes? Developers typically use
+`<link rel="preload" ...>` in the document head for preloading. When early hints are enabled
+Cloudflare will attempt to strip out (rewrite) the `<link>` tags in the html
+and instead send `Link` headers to support early hints. 
+However I've observed cases where it won't do this (fonts with crossorigin for example).
 
-It's about providing a faster load experience of relatively static resources 
-to new clients.
+> **Idea:** a better aproach might be to have the build tool spit out a _headers file that sets the
+Link headers directly or alternatively handle it using a worker
 
-For example if the CSS changes on every deploy, the first request will have an
-EH mismatch but subsequent requests by new clients will benefit.
+### Where do early hints make sense
 
-Resources to consider.
-- font resources (will def be required) same both app and site. doesn't change.
-- tailwind css (will def be required). split app and site?. often changes on build.
-- static js lib (htmx fits the bill, although do you need it with defer?)
+- Public, static website?
+  - Responses are sent right away from a CDN so benefits of EH are very small
+- Public, dynamic websites? (ecommerce comes to mind)
+  - Pages loads for new customers is objectively important
+  - Dynamic banners
+  - In these cases I wonder if [SWR][5] is an alternate to EHs
+- Private, dynamic apps?
+  - Small improvements to initial page load performance for new users isn't big enough of a concern
+    to justify EHs IMO
 
-- what about per page? hero images, a video above the fold? how to indicate.
-  - makes sense why CFP transforms `<link rel="">` into link headers automatically.
-
-- EH doesn't make sense for things that might not be required (islands)
-
-idea: could we look at the build manifest from astro (astro integration)
-and generate link headers for `_headers`.
-
-THIS NEEDS MORE THOUGHT
+For more information Cloudflare has an [article][4] with measurments on real sites.
 
 [1]: https://developer.chrome.com/blog/early-hints/
 [2]: https://developers.cloudflare.com/cache/about/early-hints/
 [3]: https://blog.cloudflare.com/early-hints/
+[4]: https://blog.cloudflare.com/early-hints-performance/
+[5]: https://web.dev/stale-while-revalidate/

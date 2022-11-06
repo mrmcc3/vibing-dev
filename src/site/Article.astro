@@ -4,15 +4,17 @@ import Head from "./Head.astro";
 import Header from "./Header.astro";
 import { format } from "date-fns";
 const {
+  url,
   frontmatter: { title, description, minutesRead, pubDate, draft },
 } = Astro.props;
 const unpub = draft || !pubDate;
+const noteTitle = `Note ${url.split("/").at(-1)}`;
 ---
 
 <Html>
   <Head
     slot="head"
-    title={title}
+    title={title || noteTitle}
     description={description}
     ogType="article"
     noindex={unpub}

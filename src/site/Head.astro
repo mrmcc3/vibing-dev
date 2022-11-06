@@ -3,8 +3,7 @@ import "./styles/global.css";
 
 export interface Props {
   title: string;
-  description: string;
-  // optional overrides
+  description?: string;
   searchTitle?: string; // title for search engines
   ogType?: "website" | "article";
   ogTitle?: string;
@@ -29,7 +28,7 @@ const {
 
 <title>{title}</title>
 {searchTitle && <meta name="title" content={searchTitle} />}
-<meta name="description" content={description} />
+{description && <meta name="description" content={description} />}
 <meta name="generator" content={Astro.generator} />
 <link rel="canonical" href={Astro.url} />
 {noindex && <meta name="robots" content="noindex" />}
@@ -38,7 +37,7 @@ const {
   <meta property="og:type" content={ogType} />
   <meta property="og:site_name" content="vibing.dev" />
   <meta property="og:title" content={ogTitle} />
-  <meta property="og:description" content={ogDescription} />
+  {ogDescription && <meta property="og:description" content={ogDescription} />}
   <meta property="og:url" content={Astro.url} />
   <meta property="og:image" content={ogImage} />
   <meta property="twitter:card" content={twitterCard} />

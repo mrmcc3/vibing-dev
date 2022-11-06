@@ -11,8 +11,8 @@ There's an [RSS Feed](/rss.xml). Otherwise just visit regularly 😅
 
 ### License
 
-Except where otherwise noted, content on this site is licensed under [CC BY 4.0][CC]. 
-Code snippets and the code for the site itself are [MIT Licensed][MIT].
+Except where otherwise noted, content on this site is licensed under [CC BY 4.0][cc].
+Code snippets and the code for the site itself are [MIT Licensed][mit].
 
 ### Attribution
 
@@ -22,8 +22,8 @@ Code snippets and the code for the site itself are [MIT Licensed][MIT].
 
 <!-- TODO support/sponser? -->
 
-[CC]: https://creativecommons.org/licenses/by/4.0/
-[MIT]: https://github.com/mrmcc3/vibing-dev/blob/main/LICENSE
+[cc]: https://creativecommons.org/licenses/by/4.0/
+[mit]: https://github.com/mrmcc3/vibing-dev/blob/main/LICENSE
 [repo]: https://github.com/mrmcc3/vibing-dev
 [icons]: https://github.com/tailwindlabs/heroicons
 [colors]: https://github.com/radix-ui/colors

@@ -1,5 +1,5 @@
 ---
-layout: "@site/Note.astro"
+layout: "@site/Article.astro"
 title: "Theming"
 description: "Thoughts on theming for the web"
 draft: true

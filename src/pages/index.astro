@@ -2,12 +2,17 @@
 import Html from "@shared/Html.astro";
 import Head from "@site/Head.astro";
 import Header from "@site/Header.astro";
-import NoteItem from "@site/NoteItem.astro";
+import FeedItem from "@site/FeedItem.astro";
 
-const allNotes = await Astro.glob("./notes/**/*.md");
-const pubNotes = allNotes.filter(
+const all = await Astro.glob("./**/*.md");
+const pub = all.filter(
   ({ frontmatter: { draft, pubDate } }) =>
-    import.meta.env.DEV || (!draft && pubDate)
+    pubDate && (import.meta.env.DEV || !draft)
+);
+pub.sort(
+  (a, b) =>
+    new Date(b.frontmatter.pubDate).getTime() -
+    new Date(a.frontmatter.pubDate).getTime()
 );
 ---
 
@@ -18,11 +23,9 @@ const pubNotes = allNotes.filter(
     description="Outlet for whatever I'm vibing. Mostly web dev."
   />
   <Header />
-  <main class="px-4 sm:px-8">
-    <ul
-      class="mx-auto max-w-7xl grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-8"
-    >
-      {pubNotes.map((note) => <NoteItem {...note} />)}
+  <main class="sm:px-4 md:px-8 pb-24">
+    <ul class="mx-auto max-w-prose divide-y divide-gray-4">
+      {pub.map((i) => <FeedItem {...i} />)}
     </ul>
   </main>
 </Html>

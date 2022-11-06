@@ -1,7 +1,7 @@
 ---
-layout: "@site/Note.astro"
+layout: "@site/Article.astro"
 title: "Early Hints"
-description: "Notes on early hints"
+description: "A brief look into early hints, how they're implemented and when it makes sense to use them."
 pubDate: "2022-11-05T06:51:48.061Z"
 ---
 

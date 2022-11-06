@@ -1,5 +1,5 @@
 ---
-layout: "@site/Note.astro"
+layout: "@site/Article.astro"
 title: "Site Information"
 description: "General info about vibing.dev"
 pubDate: "2022-10-29T01:12:23Z"

@@ -1,6 +1,6 @@
 ---
 import ColorSchemeToggle from "@shared/colorscheme/Toggle.svelte";
-const showInfo = !Astro.url.pathname.startsWith("/notes/site-info");
+const showInfo = !Astro.url.pathname.startsWith("/site-info");
 ---
 
 <header class="p-4 mb-12 flex items-center justify-between">
@@ -27,7 +27,7 @@ const showInfo = !Astro.url.pathname.startsWith("/notes/site-info");
   {
     showInfo && (
       <a
-        href="/notes/site-info"
+        href="/site-info"
         aria-label="Site Info"
         class="text-gray-12 p-1 mr-2 transition-all sm:hover:motion-safe:scale-110 motion-reduce:transition-none"
       >

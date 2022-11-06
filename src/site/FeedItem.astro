@@ -1,0 +1,54 @@
+---
+import { formatDistanceToNowStrict } from "date-fns";
+const {
+  url,
+  compiledContent,
+  frontmatter: { title, description, minutesRead, pubDate },
+} = Astro.props;
+---
+
+<li class="py-4">
+  <div class="px-4">
+    {
+      title ? (
+        <div class="">
+          <a
+            class="text-xl font-semibold tracking-tighter text-teal-10 underline underline-offset-2 decoration-teal-6 sm:hover:decoration-teal-10"
+            href={url}
+          >
+            {title}
+          </a>
+          <p class="font-light leading-snug break-words mt-1">{description}</p>
+        </div>
+      ) : (
+        <div class="prose" set:html={compiledContent()} />
+      )
+    }
+  </div>
+  <div class="flex justify-end items-center text-xs font-light mt-1">
+    {
+      pubDate && (
+        <div class="mr-1">
+          {formatDistanceToNowStrict(new Date(pubDate), { addSuffix: true })}
+        </div>
+      )
+    }
+    <a
+      href={url}
+      aria-label="go to note"
+      class="p-1 text-teal-10 transition-all sm:hover:motion-safe:scale-125 motion-reduce:transition-none"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        class="w-5 h-5"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M10 18a8 8 0 100-16 8 8 0 000 16zM6.75 9.25a.75.75 0 000 1.5h4.59l-2.1 1.95a.75.75 0 001.02 1.1l3.5-3.25a.75.75 0 000-1.1l-3.5-3.25a.75.75 0 10-1.02 1.1l2.1 1.95H6.75z"
+          clip-rule="evenodd"></path>
+      </svg>
+    </a>
+  </div>
+</li>

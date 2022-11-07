@@ -2,26 +2,31 @@
 import { formatDistanceToNowStrict } from "date-fns";
 const {
   url,
-  compiledContent,
-  frontmatter: { title, description, minutesRead, pubDate },
+  path = url.slice("/_notes/".length),
+  pubDate,
+  title,
+  description,
+  Content,
 } = Astro.props;
 ---
 
 <li class="py-4">
   <div class="px-4">
     {
-      title ? (
+      description ? (
         <div class="">
-          <a
-            class="text-xl font-semibold tracking-tighter text-teal-10 underline underline-offset-2 decoration-teal-6 sm:hover:decoration-teal-10"
-            href={url}
-          >
-            {title}
-          </a>
+          {title && (
+            <a
+              class="text-xl font-semibold tracking-tighter text-teal-10 underline underline-offset-2 decoration-teal-6 sm:hover:decoration-teal-10"
+              href={path}
+            >
+              {title}
+            </a>
+          )}
           <p class="font-light leading-snug break-words mt-1">{description}</p>
         </div>
       ) : (
-        <div class="prose" set:html={compiledContent()} />
+        <Content />
       )
     }
   </div>
@@ -36,7 +41,7 @@ const {
       )
     }
     <a
-      href={url}
+      href={path}
       aria-label="go to note"
       class="p-1 text-teal-10 transition-all sm:hover:motion-safe:scale-125 motion-reduce:transition-none"
     >

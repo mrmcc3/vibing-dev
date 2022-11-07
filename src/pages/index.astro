@@ -4,16 +4,12 @@ import Head from "@site/Head.astro";
 import Header from "@site/Header.astro";
 import FeedItem from "@site/FeedItem.astro";
 
-const all = await Astro.glob("./**/*.md");
-const pub = all.filter(
-  ({ frontmatter: { draft, pubDate } }) =>
-    pubDate && (import.meta.env.DEV || !draft)
-);
-pub.sort(
-  (a, b) =>
-    new Date(b.frontmatter.pubDate).getTime() -
-    new Date(a.frontmatter.pubDate).getTime()
-);
+const notes = await Astro.glob("./_notes/**/*.mdx");
+const isPub = (d) => d.pubDate && (import.meta.env.DEV || !d.draft);
+const pub = notes.filter(isPub);
+const comp = (a, b) =>
+  new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime();
+pub.sort(comp);
 ---
 
 <Html>

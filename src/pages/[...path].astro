@@ -1,29 +1,47 @@
 ---
-import Html from "@shared/Html.astro";
-import Head from "./Head.astro";
-import Header from "./Header.astro";
 import { format } from "date-fns";
+import Html from "@shared/Html.astro";
+import Head from "@site/Head.astro";
+import Header from "@site/Header.astro";
+import { components } from "@site/mdx/components";
+
+export async function getStaticPaths() {
+  const isPub = (d) => import.meta.env.DEV || !d.draft;
+  const toParam = (props) => ({
+    props,
+    params: {
+      path: props.path || props.url.slice("/_notes/".length),
+    },
+  });
+  const notes = await Astro.glob("./_notes/**/*.mdx");
+  return notes.filter(isPub).map(toParam);
+}
+
 const {
-  url,
-  frontmatter: { title, description, minutesRead, pubDate, draft },
+  Content,
+  pubDate,
+  title,
+  description,
+  frontmatter: { minutesRead },
+  draft,
 } = Astro.props;
 const unpub = draft || !pubDate;
-const noteTitle = `Note ${url.split("/").at(-1)}`;
 ---
 
 <Html>
   <Head
     slot="head"
-    title={title || noteTitle}
+    title={title}
     description={description}
     ogType="article"
     noindex={unpub}
   />
   <Header />
+
   <main class="flex-1 px-4">
-    <article class="mx-auto max-w-prose prose pb-12 sm:pb-24">
+    <article class="mx-auto max-w-prose pb-12 sm:pb-24">
       {title && <h1 class="text-indigo-10">{title}</h1>}
-      <div class="flex -mt-6 space-x-4 text-sm">
+      <div class="flex space-x-4 text-sm">
         {title ? <div>Article</div> : <div>Note</div>}
         {
           pubDate && (
@@ -48,7 +66,7 @@ const noteTitle = `Note ${url.split("/").at(-1)}`;
           {minutesRead}
         </div>
       </div>
-      <hr class="!mt-1" />
+      <hr />
       {
         unpub && (
           <blockquote class="lead">
@@ -60,7 +78,7 @@ const noteTitle = `Note ${url.split("/").at(-1)}`;
           </blockquote>
         )
       }
-      <slot />
+      <Content components={components} />
       <div class="flex justify-between items-center py-4">
         <a class="inline-flex items-center" href="/">
           <svg

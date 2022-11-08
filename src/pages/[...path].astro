@@ -32,7 +32,7 @@ const unpub = draft || !pubDate;
   <Head
     slot="head"
     title={title || `Note ${Astro.url.pathname}`}
-    description={description}
+    description={description || "One of my random thoughts"}
     ogType="article"
     noindex={unpub}
   />

@@ -1,5 +1,6 @@
 ---
 import { formatDistanceToNowStrict } from "date-fns";
+import { components as mdx } from "@site/mdx/components";
 const {
   url,
   path = url.slice("/_notes/".length),
@@ -10,7 +11,7 @@ const {
 } = Astro.props;
 ---
 
-<li class="py-4">
+<li class="py-5">
   <div class="px-4">
     {
       description ? (
@@ -23,15 +24,15 @@ const {
               {title}
             </a>
           )}
-          <p class="font-light leading-snug break-words mt-1">{description}</p>
+          <p class="font-light leading-snug break-words my-5">{description}</p>
         </div>
       ) : (
-        <Content />
+        <Content components={mdx} />
       )
     }
   </div>
   <div
-    class="flex justify-end items-center text-sm text-gray-11 font-light mt-1 mr-3"
+    class="flex justify-end items-center text-sm text-gray-11 font-light mr-3"
   >
     {
       pubDate && (

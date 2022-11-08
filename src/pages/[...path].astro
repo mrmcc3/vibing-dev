@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import Html from "@shared/Html.astro";
 import Head from "@site/Head.astro";
 import Header from "@site/Header.astro";
-import { components } from "@site/mdx/components";
+import { components as mdx } from "@site/mdx/components";
 
 export async function getStaticPaths() {
   const isPub = (d) => import.meta.env.DEV || !d.draft;
@@ -31,7 +31,7 @@ const unpub = draft || !pubDate;
 <Html>
   <Head
     slot="head"
-    title={title}
+    title={title || `Note ${Astro.url.pathname}`}
     description={description}
     ogType="article"
     noindex={unpub}
@@ -39,13 +39,13 @@ const unpub = draft || !pubDate;
   <Header />
 
   <main class="flex-1 px-4">
-    <article class="mx-auto max-w-prose pb-12 sm:pb-24">
-      {title && <h1 class="text-indigo-10">{title}</h1>}
-      <div class="flex space-x-4 text-sm">
-        {title ? <div>Article</div> : <div>Note</div>}
+    <article class="mx-auto max-w-prose pb-12 sm:pb-24 break-words">
+      {title && <mdx.h1 class="text-indigo-10">{title}</mdx.h1>}
+      <div class="flex space-x-4 text-sm mb-1">
+        {description ? <div>Article</div> : <div>Note</div>}
         {
           pubDate && (
-            <strong>{format(new Date(pubDate), "do MMM, yyyy")}</strong>
+            <mdx.strong>{format(new Date(pubDate), "do MMM, yyyy")}</mdx.strong>
           )
         }
         <div class="inline-flex items-center">
@@ -66,21 +66,26 @@ const unpub = draft || !pubDate;
           {minutesRead}
         </div>
       </div>
-      <hr />
+      <mdx.hr />
       {
         unpub && (
-          <blockquote class="-mx-4 my-5 px-4 py-5 bg-plum-3 border-y border-plum-5 sm:rounded-md sm:border-x">
-            <p class="">
-              What follows is a <strong>draft!</strong> I don't consider it
-              ready for public consumption. It likely contains half-formed ideas
-              or statements that are flat out wrong.
-            </p>
-          </blockquote>
+          <mdx.blockquote>
+            <mdx.p>
+              What follows is a <mdx.strong>draft!</mdx.strong> I don't consider
+              it ready for public consumption. It likely contains half-formed
+              ideas or statements that are flat out wrong.
+            </mdx.p>
+          </mdx.blockquote>
         )
       }
-      <Content components={components} />
-      <div class="flex justify-between items-center py-4">
-        <a class="inline-flex items-center" href="/">
+      <Content components={mdx} />
+
+      <mdx.hr />
+
+      <div
+        class="flex flex-row flex-wrap gap-4 justify-around items-center py-4"
+      >
+        <mdx.a class="inline-flex items-center" href="/">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -95,8 +100,8 @@ const unpub = draft || !pubDate;
             ></path>
           </svg>
           Home
-        </a>
-        <a
+        </mdx.a>
+        <mdx.a
           class="inline-flex items-center"
           href={`mailto:feedback@vibing.dev?subject=${encodeURIComponent(
             `Feedback ${Astro.url.pathname}`
@@ -117,8 +122,8 @@ const unpub = draft || !pubDate;
             ></path>
           </svg>
           Reply
-        </a>
-        <a
+        </mdx.a>
+        <mdx.a
           class="inline-flex items-center"
           href="https://github.com/mrmcc3/vibing-dev/discussions"
         >
@@ -136,8 +141,23 @@ const unpub = draft || !pubDate;
               d="M15.75 7.5c-1.376 0-2.739.057-4.086.169C10.124 7.797 9 9.103 9 10.609v4.285c0 1.507 1.128 2.814 2.67 2.94 1.243.102 2.5.157 3.768.165l2.782 2.781a.75.75 0 001.28-.53v-2.39l.33-.026c1.542-.125 2.67-1.433 2.67-2.94v-4.286c0-1.505-1.125-2.811-2.664-2.94A49.392 49.392 0 0015.75 7.5z"
             ></path>
           </svg>
-          Feedback</a
-        >
+          Feedback
+        </mdx.a>
+        <mdx.a class="inline-flex items-center" href="https://ko-fi.com/mrmcc3">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 32 32"
+            class="w-5 h-5 mr-1"
+            aria-hidden="true"
+          >
+            <path
+              fill="currentColor"
+              d="M9.197 0L7.578 3.735H5.171v3.359h.921l.943 5.975H5.562L7.51 24.042l1.249-.015L10.015 32h11.891l.083-.531l1.172-7.443l1.188.015l1.943-10.973h-1.407l.937-5.975h1.011V3.734h-2.557L22.651-.001zm.704 1.073h12.057l1.025 2.375H8.868zm-3.666 3.73H25.76v1.228H6.235zm.604 9.333h18.183l-1.568 8.823l-7.536-.079l-7.511.079z"
+            ></path>
+          </svg>
+          Buy me a coffee
+        </mdx.a>
       </div>
     </article>
   </main>

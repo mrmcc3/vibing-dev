@@ -1,0 +1,288 @@
+---
+// Adapted From
+// https://github.com/vercel/examples/blob/main/solutions/static-tweets-tailwind
+
+import { getTweets } from "./twitter.js";
+import { format } from "date-fns";
+
+const { id } = Astro.props;
+
+const {
+  text,
+  author,
+  media,
+  video,
+  polls,
+  url_meta,
+  created_at,
+  public_metrics,
+  referenced_tweets,
+} = await getTweets(id);
+
+const authorUrl = `https://twitter.com/${author.username}`;
+const likeUrl = `https://twitter.com/intent/like?tweet_id=${id}`;
+const retweetUrl = `https://twitter.com/intent/retweet?tweet_id=${id}`;
+const replyUrl = `https://twitter.com/intent/tweet?in_reply_to=${id}`;
+const tweetUrl = `https://twitter.com/${author.username}/status/${id}`;
+const createdAt = new Date(created_at);
+
+const regexToMatchURL =
+  /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
+const formattedText = text
+  .replace(regexToMatchURL, (match) => {
+    // format all hyperlinks
+    return `<a style="color: hsl(var(--teal10)); font-weight:normal; text-decoration: none" href="${match}" target="_blank">${match.replace(
+      /^http(s?):\/\//i,
+      ""
+    )}</a>`;
+  })
+  .replace(/\B\@([\w\-]+)/gim, (match) => {
+    // format all @ mentions
+    return `<a style="color: hsl(var(--indigo10)); font-weight:normal; text-decoration: none" href="https://twitter.com/${match.replace(
+      "@",
+      ""
+    )}" target="_blank">${match}</a>`;
+  })
+  .replace(/(#+[a-zA-Z0-9(_)]{1,})/g, (match) => {
+    // format all # hashtags
+    return `<a style="color: hsl(var(--plum10)); font-weight:normal; text-decoration: none" href="https://twitter.com/hashtag/${match.replace(
+      "#",
+      ""
+    )}" target="_blank">${match}</a>`;
+  });
+
+const quoteTweet =
+  referenced_tweets && referenced_tweets.find((t) => t.type === "quoted");
+
+const repliedTo =
+  referenced_tweets && referenced_tweets.find((t) => t.type === "replied_to");
+---
+
+<div
+  class="p-4 -mx-4 my-5 bg-indigo-2 border-y border-indigo-5 sm:rounded-md sm:border-x"
+>
+  <!-- author -->
+  <div class="flex items-center">
+    <a
+      class="flex h-12 w-12 rounded-full overflow-hidden border border-indigo-6"
+      href={authorUrl}
+      target="_blank"
+      rel="noreferrer"
+    >
+      <img
+        alt={author.username}
+        height={48}
+        width={48}
+        src={author.profile_image_url}
+        loading="lazy"
+      />
+    </a>
+    <a
+      href={authorUrl}
+      target="_blank"
+      rel="noreferrer"
+      class="flex flex-col ml-4 no-underline"
+    >
+      <span
+        class="flex items-center font-semibold text-gray-12 leading-5 mt-1"
+        title={author.name}
+      >
+        {author.name}
+        {
+          author.verified ? (
+            <svg
+              aria-label="Verified Account"
+              class="ml-1 inline h-4 w-4"
+              viewBox="0 0 24 24"
+            >
+              <g fill="#3BA9EE">
+                <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z" />
+              </g>
+            </svg>
+          ) : null
+        }
+      </span>
+      <span class="text-indigo-10 text-sm" title={`@${author.username}`}>
+        @{author.username}
+      </span>
+    </a>
+    <a class="ml-auto" href={tweetUrl} target="_blank" rel="noreferrer">
+      <svg
+        viewBox="328 355 335 276"
+        height="24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M 630, 425    A 195, 195 0 0 1 331, 600    A 142, 142 0 0 0 428, 570    A  70,  70 0 0 1 370, 523    A  70,  70 0 0 0 401, 521    A  70,  70 0 0 1 344, 455    A  70,  70 0 0 0 372, 460    A  70,  70 0 0 1 354, 370    A 195, 195 0 0 0 495, 442    A  67,  67 0 0 1 611, 380    A 117, 117 0 0 0 654, 363    A  65,  65 0 0 1 623, 401    A 117, 117 0 0 0 662, 390    A  65,  65 0 0 1 630, 425    Z"
+          style={{ fill: "#3BA9EE" }}></path>
+      </svg>
+    </a>
+  </div>
+
+  <!-- Reply To -->
+  {
+    repliedTo && repliedTo.author.username && (
+      <div class="text-gray-11 font-light mt-5 text-sm">
+        Replying to{" "}
+        <a
+          class="no-underline text-indigo-10"
+          href={`https://twitter.com/${repliedTo.author.username}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          @{repliedTo.author.username}
+        </a>
+      </div>
+    )
+  }
+
+  <!-- Tweet Text -->
+  <div
+    class="my-4 whitespace-pre-wrap text-gray-12 font-light leading-snug"
+    set:html={formattedText}
+  >
+  </div>
+
+  <!-- Media -->
+  {
+    media && media.length ? (
+      <div
+        className={
+          media.length === 1
+            ? "inline-grid grid-cols-1 gap-x-2 gap-y-2 my-2"
+            : "inline-grid grid-cols-2 gap-x-2 gap-y-2 my-2"
+        }
+      >
+        {media.map((m, i) => (
+          <a key={i} href={tweetUrl} target="_blank" rel="noreferrer">
+            {m.type == "video" || m.type == "animated_gif" ? (
+              video ? (
+                <video
+                  class="rounded-lg"
+                  loop
+                  width="2048px"
+                  height="2048px"
+                  autoPlay
+                  muted
+                  playsInline
+                  src={
+                    video.variants.length >= 3
+                      ? video.variants[2].url
+                      : video.variants[0].url
+                  }
+                  type="video/mp4"
+                />
+              ) : (
+                <img
+                  loading="lazy"
+                  alt={text}
+                  width={2048}
+                  height={m.height * (2048 / m.width)}
+                  src={m.preview_image_url}
+                  class="rounded-2xl hover:brightness-90 transition-all ease-in-out duration-150"
+                />
+              )
+            ) : (
+              <img
+                loading="lazy"
+                alt={text}
+                width={2048}
+                height={m.height * (2048 / m.width)}
+                src={m.url}
+                class="overflow-hidden rounded-2xl hover:brightness-90 transition-all ease-in-out duration-150"
+              />
+            )}
+          </a>
+        ))}
+      </div>
+    ) : null
+  }
+
+  <!-- Timestamp  -->
+  <a
+    class="block my-2 text-gray-11 hover:text-gray-12 text-sm font-light hover:underline no-underline"
+    href={tweetUrl}
+    target="_blank"
+    rel="noreferrer"
+  >
+    <time
+      title={`Time Posted: ${createdAt.toUTCString()}`}
+      dateTime={createdAt.toISOString()}
+    >
+      {format(createdAt, "h:mm aaa - d MMM y")}
+    </time>
+  </a>
+
+  <!-- Actions  -->
+  <div class="flex space-x-2 md:space-x-6 text-sm">
+    <a
+      class="flex items-center text-gray-11 sm:hover:text-gray-12 space-x-1"
+      href={likeUrl}
+      target="_blank"
+      rel="noreferrer"
+    >
+      <div class="flex items-center justify-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          class="w-5 h-5"
+        >
+          <path
+            d="M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 01-.69.001l-.002-.001z"
+          ></path>
+        </svg>
+      </div>
+      <span>
+        {new Number(public_metrics.like_count).toLocaleString()}
+      </span>
+    </a>
+    <a
+      class="flex items-center mr-4 text-gray-11 sm:hover:text-gray-12 space-x-1"
+      href={retweetUrl}
+      target="_blank"
+      rel="noreferrer"
+    >
+      <div class="flex items-center justify-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          class="w-5 h-5"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10 4.5c1.215 0 2.417.055 3.604.162a.68.68 0 01.615.597c.124 1.038.208 2.088.25 3.15l-1.689-1.69a.75.75 0 00-1.06 1.061l2.999 3a.75.75 0 001.06 0l3.001-3a.75.75 0 10-1.06-1.06l-1.748 1.747a41.31 41.31 0 00-.264-3.386 2.18 2.18 0 00-1.97-1.913 41.512 41.512 0 00-7.477 0 2.18 2.18 0 00-1.969 1.913 41.16 41.16 0 00-.16 1.61.75.75 0 101.495.12c.041-.52.093-1.038.154-1.552a.68.68 0 01.615-.597A40.012 40.012 0 0110 4.5zM5.281 9.22a.75.75 0 00-1.06 0l-3.001 3a.75.75 0 101.06 1.06l1.748-1.747c.042 1.141.13 2.27.264 3.386a2.18 2.18 0 001.97 1.913 41.533 41.533 0 007.477 0 2.18 2.18 0 001.969-1.913c.064-.534.117-1.071.16-1.61a.75.75 0 10-1.495-.12c-.041.52-.093 1.037-.154 1.552a.68.68 0 01-.615.597 40.013 40.013 0 01-7.208 0 .68.68 0 01-.615-.597 39.785 39.785 0 01-.25-3.15l1.689 1.69a.75.75 0 001.06-1.061l-2.999-3z"
+            clip-rule="evenodd"></path>
+        </svg>
+      </div>
+      <span>
+        {new Number(public_metrics.retweet_count).toLocaleString()}
+      </span>
+    </a>
+    <a
+      class="flex items-center mr-4 text-gray-11 sm:hover:text-gray-12 space-x-1"
+      href={replyUrl}
+      target="_blank"
+      rel="noreferrer"
+    >
+      <div class="flex items-center justify-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          class="w-5 h-5"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M2 10c0-3.967 3.69-7 8-7 4.31 0 8 3.033 8 7s-3.69 7-8 7a9.165 9.165 0 01-1.504-.123 5.976 5.976 0 01-3.935 1.107.75.75 0 01-.584-1.143 3.478 3.478 0 00.522-1.756C2.979 13.825 2 12.025 2 10z"
+            clip-rule="evenodd"></path>
+        </svg>
+      </div>
+      <span>
+        {new Number(public_metrics.reply_count).toLocaleString()}
+      </span>
+    </a>
+  </div>
+</div>

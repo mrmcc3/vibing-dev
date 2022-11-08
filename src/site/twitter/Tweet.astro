@@ -71,9 +71,9 @@ const repliedTo =
     >
       <img
         alt={author.username}
-        height={48}
-        width={48}
-        src={author.profile_image_url}
+        height={46}
+        width={46}
+        src={author.profile_image_url.replace("_normal.", "_x96.")}
         loading="lazy"
       />
     </a>
@@ -106,7 +106,13 @@ const repliedTo =
         @{author.username}
       </span>
     </a>
-    <a class="ml-auto" href={tweetUrl} target="_blank" rel="noreferrer">
+    <a
+      class="ml-auto"
+      aria-label="go to tweet"
+      href={tweetUrl}
+      target="_blank"
+      rel="noreferrer"
+    >
       <svg
         viewBox="328 355 335 276"
         height="24"

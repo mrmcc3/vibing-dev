@@ -7,14 +7,13 @@ import { components as mdx } from "@site/mdx/components";
 
 export async function getStaticPaths() {
   const isPub = (d) => import.meta.env.DEV || !d.draft;
-  const toParam = (props) => ({
-    props,
-    params: {
-      path: props.path || props.url.slice("/_notes/".length),
-    },
-  });
+  const toPath = (props) => {
+    let path = props.path ?? props.url.slice("/_notes/".length);
+    if (path.startsWith("/")) path = path.slice(1);
+    return { props, params: { path } };
+  };
   const notes = await Astro.glob("./_notes/**/*.mdx");
-  return notes.filter(isPub).map(toParam);
+  return notes.filter(isPub).map(toPath);
 }
 
 const {

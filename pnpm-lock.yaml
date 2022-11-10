@@ -14,17 +14,17 @@ specifiers:
   mdast-util-to-string: ^3.1.0
   postcss-import: ^15.0.0
   reading-time: ^1.5.0
-  svelte: ^3.46.4
-  tailwindcss: ^3.2.2
+  svelte: ^3.53.0
+  tailwindcss: ^3.2.3
   wrangler: ^2.1.15
 
 dependencies:
   '@astrojs/mdx': 0.11.5
   '@astrojs/rss': 1.0.3
   '@astrojs/sitemap': 1.0.0
-  '@astrojs/svelte': 1.0.2_svelte@3.52.0
+  '@astrojs/svelte': 1.0.2_svelte@3.53.0
   '@cloudflare/workers-types': 3.18.0
-  '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.2
+  '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.3
   astro: 1.6.5
   autoprefixer: 10.4.13
   cookie: 0.5.0
@@ -32,8 +32,8 @@ dependencies:
   mdast-util-to-string: 3.1.0
   postcss-import: 15.0.0
   reading-time: 1.5.0
-  svelte: 3.52.0
-  tailwindcss: 3.2.2
+  svelte: 3.53.0
+  tailwindcss: 3.2.3
   wrangler: 2.1.15
 
 packages:
@@ -162,17 +162,17 @@ packages:
       zod: 3.19.1
     dev: false
 
-  /@astrojs/svelte/1.0.2_svelte@3.52.0:
+  /@astrojs/svelte/1.0.2_svelte@3.53.0:
     resolution: {integrity: sha512-cC3Pn475mOJdDM5IKMJ75hlah7jTWdVPkD7gUx+7ouJ/V9Q8H5OTmne+xG8zk2MquAHBL/ksmUS2pSzI9ByZkw==}
     engines: {node: ^14.18.0 || >=16.12.0}
     peerDependencies:
       svelte: ^3.46.4
     dependencies:
-      '@sveltejs/vite-plugin-svelte': 1.0.9_svelte@3.52.0
+      '@sveltejs/vite-plugin-svelte': 1.0.9_svelte@3.53.0
       postcss-load-config: 3.1.4
-      svelte: 3.52.0
-      svelte-preprocess: 4.10.7_pmwall27st3tiaqmx3ffy3cd34
-      svelte2tsx: 0.5.20_svelte@3.52.0
+      svelte: 3.53.0
+      svelte-preprocess: 4.10.7_ddyxnro7q4t7jafmacky4t23xi
+      svelte2tsx: 0.5.20_svelte@3.53.0
     transitivePeerDependencies:
       - '@babel/core'
       - coffeescript
@@ -828,7 +828,7 @@ packages:
       picomatch: 2.3.1
     dev: false
 
-  /@sveltejs/vite-plugin-svelte/1.0.9_svelte@3.52.0:
+  /@sveltejs/vite-plugin-svelte/1.0.9_svelte@3.53.0:
     resolution: {integrity: sha512-+SDrAnT7TDi8sdj4OfD2SC4s9DNrpNVBrue8fT2PmKks9Ddu0JIfSeX91wXZb/1xHz4EkGb+rli8GTRI0yGOjg==}
     engines: {node: ^14.18.0 || >= 16}
     peerDependencies:
@@ -844,19 +844,19 @@ packages:
       deepmerge: 4.2.2
       kleur: 4.1.5
       magic-string: 0.26.7
-      svelte: 3.52.0
-      svelte-hmr: 0.15.0_svelte@3.52.0
+      svelte: 3.53.0
+      svelte-hmr: 0.15.0_svelte@3.53.0
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@tailwindcss/forms/0.5.3_tailwindcss@3.2.2:
+  /@tailwindcss/forms/0.5.3_tailwindcss@3.2.3:
     resolution: {integrity: sha512-y5mb86JUoiUgBjY/o6FJSFZSEttfb3Q5gllE4xoKjAAD+vBrnIhE4dViwUuow3va8mpH4s9jyUbUbrRGoRdc2Q==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
     dependencies:
       mini-svg-data-uri: 1.4.4
-      tailwindcss: 3.2.2
+      tailwindcss: 3.2.3
     dev: false
 
   /@types/acorn/4.0.6:
@@ -4593,16 +4593,16 @@ packages:
     engines: {node: '>= 0.4'}
     dev: false
 
-  /svelte-hmr/0.15.0_svelte@3.52.0:
+  /svelte-hmr/0.15.0_svelte@3.53.0:
     resolution: {integrity: sha512-Aw21SsyoohyVn4yiKXWPNCSW2DQNH/76kvUnE9kpt4h9hcg9tfyQc6xshx9hzgMfGF0kVx0EGD8oBMWSnATeOg==}
     engines: {node: ^12.20 || ^14.13.1 || >= 16}
     peerDependencies:
       svelte: '>=3.19.0'
     dependencies:
-      svelte: 3.52.0
+      svelte: 3.53.0
     dev: false
 
-  /svelte-preprocess/4.10.7_pmwall27st3tiaqmx3ffy3cd34:
+  /svelte-preprocess/4.10.7_ddyxnro7q4t7jafmacky4t23xi:
     resolution: {integrity: sha512-sNPBnqYD6FnmdBrUmBCaqS00RyCsCpj2BG58A1JBswNF7b0OKviwxqVrOL/CKyJrLSClrSeqQv5BXNg2RUbPOw==}
     engines: {node: '>= 9.11.2'}
     requiresBuild: true
@@ -4650,15 +4650,15 @@ packages:
       postcss-load-config: 3.1.4
       sorcery: 0.10.0
       strip-indent: 3.0.0
-      svelte: 3.52.0
+      svelte: 3.53.0
     dev: false
 
-  /svelte/3.52.0:
-    resolution: {integrity: sha512-FxcnEUOAVfr10vDU5dVgJN19IvqeHQCS1zfe8vayTfis9A2t5Fhx+JDe5uv/C3j//bB1umpLJ6quhgs9xyUbCQ==}
+  /svelte/3.53.0:
+    resolution: {integrity: sha512-QwR6zwpcdpz5OqybIHlghM+qP2qKbzsKQuU9npgAmnI6zoTDIcjbcseUZA0AJGbotorltpQ0f413euKK4w+Piw==}
     engines: {node: '>= 8'}
     dev: false
 
-  /svelte2tsx/0.5.20_svelte@3.52.0:
+  /svelte2tsx/0.5.20_svelte@3.53.0:
     resolution: {integrity: sha512-yNHmN/uoAnJ7d1XqVohiNA6TMFOxibHyEddUAHVt1PiLXtbwAJF3WaGYlg8QbOdoXzOVsVNCAlqRUIdULUm+OA==}
     peerDependencies:
       svelte: ^3.24
@@ -4666,7 +4666,7 @@ packages:
     dependencies:
       dedent-js: 1.0.1
       pascal-case: 3.1.2
-      svelte: 3.52.0
+      svelte: 3.53.0
     dev: false
 
   /synckit/0.7.3:
@@ -4677,8 +4677,8 @@ packages:
       tslib: 2.4.1
     dev: false
 
-  /tailwindcss/3.2.2:
-    resolution: {integrity: sha512-c2GtSdqg+harR4QeoTmex0Ngfg8IIHNeLQH5yr2B9uZbZR1Xt1rYbjWOWTcj3YLTZhrmZnPowoQDbSRFyZHQ5Q==}
+  /tailwindcss/3.2.3:
+    resolution: {integrity: sha512-Xt9D4PK4zuuQCEB8bwK9JUCKmTgUwyac/6b0/42Vqhgl6YJkep+Wf5wq+5uXYfmrupdAD0YY2NY1hyZp1HjRrg==}
     engines: {node: '>=12.13.0'}
     hasBin: true
     dependencies:

@@ -11,20 +11,20 @@
     "pub": "astro build && wrangler pages publish dist"
   },
   "dependencies": {
-    "@astrojs/mdx": "^0.11.5",
+    "@astrojs/mdx": "^0.11.6",
     "@astrojs/rss": "^1.0.3",
     "@astrojs/sitemap": "^1.0.0",
     "@astrojs/svelte": "^1.0.2",
     "@cloudflare/workers-types": "^3.18.0",
     "@tailwindcss/forms": "^0.5.3",
-    "astro": "^1.6.5",
+    "astro": "^1.6.7",
     "autoprefixer": "^10.4.13",
     "cookie": "^0.5.0",
     "date-fns": "^2.29.3",
     "mdast-util-to-string": "^3.1.0",
     "postcss-import": "^15.0.0",
     "reading-time": "^1.5.0",
-    "svelte": "^3.53.0",
+    "svelte": "^3.53.1",
     "tailwindcss": "^3.2.3",
     "wrangler": "^2.1.15"
   }

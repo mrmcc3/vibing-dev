@@ -18,13 +18,13 @@ const {
         <div class="">
           {title && (
             <a
-              class="text-xl font-semibold tracking-tighter text-teal-10 underline underline-offset-2 decoration-teal-6 sm:hover:decoration-teal-10"
+              class="text-teal-10 decoration-teal-6 sm:hover:decoration-teal-10 text-xl font-semibold tracking-tighter underline underline-offset-2"
               href={path}
             >
               {title}
             </a>
           )}
-          <p class="font-light leading-snug break-words my-5">{description}</p>
+          <p class="my-5 break-words font-light leading-snug">{description}</p>
         </div>
       ) : (
         <Content components={mdx} />
@@ -32,7 +32,7 @@ const {
     }
   </div>
   <div
-    class="flex justify-end items-center text-sm text-gray-11 font-light mr-3"
+    class="text-gray-11 mr-3 flex items-center justify-end text-sm font-light"
   >
     {
       pubDate && (
@@ -44,13 +44,13 @@ const {
     <a
       href={path}
       aria-label="go to note"
-      class="p-1 text-teal-10 transition-all sm:hover:motion-safe:scale-125 motion-reduce:transition-none"
+      class="text-teal-10 p-1 transition-all motion-reduce:transition-none sm:hover:motion-safe:scale-125"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 20 20"
         fill="currentColor"
-        class="w-6 h-6"
+        class="h-6 w-6"
       >
         <path
           fill-rule="evenodd"

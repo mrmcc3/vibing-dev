@@ -38,9 +38,9 @@ const unpub = draft || !pubDate;
   <Header />
 
   <main class="flex-1 px-4">
-    <article class="mx-auto max-w-prose pb-12 sm:pb-24 break-words">
+    <article class="mx-auto max-w-prose break-words pb-12 sm:pb-24">
       {title && <mdx.h1 class="text-indigo-10">{title}</mdx.h1>}
-      <div class="flex space-x-4 text-sm mb-1">
+      <div class="mb-1 flex space-x-4 text-sm">
         {description ? <div>Article</div> : <div>Note</div>}
         {
           pubDate && (
@@ -54,7 +54,7 @@ const unpub = draft || !pubDate;
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="w-4 h-4 mr-1"
+            class="mr-1 h-4 w-4"
           >
             <path
               stroke-linecap="round"
@@ -82,14 +82,14 @@ const unpub = draft || !pubDate;
       <mdx.hr />
 
       <div
-        class="flex flex-row flex-wrap gap-4 justify-around items-center py-4"
+        class="flex flex-row flex-wrap items-center justify-around gap-4 py-4"
       >
         <mdx.a class="inline-flex items-center" href="/">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            class="w-5 h-5 mr-1"
+            class="mr-1 h-5 w-5"
           >
             <path
               d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z"
@@ -110,7 +110,7 @@ const unpub = draft || !pubDate;
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            class="w-5 h-5 mr-1"
+            class="mr-1 h-5 w-5"
             aria-hidden="true"
           >
             <path
@@ -130,7 +130,7 @@ const unpub = draft || !pubDate;
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            class="w-5 h-5 mr-1"
+            class="mr-1 h-5 w-5"
             aria-hidden="true"
           >
             <path
@@ -150,7 +150,7 @@ const unpub = draft || !pubDate;
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="xMidYMid meet"
             viewBox="0 0 32 32"
-            class="w-5 h-5 mr-1"
+            class="mr-1 h-5 w-5"
             aria-hidden="true"
           >
             <path

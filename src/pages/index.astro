@@ -19,8 +19,8 @@ pub.sort(comp);
     description="Outlet for whatever I'm vibing. Mostly web dev."
   />
   <Header />
-  <main class="sm:px-4 md:px-8 pb-12">
-    <ul class="mx-auto max-w-prose divide-y divide-gray-5">
+  <main class="pb-12 sm:px-4 md:px-8">
+    <ul class="divide-gray-5 mx-auto max-w-prose divide-y">
       {pub.map((i) => <FeedItem {...i} />)}
     </ul>
   </main>

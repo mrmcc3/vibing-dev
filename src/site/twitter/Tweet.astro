@@ -59,12 +59,12 @@ const repliedTo =
 ---
 
 <div
-  class="p-4 -mx-4 my-5 bg-indigo-2 border-y border-indigo-5 sm:rounded-md sm:border-x"
+  class="bg-indigo-2 border-indigo-5 -mx-4 my-5 border-y p-4 sm:rounded-md sm:border-x"
 >
   <!-- author -->
   <div class="flex items-center">
     <a
-      class="flex h-12 w-12 rounded-full overflow-hidden border border-indigo-6"
+      class="border-indigo-6 flex h-12 w-12 overflow-hidden rounded-full border"
       href={authorUrl}
       target="_blank"
       rel="noreferrer"
@@ -81,10 +81,10 @@ const repliedTo =
       href={authorUrl}
       target="_blank"
       rel="noreferrer"
-      class="flex flex-col ml-4 no-underline"
+      class="ml-4 flex flex-col no-underline"
     >
       <span
-        class="flex items-center font-semibold text-gray-12 leading-5 mt-1"
+        class="text-gray-12 mt-1 flex items-center font-semibold leading-5"
         title={author.name}
       >
         {author.name}
@@ -129,10 +129,10 @@ const repliedTo =
   <!-- Reply To -->
   {
     repliedTo && repliedTo.author.username && (
-      <div class="text-gray-11 font-light mt-5 text-sm">
+      <div class="text-gray-11 mt-5 text-sm font-light">
         Replying to{" "}
         <a
-          class="no-underline text-indigo-10"
+          class="text-indigo-10 no-underline"
           href={`https://twitter.com/${repliedTo.author.username}`}
           target="_blank"
           rel="noreferrer"
@@ -145,10 +145,9 @@ const repliedTo =
 
   <!-- Tweet Text -->
   <div
-    class="my-4 whitespace-pre-wrap text-gray-12 font-light leading-snug"
+    class="text-gray-12 my-4 whitespace-pre-wrap font-light leading-snug"
     set:html={formattedText}
-  >
-  </div>
+  />
 
   <!-- Media -->
   {
@@ -156,8 +155,8 @@ const repliedTo =
       <div
         className={
           media.length === 1
-            ? "inline-grid grid-cols-1 gap-x-2 gap-y-2 my-2"
-            : "inline-grid grid-cols-2 gap-x-2 gap-y-2 my-2"
+            ? "my-2 inline-grid grid-cols-1 gap-x-2 gap-y-2"
+            : "my-2 inline-grid grid-cols-2 gap-x-2 gap-y-2"
         }
       >
         {media.map((m, i) => (
@@ -186,7 +185,7 @@ const repliedTo =
                   width={2048}
                   height={m.height * (2048 / m.width)}
                   src={m.preview_image_url}
-                  class="rounded-2xl hover:brightness-90 transition-all ease-in-out duration-150"
+                  class="rounded-2xl transition-all duration-150 ease-in-out hover:brightness-90"
                 />
               )
             ) : (
@@ -196,7 +195,7 @@ const repliedTo =
                 width={2048}
                 height={m.height * (2048 / m.width)}
                 src={m.url}
-                class="overflow-hidden rounded-2xl hover:brightness-90 transition-all ease-in-out duration-150"
+                class="overflow-hidden rounded-2xl transition-all duration-150 ease-in-out hover:brightness-90"
               />
             )}
           </a>
@@ -207,7 +206,7 @@ const repliedTo =
 
   <!-- Timestamp  -->
   <a
-    class="block my-2 text-gray-11 hover:text-gray-12 text-sm font-light hover:underline no-underline"
+    class="text-gray-11 hover:text-gray-12 my-2 block text-sm font-light no-underline hover:underline"
     href={tweetUrl}
     target="_blank"
     rel="noreferrer"
@@ -221,9 +220,9 @@ const repliedTo =
   </a>
 
   <!-- Actions  -->
-  <div class="flex space-x-2 md:space-x-6 text-sm">
+  <div class="flex space-x-2 text-sm md:space-x-6">
     <a
-      class="flex items-center text-gray-11 sm:hover:text-gray-12 space-x-1 py-2 -my-2"
+      class="text-gray-11 sm:hover:text-gray-12 -my-2 flex items-center space-x-1 py-2"
       href={likeUrl}
       target="_blank"
       rel="noreferrer"
@@ -233,7 +232,7 @@ const repliedTo =
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"
-          class="w-5 h-5"
+          class="h-5 w-5"
         >
           <path
             d="M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 01-.69.001l-.002-.001z"
@@ -245,7 +244,7 @@ const repliedTo =
       </span>
     </a>
     <a
-      class="flex items-center mr-4 text-gray-11 sm:hover:text-gray-12 space-x-1 py-2 -my-2"
+      class="text-gray-11 sm:hover:text-gray-12 -my-2 mr-4 flex items-center space-x-1 py-2"
       href={retweetUrl}
       target="_blank"
       rel="noreferrer"
@@ -255,7 +254,7 @@ const repliedTo =
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"
-          class="w-5 h-5"
+          class="h-5 w-5"
         >
           <path
             fill-rule="evenodd"
@@ -268,7 +267,7 @@ const repliedTo =
       </span>
     </a>
     <a
-      class="flex items-center mr-4 text-gray-11 sm:hover:text-gray-12 space-x-1 py-2 -my-2"
+      class="text-gray-11 sm:hover:text-gray-12 -my-2 mr-4 flex items-center space-x-1 py-2"
       href={replyUrl}
       target="_blank"
       rel="noreferrer"
@@ -278,7 +277,7 @@ const repliedTo =
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"
-          class="w-5 h-5"
+          class="h-5 w-5"
         >
           <path
             fill-rule="evenodd"

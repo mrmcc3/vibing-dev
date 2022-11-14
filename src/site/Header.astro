@@ -3,17 +3,17 @@ import ColorSchemeToggle from "@shared/colorscheme/Toggle.svelte";
 const showInfo = !Astro.url.pathname.startsWith("/site-info");
 ---
 
-<header class="p-4 mb-8 flex items-center justify-between">
+<header class="mb-8 flex items-center justify-between p-4">
   <a
     aria-label="home"
     href="/"
-    class="flex items-center text-plum-10 hover:text-teal-10"
+    class="text-plum-10 hover:text-teal-10 flex items-center"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
-      class="w-8 h-8 mr-1"
+      class="mr-1 h-8 w-8"
       aria-hidden="true"
     >
       <path
@@ -22,7 +22,7 @@ const showInfo = !Astro.url.pathname.startsWith("/site-info");
         clip-rule="evenodd"></path>
     </svg>
     <div
-      class="font-black text-3xl text-transparent bg-gradient-to-r from-plum-10 via-indigo-10 to-teal-10 bg-clip-text hover:bg-gradient-to-l"
+      class="from-plum-10 via-indigo-10 to-teal-10 bg-gradient-to-r bg-clip-text text-3xl font-black text-transparent hover:bg-gradient-to-l"
     >
       Vibing
     </div>
@@ -33,7 +33,7 @@ const showInfo = !Astro.url.pathname.startsWith("/site-info");
       <a
         href="/site-info"
         aria-label="Site Info"
-        class="text-gray-12 p-1 mr-2 transition-all sm:hover:motion-safe:scale-110 motion-reduce:transition-none"
+        class="text-gray-12 mr-2 p-1 transition-all motion-reduce:transition-none sm:hover:motion-safe:scale-110"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,7 @@ const showInfo = !Astro.url.pathname.startsWith("/site-info");
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          class="w-7 h-7"
+          class="h-7 w-7"
         >
           <path
             stroke-linecap="round"

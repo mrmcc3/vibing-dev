@@ -11,7 +11,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Lexend", ...defaultTheme.fontFamily.sans],
+        sans: ["General Sans", ...defaultTheme.fontFamily.sans],
       },
     },
   },

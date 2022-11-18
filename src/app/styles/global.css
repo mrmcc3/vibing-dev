@@ -1,5 +1,5 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-@import "../../shared/styles/lexend.css";
+@import "../../shared/styles/fonts/general-sans.css";
 @config "./tailwind.config.cjs";

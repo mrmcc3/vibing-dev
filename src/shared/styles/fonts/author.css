@@ -1,0 +1,17 @@
+/* https://www.fontshare.com/fonts/author */
+
+@font-face {
+  font-family: "Author";
+  font-style: normal;
+  font-weight: 200 700;
+  font-display: optional;
+  src: url("/static/fonts/author.woff2?v=1") format("woff2");
+}
+
+@font-face {
+  font-family: "Author";
+  font-style: italic;
+  font-weight: 200 700;
+  font-display: optional;
+  src: url("/static/fonts/author-italic.woff2?v=1") format("woff2");
+}

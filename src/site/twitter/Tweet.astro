@@ -129,7 +129,7 @@ const repliedTo =
   <!-- Reply To -->
   {
     repliedTo && repliedTo.author.username && (
-      <div class="text-gray-11 mt-5 text-sm font-light">
+      <div class="text-gray-11 mt-5 text-sm">
         Replying to{" "}
         <a
           class="text-indigo-10 no-underline"
@@ -145,7 +145,7 @@ const repliedTo =
 
   <!-- Tweet Text -->
   <div
-    class="text-gray-12 my-4 whitespace-pre-wrap font-light leading-snug"
+    class="text-gray-12 my-4 whitespace-pre-wrap leading-snug"
     set:html={formattedText}
   />
 
@@ -206,7 +206,7 @@ const repliedTo =
 
   <!-- Timestamp  -->
   <a
-    class="text-gray-11 hover:text-gray-12 my-2 block text-sm font-light no-underline hover:underline"
+    class="text-gray-11 hover:text-gray-12 my-2 block text-sm no-underline hover:underline"
     href={tweetUrl}
     target="_blank"
     rel="noreferrer"

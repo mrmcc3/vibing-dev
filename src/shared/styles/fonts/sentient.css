@@ -1,0 +1,17 @@
+/* https://www.fontshare.com/fonts/sentient */
+
+@font-face {
+  font-family: "Sentient";
+  font-style: normal;
+  font-weight: 200 700;
+  font-display: optional;
+  src: url("/static/fonts/sentient.woff2?v=1") format("woff2");
+}
+
+@font-face {
+  font-family: "Sentient";
+  font-style: italic;
+  font-weight: 200 700;
+  font-display: optional;
+  src: url("/static/fonts/sentient-italic.woff2?v=1") format("woff2");
+}

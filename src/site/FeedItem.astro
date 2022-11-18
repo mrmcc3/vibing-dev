@@ -18,22 +18,20 @@ const {
         <div class="">
           {title && (
             <a
-              class="text-teal-10 decoration-teal-6 sm:hover:decoration-teal-10 text-xl font-semibold tracking-tighter underline underline-offset-2"
+              class="text-teal-10 decoration-teal-6 sm:hover:decoration-teal-10 font-display text-xl font-semibold underline underline-offset-2"
               href={path}
             >
               {title}
             </a>
           )}
-          <p class="my-5 break-words font-light leading-snug">{description}</p>
+          <p class="my-5 break-words leading-snug">{description}</p>
         </div>
       ) : (
         <Content components={mdx} />
       )
     }
   </div>
-  <div
-    class="text-gray-11 mr-3 flex items-center justify-end text-sm font-light"
-  >
+  <div class="text-gray-11 mr-3 flex items-center justify-end text-sm">
     {
       pubDate && (
         <div class="mr-1">

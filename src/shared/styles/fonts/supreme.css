@@ -1,0 +1,17 @@
+/* https://www.fontshare.com/fonts/supreme */
+
+@font-face {
+  font-family: "Supreme";
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: optional;
+  src: url("/static/fonts/supreme.woff2?v=1") format("woff2");
+}
+
+@font-face {
+  font-family: "Supreme";
+  font-style: italic;
+  font-weight: 100 800;
+  font-display: optional;
+  src: url("/static/fonts/supreme-italic.woff2?v=1") format("woff2");
+}

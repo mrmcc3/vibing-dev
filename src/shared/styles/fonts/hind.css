@@ -1,0 +1,9 @@
+/* https://www.fontshare.com/fonts/hind */
+
+@font-face {
+  font-family: "Hind";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: optional;
+  src: url("/static/fonts/hind.woff2?v=1") format("woff2");
+}

@@ -4,16 +4,12 @@ const showInfo = !Astro.url.pathname.startsWith("/site-info");
 ---
 
 <header class="mb-8 flex items-center justify-between p-4">
-  <a
-    aria-label="home"
-    href="/"
-    class="text-plum-10 hover:text-teal-10 flex items-center"
-  >
+  <a aria-label="home" href="/" class="group flex items-center">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
-      class="mr-1 h-8 w-8"
+      class="text-plum-10 group-hover:text-teal-10 mr-1 h-8 w-8"
       aria-hidden="true"
     >
       <path
@@ -22,7 +18,7 @@ const showInfo = !Astro.url.pathname.startsWith("/site-info");
         clip-rule="evenodd"></path>
     </svg>
     <div
-      class="from-plum-10 via-indigo-10 to-teal-10 bg-gradient-to-r bg-clip-text text-3xl font-black text-transparent hover:bg-gradient-to-l"
+      class="from-plum-10 via-indigo-10 to-teal-10 font-display bg-gradient-to-r bg-clip-text text-3xl font-black text-transparent group-hover:bg-gradient-to-l"
     >
       Vibing
     </div>

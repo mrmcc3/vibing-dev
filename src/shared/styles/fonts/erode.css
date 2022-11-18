@@ -1,0 +1,17 @@
+/* https://www.fontshare.com/fonts/erode */
+
+@font-face {
+  font-family: "Erode";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: optional;
+  src: url("/static/fonts/erode.woff2?v=1") format("woff2");
+}
+
+@font-face {
+  font-family: "Erode";
+  font-style: italic;
+  font-weight: 300 700;
+  font-display: optional;
+  src: url("/static/fonts/erode-italic.woff2?v=1") format("woff2");
+}

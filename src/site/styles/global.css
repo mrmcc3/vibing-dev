@@ -5,8 +5,8 @@
 @import "../../shared/styles/radix-colors/indigo.css";
 
 /* Fonts */
-@import "../../shared/styles/lexend.css";
-@import "../../shared/styles/jetbrains-mono.css";
+@import "../../shared/styles/fonts/general-sans.css";
+@import "../../shared/styles/fonts/jetbrains-mono.css";
 
 /* Tailwind */
 @import "tailwindcss/base";

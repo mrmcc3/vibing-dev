@@ -4,3 +4,4 @@ pnpm-debug.log*
 .DS_Store
 .vscode
 .env
+/public/static/fonts

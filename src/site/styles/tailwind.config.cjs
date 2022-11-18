@@ -34,7 +34,8 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ["Lexend", ...defaultTheme.fontFamily.sans],
+        sans: ["General Sans", ...defaultTheme.fontFamily.sans],
+        display: ["General Sans", ...defaultTheme.fontFamily.sans],
         mono: ['"Jetbrains Mono"', ...defaultTheme.fontFamily.mono],
       },
     },

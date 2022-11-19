@@ -5,7 +5,7 @@ specifiers:
   '@astrojs/rss': ^1.0.3
   '@astrojs/sitemap': ^1.0.0
   '@astrojs/svelte': ^1.0.2
-  '@cloudflare/workers-types': ^3.18.0
+  '@cloudflare/workers-types': ^4.20221111.1
   '@tailwindcss/forms': ^0.5.3
   astro: ^1.6.10
   autoprefixer: ^10.4.13
@@ -15,19 +15,19 @@ specifiers:
   postcss-import: ^15.0.0
   prettier: ^2.7.1
   prettier-plugin-astro: ^0.7.0
-  prettier-plugin-svelte: ^2.8.0
+  prettier-plugin-svelte: ^2.8.1
   prettier-plugin-tailwindcss: 0.2.0-beta.1
   reading-time: ^1.5.0
   svelte: ^3.53.1
   tailwindcss: ^3.2.4
-  wrangler: ^2.4.0
+  wrangler: ^2.4.2
 
 dependencies:
   '@astrojs/mdx': 0.11.6
   '@astrojs/rss': 1.0.3
   '@astrojs/sitemap': 1.0.0
   '@astrojs/svelte': 1.0.2_svelte@3.53.1
-  '@cloudflare/workers-types': 3.18.0
+  '@cloudflare/workers-types': 4.20221111.1
   '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.4
   astro: 1.6.10
   autoprefixer: 10.4.13
@@ -37,12 +37,12 @@ dependencies:
   postcss-import: 15.0.0
   prettier: 2.7.1
   prettier-plugin-astro: 0.7.0
-  prettier-plugin-svelte: 2.8.0_nryolsexf6k3znhuh4uzpugsem
+  prettier-plugin-svelte: 2.8.1_nryolsexf6k3znhuh4uzpugsem
   prettier-plugin-tailwindcss: 0.2.0-beta.1_prettier@2.7.1
   reading-time: 1.5.0
   svelte: 3.53.1
   tailwindcss: 3.2.4
-  wrangler: 2.4.0
+  wrangler: 2.4.2
 
 packages:
 
@@ -456,8 +456,8 @@ packages:
       mime: 3.0.0
     dev: false
 
-  /@cloudflare/workers-types/3.18.0:
-    resolution: {integrity: sha512-ehKOJVLMeR+tZkYhWEaLYQxl0TaIZu/kE86HF3/RidR8Xv5LuQxpbh+XXAoKVqsaphWLhIgBhgnlN5HGdheXSQ==}
+  /@cloudflare/workers-types/4.20221111.1:
+    resolution: {integrity: sha512-BNV2wN8V6Zduvo7UzxcdjBbLQ906D2KhS804PDufLgx/sanGJCHVJMOIaLvS/b61JKtot1U7P/l1fjrjZ7/E3A==}
     dev: false
 
   /@emmetio/abbreviation/2.2.3:
@@ -4022,8 +4022,8 @@ packages:
       synckit: 0.8.4
     dev: false
 
-  /prettier-plugin-svelte/2.8.0_nryolsexf6k3znhuh4uzpugsem:
-    resolution: {integrity: sha512-QlXv/U3bUszks3XYDPsk1fsaQC+fo2lshwKbcbO+lrSVdJ+40mB1BfL8OCAk1W9y4pJxpqO/4gqm6NtF3zNGCw==}
+  /prettier-plugin-svelte/2.8.1_nryolsexf6k3znhuh4uzpugsem:
+    resolution: {integrity: sha512-KA3K1J3/wKDnCxW7ZDRA/QL2Q67N7Xs3gOERqJ5X1qFjq1DdnN3K1R29scSKwh+kA8FF67pXbYytUpvN/i3iQw==}
     peerDependencies:
       prettier: ^1.16.4 || ^2.0.0
       svelte: ^3.2.0
@@ -5133,8 +5133,8 @@ packages:
       string-width: 5.1.2
     dev: false
 
-  /wrangler/2.4.0:
-    resolution: {integrity: sha512-iIz1dDLWuIIv79YnvdhY97FMie/cOBfX6WblMFzus/sdgBcnkhf7t0szxn7SYQWaeb+4Bszs+ReI4JZOnkxkqg==}
+  /wrangler/2.4.2:
+    resolution: {integrity: sha512-fgcP+y4aEXozeP0hGKohfodxBm1ah/qwclw499TvoBogLKEhkPHH2w+MHh2PBFek467I4iaOLpSh4Sho+J6GuQ==}
     engines: {node: '>=16.13.0'}
     hasBin: true
     dependencies:

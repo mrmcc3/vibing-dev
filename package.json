@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "dev:pages": "wrangler pages dev --proxy 3000 -- astro dev",
+    "dev:pages": "wrangler pages dev --compatibility-date=2022-11-20 --persist --proxy 3000 -- astro dev",
     "build": "astro build",
     "pre": "astro build && wrangler pages dev dist",
     "pub": "astro build && wrangler pages publish dist"
@@ -19,6 +19,7 @@
     "@tailwindcss/forms": "^0.5.3",
     "astro": "^1.6.10",
     "autoprefixer": "^10.4.13",
+    "better-sqlite3": "^7.6.2",
     "cookie": "^0.5.0",
     "date-fns": "^2.29.3",
     "mdast-util-to-string": "^3.1.0",

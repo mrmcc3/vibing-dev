@@ -5,3 +5,4 @@ pnpm-debug.log*
 .vscode
 .env
 /public/static/fonts
+/.wrangler

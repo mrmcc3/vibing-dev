@@ -5,8 +5,6 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "dev:pages": "wrangler pages dev --compatibility-date=2022-11-20 --persist --proxy 3000 -- astro dev",
-    "build": "astro build",
     "pre": "astro build && wrangler pages dev dist",
     "pub": "astro build && wrangler pages publish dist"
   },

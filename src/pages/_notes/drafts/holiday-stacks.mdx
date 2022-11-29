@@ -1,0 +1,145 @@
+export const layout = "@site/Article.astro";
+export const title = "Holiday Stacks";
+export const description =
+  "Why not spend the festive season comparing web stacks";
+export const pubDate = "2022-11-28T21:21:46.072Z";
+export const draft = true;
+
+For better or for worse whenever the festive season rolls around I feel the
+invigorating urge to learn something new. Usually it's a short-lived attempt
+at [Advent of Code][aoc]. This year I'm going to build the same web project in a hand-full
+of stacks that I find interesting.
+
+Don't come at me with the whole put down the keyboard, go outside and relax...
+I can't be saved. You're reading this so chances are you're on the same page.
+Welcome.
+
+## The Project
+
+The vast majority of web projects I've worked on have
+
+- a landing page
+- a way to invite or sign up new users
+- user identification via auth (login, logout, sessions)
+- dashboard + navigation menu
+- a user profile page
+- user organization (likely with basic roles & permissions)
+
+So let's do that. Similar to what [clerk.dev][clerk] provides.
+To get a good understanding of the strengths (and weaknesses) of these
+stacks, I want something more useful than a throw away demo.
+
+[aoc]: https://adventofcode.com/
+[clerk]: https://clerk.dev/components
+
+## Introducing the stacks!
+
+### 1. The Fresh Stack
+
+The thing that excites me about this one is the absence of build tooling
+and the consistent dev and prod environments. Seriously! have you tried writing
+anything in deno? It's a **pleasure** to use. Hopefully that seeps into the whole stack?
+
+- Hosting: [Deno Deploy][deno-deploy]
+- Language: TypeScript
+- Runtime: [Deno][deno]
+- Web Framework: [Fresh][fresh]
+- Client JS: [Preact][preact] and perhaps [htmx][htmx]?
+- Styling: [Twind][twind]
+- Database: [Supabase][supabase]
+
+[deno]: https://deno.land/
+[deno-deploy]: https://deno.com/deploy
+[fresh]: https://fresh.deno.dev/
+[preact]: https://preactjs.com/
+[htmx]: https://htmx.org/
+[twind]: https://twind.dev/
+[planetscale]: https://planetscale.com/
+[supabase]: https://supabase.com/
+
+### 2. The Go Stack
+
+Alright, this one is out of my comfort zone. I've never used [htmx] before but it's been
+living in my head for months. I asked myself what non-js server stack would be
+a great fit? [Go][go] templates and [Fly.io][fly] should be good right?
+If we're on fly we may as well try out some shiny DB tech as well...
+It's the season for it.
+
+- Hosting: [Fly.io][fly]
+- Language: [Go][go]
+- Web Framework: [Fiber][fiber]
+- Client JS: [htmx][htmx] + [Alpine.js][alpine]
+- Styling: [Tailwind CSS][tailwind]
+- Database: [SQLite + LiteFS][litefs]
+
+[go]: https://go.dev/
+[fiber]: https://gofiber.io/
+[fly]: https://fly.io/
+[alpine]: https://alpinejs.dev/
+[tailwind]: https://tailwindcss.com/
+[litefs]: https://fly.io/docs/litefs/
+
+### 3. The Svelte Stack
+
+I'll admit svelte always seemed a bit weird to me. Recently I used it for some animations
+on an [Astro][astro] site with great success! Since then
+I've been following the development of [SvelteKit][sk] from a far and it's hard not to
+admire the work going on there. A **1.0** release is imminent so it makes sense to kick the
+tyres. Excited to try out the per page rendering modes and first class support on vercel.
+
+- Hosting: [Vercel][vercel]
+- Language: JavaScript/TypeScript/Svelte
+- Runtime: Hmm... Node.js in dev? [Vercel Edge Runtime][ver] in prod?
+- Web Framework: [SvelteKit][sk]
+- Client JS: [Svelte][svelte]
+- Styling: [Tailwind CSS][tailwind]
+- Database: [PlanetScale][planetscale]
+
+[vercel]: https://vercel.com/
+[ver]: https://edge-runtime.vercel.app/
+[sk]: https://kit.svelte.dev/
+[svelte]: https://svelte.dev/
+
+### 4. The Astro Stack
+
+I've really enjoyed building sites with [Astro][astro] lately. It's a really interesting mix of
+pragmatism and new ideas. It's fairly obvious Astro is more focused on web sites then apps but
+I'm curious how far it can go in SSR mode with something like [htmx][htmx]. This will also be my
+first look at [Cloudflare D1][d1] which just hit open alpha.
+
+- Hosting: [Cloudflare Pages][cfp]
+- Language: JavaScript/TypeScript/Astro/Svelte
+- Runtime: Node.js in dev. [Cloudflare Workers][cfw] in prod
+- Web Framework: [Astro][astro]
+- Client JS: [Svelte][svelte] + [htmx][htmx]
+- Styling: [Tailwind CSS][tailwind]
+- Database: [D1][d1]
+
+[cfp]: https://pages.cloudflare.com/
+[cfw]: https://developers.cloudflare.com/workers/
+[astro]: https://astro.build/
+[d1]: https://developers.cloudflare.com/d1/
+
+### 5. The Phoenix Stack
+
+I have so many questions about this stack that I don't know where to begin.
+To be honest I'll be impressed if I get this far.
+
+- Hosting: [Fly.io][fly]
+- Language: [Elixir][elixir]
+- Runtime: Beam (Erlang virtual machine)
+- Web Framework: [Phoenix LiveView][phoenix]
+- Client JS: LiveView + [Alpine.js][alpine]
+- Styling: [Tailwind CSS][tailwind]
+- Database: [PlanetScale][planetscale] or [Supabase][supabase]?
+
+[elixir]: https://elixir-lang.org/
+[phoenix]: https://www.phoenixframework.org/
+
+---
+
+So there it is 5 stacks, 4 hosting providers, 4 databases, 3 languages. Wish me luck.
+
+What missed out. Qwik, Marko, Next.js 13, surely heaps of others. Maybe you've got a
+stack in mind that's way better then these? You should absolutely tell me about it or
+better yet, build it and **show** me the way.

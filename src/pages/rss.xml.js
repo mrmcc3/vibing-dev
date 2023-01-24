@@ -2,7 +2,7 @@ import rss from "@astrojs/rss";
 
 export function get() {
   const notes = Object.values(
-    import.meta.glob("./_notes/**/*.mdx", { eager: true })
+    import.meta.glob("./_notes/**/*.mdx", { eager: true }),
   ).filter(({ draft, pubDate }) => !draft && pubDate);
   const comp = (a, b) =>
     new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime();
@@ -23,7 +23,7 @@ export function get() {
         title: title || `Note ${url.split("/").at(-1)}`,
         pubDate,
         description,
-      })
+      }),
     ),
   });
 }

@@ -9,13 +9,13 @@
     "pub": "astro build && wrangler pages publish dist"
   },
   "dependencies": {
-    "@astrojs/mdx": "^0.14.0",
-    "@astrojs/rss": "^2.0.0",
+    "@astrojs/mdx": "^0.15.0",
+    "@astrojs/rss": "^2.1.0",
     "@astrojs/sitemap": "^1.0.0",
-    "@astrojs/svelte": "^1.0.2",
+    "@astrojs/svelte": "^2.0.0",
     "@cloudflare/workers-types": "^4.20221111.1",
     "@tailwindcss/forms": "^0.5.3",
-    "astro": "^1.9.2",
+    "astro": "^2.0.0",
     "autoprefixer": "^10.4.13",
     "better-sqlite3": "^8.0.1",
     "cookie": "^0.5.0",
@@ -29,6 +29,6 @@
     "reading-time": "^1.5.0",
     "svelte": "^3.55.1",
     "tailwindcss": "^3.2.4",
-    "wrangler": "^2.8.0"
+    "wrangler": "^2.8.1"
   }
 }

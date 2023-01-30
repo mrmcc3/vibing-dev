@@ -27,7 +27,7 @@ import InfoIcon from "$lib/icons/hero/outline/info-circle.svelte";
       class="flex items-center p-1 transition-all motion-reduce:transition-none sm:hover:motion-safe:scale-110"
     >
       {
-        Astro.url.pathname === "/site-info" ? (
+        Astro.url.pathname.startsWith("/site-info") ? (
           <InfoSolidIcon class="h-7 w-7" />
         ) : (
           <InfoIcon class="h-7 w-7" />

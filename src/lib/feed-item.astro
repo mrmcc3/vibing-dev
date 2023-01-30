@@ -22,10 +22,19 @@ const { Content } = await entry.render();
     >
       {title}
     </a>
-    <div class="mt-1 flex items-center space-x-2 sm:mt-0">
+    <div class="flex items-center space-x-2">
       <div class="text-sm text-zinc-600 dark:text-zinc-400">
-        <span class="capitalize">{kind}</span> published
-        {formatDistanceToNowStrict(new Date(pubDate), { addSuffix: true })}
+        {
+          kind === "article" ? (
+            <span class="font-medium text-blue-600 dark:text-blue-400">
+              Article
+            </span>
+          ) : kind === "note" ? (
+            <span>Note</span>
+          ) : null
+        } published {
+          formatDistanceToNowStrict(new Date(pubDate), { addSuffix: true })
+        }
       </div>
     </div>
   </div>

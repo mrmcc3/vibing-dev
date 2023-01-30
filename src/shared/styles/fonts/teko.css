@@ -1,9 +1,0 @@
-/* https://www.fontshare.com/fonts/teko */
-
-@font-face {
-  font-family: "Teko";
-  font-style: normal;
-  font-weight: 300 700;
-  font-display: optional;
-  src: url("/static/fonts/teko.woff2?v=1") format("woff2");
-}

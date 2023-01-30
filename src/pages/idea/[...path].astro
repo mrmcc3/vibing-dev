@@ -1,0 +1,20 @@
+---
+import Html from "$lib/html.astro";
+import { CollectionEntry, getCollection } from "astro:content";
+export async function getStaticPaths() {
+  if (import.meta.env.PROD) return []; // ideas are dev only
+  const ideas = await getCollection("ideas");
+  return ideas.map((entry) => ({
+    params: { path: entry.slug },
+    props: { entry },
+  }));
+}
+const { entry } = Astro.props as { entry: CollectionEntry<"ideas"> };
+const { Content } = await entry.render();
+---
+
+<Html>
+  <p>IDEA</p>
+  <h1>{entry.data.title}</h1>
+  <Content />
+</Html>

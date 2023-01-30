@@ -1,0 +1,42 @@
+---
+import type { CollectionEntry } from "astro:content";
+import * as mdx from "$lib/mdx/all";
+import { formatDistanceToNowStrict } from "date-fns";
+
+interface Props {
+  entry: CollectionEntry<"public">;
+}
+const { entry } = Astro.props;
+const {
+  slug,
+  data: { title, description, pubDate, kind },
+} = entry;
+const { Content } = await entry.render();
+---
+
+<li class="py-10">
+  <div class="flex flex-col items-start">
+    <a
+      class="text-xl font-bold leading-tight decoration-zinc-900 decoration-2 underline-offset-2 hover:underline dark:decoration-white sm:text-2xl"
+      href={slug}
+    >
+      {title}
+    </a>
+    <div class="mt-1 flex items-center space-x-2 sm:mt-0">
+      <div class="text-sm text-zinc-600 dark:text-zinc-400">
+        <span class="capitalize">{kind}</span> published
+        {formatDistanceToNowStrict(new Date(pubDate), { addSuffix: true })}
+      </div>
+    </div>
+  </div>
+
+  <div class="">
+    {
+      kind === "article" ? (
+        <p class="my-5 break-words leading-snug">{description}</p>
+      ) : kind === "note" ? (
+        <Content components={mdx} />
+      ) : null
+    }
+  </div>
+</li>

@@ -1,12 +1,7 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "exclude": ["functions/**/*"],
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": {
-      "@shared/*": ["src/shared/*"],
-      "@site/*": ["src/site/*"],
-      "@app/*": ["src/app/*"]
-    }
+    "paths": { "$lib/*": ["src/lib/*"] }
   }
 }

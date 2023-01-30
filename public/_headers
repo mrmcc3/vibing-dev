@@ -1,9 +1,0 @@
-/static/* 
-  Cache-Control: public, max-age=31536000, s-maxage=31536000, immutable
-
-/*
-  ! Access-Control-Allow-Origin
-  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  X-Frame-Options: DENY
-  Permissions-Policy: camera=(), microphone=(), geolocation=() 
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' *.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' pbs.twimg.com blob: data:; media-src 'self' video.twimg.com; connect-src 'self' cloudflareinsights.com;

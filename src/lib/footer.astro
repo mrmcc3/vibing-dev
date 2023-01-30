@@ -1,0 +1,39 @@
+---
+import CoffeeIcon from "$lib/icons/tabler/cup.svelte";
+import HomeIcon from "$lib/icons/hero/outline/home-modern.svelte";
+import ReplyIcon from "$lib/icons/hero/outline/envelope.svelte";
+import FeedbackIcon from "$lib/icons/hero/outline/chat-bubbles.svelte";
+import * as mdx from "$lib/mdx/all";
+---
+
+<div
+  class="flex flex-row flex-wrap items-center justify-around gap-4 pt-8 sm:pt-16"
+>
+  <mdx.a class="inline-flex items-center" href="/">
+    <HomeIcon class="mr-1 w-5 h-5" />
+    <span>Home</span>
+  </mdx.a>
+  <mdx.a
+    class="inline-flex items-center"
+    href={`mailto:feedback@vibing.dev?subject=${encodeURIComponent(
+      `Feedback ${Astro.url.pathname}`
+    )}`}
+  >
+    <ReplyIcon class="mr-1 w-5 h-5" />
+    <span>Reply</span>
+  </mdx.a>
+  <mdx.a
+    class="inline-flex items-center"
+    href="https://github.com/mrmcc3/vibing-dev/discussions"
+  >
+    <FeedbackIcon class="mr-1 w-5 h-5" />
+    <span>Feedback</span>
+  </mdx.a>
+  <mdx.a
+    class="inline-flex items-center"
+    href="https://donate.stripe.com/eVaaG7alP5Ks7hS288"
+  >
+    <CoffeeIcon class="mr-1 w-5 h-5" />
+    <span>Buy me a coffee</span>
+  </mdx.a>
+</div>

@@ -1,15 +1,12 @@
 ---
-import Html from "@shared/Html.astro";
-import Head from "@site/Head.astro";
-import Header from "@site/Header.astro";
-import FeedItem from "@site/FeedItem.astro";
+import Html from "$lib/html.astro";
+import Head from "$lib/head.astro";
+import Header from "$lib/header.astro";
+import FeedItem from "$lib/feed-item.astro";
+import { getCollection } from "astro:content";
 
-const notes = await Astro.glob("./_notes/**/*.mdx");
-const isPub = (d) => d.pubDate && (import.meta.env.DEV || !d.draft);
-const pub = notes.filter(isPub);
-const comp = (a, b) =>
-  new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime();
-pub.sort(comp);
+const pub = await getCollection("public");
+pub.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 ---
 
 <Html>
@@ -19,9 +16,9 @@ pub.sort(comp);
     description="Outlet for whatever I'm vibing. Mostly web dev."
   />
   <Header />
-  <main class="pb-12 sm:px-4 md:px-8">
-    <ul class="divide-gray-5 mx-auto max-w-prose divide-y">
-      {pub.map((i) => <FeedItem {...i} />)}
+  <main class="px-4 pb-12">
+    <ul class="mx-auto max-w-prose">
+      {pub.map((entry) => <FeedItem entry={entry} />)}
     </ul>
   </main>
 </Html>

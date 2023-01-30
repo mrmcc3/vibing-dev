@@ -1,0 +1,22 @@
+---
+import icon from "$lib/img/favicon.svg";
+import ColorScheme from "$lib/colorscheme/head.astro";
+import font from "$lib/fonts/general-sans.woff2";
+---
+
+<!DOCTYPE html>
+<html class="h-full" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="preload" href={font} as="font" type="font/woff2" crossorigin />
+    <slot name="head" />
+    <!-- TODO https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs -->
+    <link rel="icon" type="image/svg+xml" href={icon} />
+    <ColorScheme />
+  </head>
+  <!-- TODO selection: -->
+  <body class="h-full bg-white text-black dark:bg-zinc-900 dark:text-white">
+    <slot />
+  </body>
+</html>

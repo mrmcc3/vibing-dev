@@ -1,9 +1,0 @@
-/* https://www.fontshare.com/fonts/tanker */
-
-@font-face {
-  font-family: "Tanker";
-  font-style: normal;
-  font-weight: 400;
-  font-display: optional;
-  src: url("/static/fonts/tanker-regular.woff2") format("woff2");
-}

@@ -1,0 +1,35 @@
+---
+import Html from "$lib/html.astro";
+import Head from "$lib/head.astro";
+import { CollectionEntry, getCollection } from "astro:content";
+export async function getStaticPaths() {
+  const drafts = await getCollection("drafts");
+  return drafts.map((entry) => ({
+    params: { path: entry.slug },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<"drafts">;
+}
+
+const { entry } = Astro.props;
+const {
+  data: { title, description },
+} = entry;
+const { Content } = await entry.render();
+---
+
+<Html>
+  <Head
+    slot="head"
+    title={title}
+    description={description}
+    ogType="article"
+    noindex={true}
+  />
+  <p>TODO</p>
+  <h1>{entry.data.title}</h1>
+  <Content />
+</Html>

@@ -5,7 +5,7 @@ const Kind = z.enum(["article", "note"]);
 // ideas. only available locally, ignored by git. all schema is optional, just write.
 const ideas = defineCollection({
   schema: z.object({
-    kind: Kind.default("note"), // start small
+    kind: Kind.optional(),
     title: z.string().optional(),
     description: z.string().optional(),
     pubDate: z.coerce.date().optional(),

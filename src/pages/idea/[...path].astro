@@ -1,20 +1,88 @@
 ---
 import Html from "$lib/html.astro";
+import Head from "$lib/head.astro";
+import Nav from "$lib/navbar.astro";
 import { CollectionEntry, getCollection } from "astro:content";
+import * as mdx from "$lib/mdx/all";
+import { formatDistanceToNowStrict } from "date-fns";
+import ClockIcon from "$lib/icons/hero/mini/clock.svelte";
+
 export async function getStaticPaths() {
-  if (import.meta.env.PROD) return []; // ideas are dev only
-  const ideas = await getCollection("ideas");
-  return ideas.map((entry) => ({
+  if (import.meta.env.PROD) return []; // ideas are local-only
+  const pub = await getCollection("ideas");
+  return pub.map((entry) => ({
     params: { path: entry.slug },
     props: { entry },
   }));
 }
-const { entry } = Astro.props as { entry: CollectionEntry<"ideas"> };
-const { Content } = await entry.render();
+
+interface Props {
+  entry: CollectionEntry<"ideas">;
+}
+
+const { entry } = Astro.props;
+
+const {
+  data: { title = "Untitled", description, pubDate, kind },
+} = entry;
+const {
+  Content,
+  remarkPluginFrontmatter: { minutesRead },
+} = await entry.render();
 ---
 
 <Html>
-  <p>IDEA</p>
-  <h1>{entry.data.title}</h1>
-  <Content />
+  <Head
+    slot="head"
+    title={title}
+    description={description}
+    ogType="article"
+    noindex={true}
+  />
+  <Nav />
+
+  <main class="flex-1 px-4">
+    <article class="mx-auto max-w-prose break-words pb-12 sm:pb-24">
+      <div class="flex flex-col items-start">
+        <h1 class="text-2xl font-black leading-tight">
+          {title}
+        </h1>
+        <div class="flex items-center space-x-1">
+          <div class="text-sm text-zinc-600 dark:text-zinc-400">
+            {
+              kind === "article" ? (
+                <span class="font-medium text-blue-600 dark:text-blue-400">
+                  Article
+                </span>
+              ) : kind === "note" ? (
+                <span>Note</span>
+              ) : (
+                <span>Idea</span>
+              )
+            }
+            {
+              pubDate ? (
+                <span>
+                  due
+                  {formatDistanceToNowStrict(pubDate, {
+                    addSuffix: true,
+                  })}
+                </span>
+              ) : null
+            }
+          </div>
+          {
+            kind === "article" ? (
+              <div class="flex items-center">
+                <ClockIcon class="mr-1 h-4 w-4" />
+                <span class="text-sm font-medium">{minutesRead}</span>
+              </div>
+            ) : null
+          }
+        </div>
+      </div>
+
+      <Content components={mdx} />
+    </article>
+  </main>
 </Html>

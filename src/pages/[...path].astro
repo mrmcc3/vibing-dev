@@ -1,7 +1,7 @@
 ---
 import Html from "$lib/html.astro";
 import Head from "$lib/head.astro";
-import Header from "$lib/header.astro";
+import Nav from "$lib/navbar.astro";
 import Footer from "$lib/footer.astro";
 import { CollectionEntry, getCollection } from "astro:content";
 import * as mdx from "$lib/mdx/all";
@@ -33,7 +33,7 @@ const {
 
 <Html>
   <Head slot="head" title={title} description={description} ogType="article" />
-  <Header />
+  <Nav />
 
   <main class="flex-1 px-4">
     <article class="mx-auto max-w-prose break-words pb-12 sm:pb-24">
@@ -41,7 +41,7 @@ const {
         <h1 class="text-2xl font-black leading-tight">
           {title}
         </h1>
-        <div class="flex items-center space-x-2">
+        <div class="flex items-center space-x-1">
           <div class="text-sm text-zinc-600 dark:text-zinc-400">
             {
               kind === "article" ? (
@@ -55,10 +55,14 @@ const {
               formatDistanceToNowStrict(pubDate, { addSuffix: true })
             }
           </div>
-          <div class="flex items-center">
-            <ClockIcon class="h-4 w-4 mr-1" />
-            <span class="text-sm font-medium">{minutesRead}</span>
-          </div>
+          {
+            kind === "article" ? (
+              <div class="flex items-center">
+                <ClockIcon class="mr-1 h-4 w-4" />
+                <span class="text-sm font-medium">{minutesRead}</span>
+              </div>
+            ) : null
+          }
         </div>
       </div>
 

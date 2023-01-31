@@ -1,7 +1,7 @@
 ---
 import Html from "$lib/html.astro";
 import Head from "$lib/head.astro";
-import Header from "$lib/header.astro";
+import Nav from "$lib/navbar.astro";
 import FeedItem from "$lib/feed-item.astro";
 import { getCollection } from "astro:content";
 
@@ -15,7 +15,7 @@ pub.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
     title="vibing.dev"
     description="Outlet for whatever I'm vibing. Mostly web dev."
   />
-  <Header />
+  <Nav />
   <main class="px-4 pb-12">
     <ul class="mx-auto max-w-prose">
       {pub.map((entry) => <FeedItem entry={entry} />)}

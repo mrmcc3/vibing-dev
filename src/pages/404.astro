@@ -1,17 +1,16 @@
 ---
 import Html from "$lib/html.astro";
 import Head from "$lib/head.astro";
-import Header from "$lib/header.astro";
+import Nav from "$lib/navbar.astro";
 ---
 
 <Html>
   <Head slot="head" title="No Vibe" description="Not Found" />
-  <Header />
+  <Nav />
   <main class="px-4 text-center">
     <div class="py-12">
       <p class="font-mono text-2xl font-bold text-rose-500">404</p>
       <h1 class="text-4xl font-bold">Page not found</h1>
-      <!-- <p class="mt-2">Sorry, we couldn't find the page.</p> -->
     </div>
   </main>
 </Html>

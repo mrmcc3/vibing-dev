@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import * as mdx from "$lib/mdx/all";
 import { formatDistanceToNowStrict } from "date-fns";
+import ClockIcon from "$lib/icons/hero/mini/clock.svelte";
 
 interface Props {
   entry: CollectionEntry<"public">;
@@ -11,7 +12,10 @@ const {
   slug,
   data: { title, description, pubDate, kind },
 } = entry;
-const { Content } = await entry.render();
+const {
+  Content,
+  remarkPluginFrontmatter: { minutesRead },
+} = await entry.render();
 ---
 
 <li class="pb-20">
@@ -32,10 +36,16 @@ const { Content } = await entry.render();
           ) : kind === "note" ? (
             <span>Note</span>
           ) : null
-        } published {
-          formatDistanceToNowStrict(new Date(pubDate), { addSuffix: true })
-        }
+        } published {formatDistanceToNowStrict(pubDate, { addSuffix: true })}
       </div>
+      {
+        kind === "article" ? (
+          <div class="flex items-center">
+            <ClockIcon class="mr-1 h-4 w-4" />
+            <span class="text-sm font-medium">{minutesRead}</span>
+          </div>
+        ) : null
+      }
     </div>
   </div>
 

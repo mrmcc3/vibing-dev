@@ -1,10 +1,16 @@
 ---
 import Html from "$lib/html.astro";
 import Head from "$lib/head.astro";
+import Header from "$lib/header.astro";
+import Footer from "$lib/footer.astro";
 import { CollectionEntry, getCollection } from "astro:content";
+import * as mdx from "$lib/mdx/all";
+import { formatDistanceToNowStrict } from "date-fns";
+import ClockIcon from "$lib/icons/hero/mini/clock.svelte";
+
 export async function getStaticPaths() {
-  const drafts = await getCollection("drafts");
-  return drafts.map((entry) => ({
+  const pub = await getCollection("drafts");
+  return pub.map((entry) => ({
     params: { path: entry.slug },
     props: { entry },
   }));
@@ -15,21 +21,65 @@ interface Props {
 }
 
 const { entry } = Astro.props;
+
 const {
-  data: { title, description },
+  data: { title, description, pubDate, kind },
 } = entry;
-const { Content } = await entry.render();
+const {
+  Content,
+  remarkPluginFrontmatter: { minutesRead },
+} = await entry.render();
 ---
 
 <Html>
-  <Head
-    slot="head"
-    title={title}
-    description={description}
-    ogType="article"
-    noindex={true}
-  />
-  <p>TODO</p>
-  <h1>{entry.data.title}</h1>
-  <Content />
+  <Head slot="head" title={title} description={description} ogType="article" />
+  <Header />
+
+  <main class="flex-1 px-4">
+    <article class="mx-auto max-w-prose break-words pb-12 sm:pb-24">
+      <div class="flex flex-col items-start">
+        <h1 class="text-2xl font-black leading-tight">
+          {title}
+        </h1>
+        <div class="flex items-center space-x-2">
+          <div class="text-sm text-zinc-600 dark:text-zinc-400">
+            {
+              kind === "article" ? (
+                <span class="font-medium text-blue-600 dark:text-blue-400">
+                  Article
+                </span>
+              ) : kind === "note" ? (
+                <span>Note</span>
+              ) : null
+            }
+            {
+              pubDate ? (
+                <span>
+                  due
+                  {formatDistanceToNowStrict(pubDate, {
+                    addSuffix: true,
+                  })}
+                </span>
+              ) : null
+            }
+          </div>
+          <div class="flex items-center">
+            <ClockIcon class="h-4 w-4 mr-1" />
+            <span class="text-sm font-medium">{minutesRead}</span>
+          </div>
+        </div>
+      </div>
+
+      <mdx.blockquote>
+        <mdx.p>
+          What follows is a <mdx.strong>draft!</mdx.strong> It's likely full of errors
+          and half-formed ideas. If you've found issues or have suggestions, get
+          in touch!
+        </mdx.p>
+      </mdx.blockquote>
+
+      <Content components={mdx} />
+      <Footer />
+    </article>
+  </main>
 </Html>

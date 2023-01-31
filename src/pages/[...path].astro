@@ -6,6 +6,7 @@ import Footer from "$lib/footer.astro";
 import { CollectionEntry, getCollection } from "astro:content";
 import * as mdx from "$lib/mdx/all";
 import { formatDistanceToNowStrict } from "date-fns";
+import ClockIcon from "$lib/icons/hero/mini/clock.svelte";
 
 export async function getStaticPaths() {
   const pub = await getCollection("public");
@@ -24,10 +25,12 @@ const { entry } = Astro.props;
 const {
   data: { title, description, pubDate, kind },
 } = entry;
-const { Content } = await entry.render();
+const {
+  Content,
+  remarkPluginFrontmatter: { minutesRead },
+} = await entry.render();
 ---
 
-<!-- TODO FIX -->
 <Html>
   <Head slot="head" title={title} description={description} ogType="article" />
   <Header />
@@ -49,8 +52,12 @@ const { Content } = await entry.render();
                 <span>Note</span>
               ) : null
             } published {
-              formatDistanceToNowStrict(new Date(pubDate), { addSuffix: true })
+              formatDistanceToNowStrict(pubDate, { addSuffix: true })
             }
+          </div>
+          <div class="flex items-center">
+            <ClockIcon class="h-4 w-4 mr-1" />
+            <span class="text-sm font-medium">{minutesRead}</span>
           </div>
         </div>
       </div>

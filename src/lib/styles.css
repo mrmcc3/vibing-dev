@@ -55,7 +55,7 @@
 @layer components {
   :root {
     --astro-code-color-text: theme(colors.zinc.600);
-    --astro-code-token-string: theme(colors.teal.600);
+    --astro-code-token-string: theme(colors.emerald.600);
     --astro-code-token-function: theme(colors.zinc.800);
     --astro-code-token-comment: theme(colors.blue.600);
     --astro-code-token-keyword: theme(colors.orange.900);
@@ -69,7 +69,7 @@
   .dark {
     --astro-code-color-text: theme(colors.zinc.400);
     --astro-code-token-function: theme(colors.zinc.200);
-    --astro-code-token-string: theme(colors.teal.500);
+    --astro-code-token-string: theme(colors.emerald.500);
     --astro-code-token-comment: theme(colors.blue.400);
     --astro-code-token-keyword: theme(colors.orange.100);
   }

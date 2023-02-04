@@ -1,9 +1,10 @@
 import { defineConfig } from "astro/config";
 import svelte from "@astrojs/svelte";
 import mdx from "@astrojs/mdx";
-
 import getReadingTime from "reading-time";
 import { toString } from "mdast-util-to-string";
+import sitemap from "@astrojs/sitemap";
+
 export function remarkReadingTime() {
   return function (tree, { data }) {
     const textOnPage = toString(tree);
@@ -17,10 +18,18 @@ export function remarkReadingTime() {
 export default defineConfig({
   site: "https://vibing.dev",
   markdown: {
-    shikiConfig: { theme: "css-variables" },
+    shikiConfig: {
+      theme: "css-variables",
+    },
     remarkPlugins: [remarkReadingTime],
     extendDefaultPlugins: true,
   },
-  integrations: [svelte(), mdx()],
+  integrations: [
+    svelte(),
+    mdx(),
+    sitemap({
+      filter: (p) => !p.includes("/draft/"),
+    }),
+  ],
   trailingSlash: "never",
 });

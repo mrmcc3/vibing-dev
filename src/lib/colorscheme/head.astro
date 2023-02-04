@@ -1,36 +1,17 @@
 <meta name="color-scheme" content="light dark" />
-<script>
-  // Color Scheme (Dark Mode support) is handled entirely client side
-  // it can be explicitly set to light or dark by the user (localstorage)
-  // or left unset (the default) where the system mode is used.
-
-  // TODO also control <meta name="theme-color" content="" /> ?
-
+<script is:inline>
   const pref = globalThis.matchMedia("(prefers-color-scheme: dark)");
   const html = document.documentElement.classList;
-
-  // function to sync the dom with the current color scheme
   const applyColorScheme = () => {
-    // color scheme (explicitly set by user)
     const cs = localStorage.colorScheme;
-
-    // ensure the correct class exists on <html>
     cs === "dark" || (cs !== "light" && pref.matches)
       ? html.add("dark")
       : html.remove("dark");
-
-    // meta element needs to be explicit when the user is
     document
       .querySelector('meta[name="color-scheme"]')
       ?.setAttribute("content", cs || "light dark");
   };
-
-  // if the system prefered color scheme changes, re-apply
-  pref.addEventListener("change", applyColorScheme);
-
-  // apply the color scheme on first render
   applyColorScheme();
-
-  // expose at global scope so UI toggles can re-apply
+  pref.addEventListener("change", applyColorScheme);
   Object.assign(globalThis, { applyColorScheme });
 </script>

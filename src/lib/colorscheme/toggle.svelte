@@ -20,7 +20,9 @@
     <SunSolidIcon class="h-7 w-7" />
   {:else if $prefersColorScheme === "dark"}
     <MoonIcon class="h-7 w-7" />
-  {:else}
+  {:else if $prefersColorScheme === "light"}
     <SunIcon class="h-7 w-7" />
+  {:else}
+    <div class="h-7 w-7" />
   {/if}
 </button>

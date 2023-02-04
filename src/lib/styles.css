@@ -2,8 +2,6 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-/* TODO fonts */
-
 @font-face {
   font-family: "General Sans";
   font-style: normal;

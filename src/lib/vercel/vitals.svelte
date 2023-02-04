@@ -1,5 +1,5 @@
 <script>
-  import { onCLS, onFCP, onFID, onLCP, onTTFB } from "web-vitals";
+  import { onCLS, onFCP, onFID, onINP, onLCP, onTTFB } from "web-vitals";
   import { onMount } from "svelte";
 
   export let dsn;
@@ -45,5 +45,6 @@
     onLCP(sendToAnalytics);
     onCLS(sendToAnalytics);
     onFCP(sendToAnalytics);
+    onINP(sendToAnalytics);
   });
 </script>

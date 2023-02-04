@@ -3,6 +3,7 @@
   import { onMount } from "svelte";
 
   export let dsn;
+  export let page;
 
   const vitalsUrl = "https://vitals.vercel-analytics.com/v1/vitals";
 
@@ -16,11 +17,12 @@
   function sendToAnalytics(metric) {
     const body = {
       dsn,
-      id: metric.id, // v2-1653884975443-1839479248192
-      href: location.href, // https://my-app.vercel.app/blog/my-test
-      event_name: metric.name, // TTFB
-      value: metric.value.toString(), // 60.20000000298023
-      speed: getConnectionSpeed(), // 4g
+      id: metric.id,
+      page,
+      href: location.href,
+      event_name: metric.name,
+      value: metric.value.toString(),
+      speed: getConnectionSpeed(),
     };
     const blob = new Blob([new URLSearchParams(body).toString()], {
       type: "application/x-www-form-urlencoded",
@@ -38,14 +40,10 @@
   }
 
   onMount(() => {
-    try {
-      onFID(sendToAnalytics);
-      onTTFB(sendToAnalytics);
-      onLCP(sendToAnalytics);
-      onCLS(sendToAnalytics);
-      onFCP(sendToAnalytics);
-    } catch (err) {
-      console.error("[Analytics]", err);
-    }
+    onFID(sendToAnalytics);
+    onTTFB(sendToAnalytics);
+    onLCP(sendToAnalytics);
+    onCLS(sendToAnalytics);
+    onFCP(sendToAnalytics);
   });
 </script>

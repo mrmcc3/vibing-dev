@@ -2,7 +2,7 @@
 import icon from "$lib/img/favicon.svg";
 import ColorScheme from "$lib/colorscheme/head.astro";
 import font from "$lib/fonts/general-sans.woff2";
-import Vitals from "./vercel/vitals.svelte";
+import Vitals from "./vercel/vitals.astro";
 ---
 
 <!DOCTYPE html>
@@ -18,10 +18,6 @@ import Vitals from "./vercel/vitals.svelte";
   </head>
   <body class="h-full bg-white text-black dark:bg-zinc-900 dark:text-white">
     <slot />
-    {
-      import.meta.env.VERCEL_ANALYTICS_ID && (
-        <Vitals client:idle dsn={import.meta.env.VERCEL_ANALYTICS_ID} />
-      )
-    }
+    <Vitals />
   </body>
 </html>

@@ -18,6 +18,10 @@ import Vitals from "./vercel/vitals.svelte";
   </head>
   <body class="h-full bg-white text-black dark:bg-zinc-900 dark:text-white">
     <slot />
-    {import.meta.env.VERCEL_ANALYTICS_ID && <Vitals client:idle />}
+    {
+      import.meta.env.VERCEL_ANALYTICS_ID && (
+        <Vitals client:idle dsn={import.meta.env.VERCEL_ANALYTICS_ID} />
+      )
+    }
   </body>
 </html>

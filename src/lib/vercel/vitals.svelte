@@ -2,6 +2,8 @@
   import { onCLS, onFCP, onFID, onLCP, onTTFB } from "web-vitals";
   import { onMount } from "svelte";
 
+  export let dsn;
+
   const vitalsUrl = "https://vitals.vercel-analytics.com/v1/vitals";
 
   function getConnectionSpeed() {
@@ -11,10 +13,9 @@
       ? navigator["connection"]["effectiveType"]
       : "";
   }
-
   function sendToAnalytics(metric) {
     const body = {
-      dsn: import.meta.env.VERCEL_ANALYTICS_ID,
+      dsn,
       id: metric.id, // v2-1653884975443-1839479248192
       href: location.href, // https://my-app.vercel.app/blog/my-test
       event_name: metric.name, // TTFB

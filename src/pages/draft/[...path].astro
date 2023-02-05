@@ -5,7 +5,7 @@ import Nav from "$lib/navbar.astro";
 import Footer from "$lib/footer.astro";
 import { CollectionEntry, getCollection } from "astro:content";
 import * as mdx from "$lib/mdx/all";
-import { formatDistanceToNowStrict } from "date-fns";
+import { format } from "date-fns";
 import ClockIcon from "$lib/icons/hero/mini/clock.svelte";
 
 export async function getStaticPaths() {
@@ -52,16 +52,7 @@ const {
                 <span>Note</span>
               ) : null
             }
-            {
-              pubDate ? (
-                <span>
-                  due
-                  {formatDistanceToNowStrict(pubDate, {
-                    addSuffix: true,
-                  })}
-                </span>
-              ) : null
-            }
+            {pubDate ? <span>due {format(pubDate, "do MMM")}</span> : null}
           </div>
           {
             kind === "article" ? (

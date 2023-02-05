@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import * as mdx from "$lib/mdx/all";
-import { formatDistanceToNowStrict } from "date-fns";
+import { format, formatDistanceToNowStrict } from "date-fns";
 import ClockIcon from "$lib/icons/hero/mini/clock.svelte";
 
 interface Props {
@@ -36,7 +36,7 @@ const {
           ) : kind === "note" ? (
             <span>Note</span>
           ) : null
-        } published {formatDistanceToNowStrict(pubDate, { addSuffix: true })}
+        } published on {format(pubDate, "do MMM yy")}
       </div>
       {
         kind === "article" ? (

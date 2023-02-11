@@ -1,15 +1,12 @@
 ---
 kind: "article"
 title: Programs on the edge... Are we there yet?
-description: "TODO"
-pubDate: "2023-02-12"
+description: "What kinds of programs can we build on the edge? Should we just move everything there?"
+pubDate: "2023-02-11T20:56:08.945Z"
 ---
 
 > This is the first of two articles about software on the edge.
 > It looks at the kind of programs that you might run on edge networks.
-
-{/* > The [second article](information) explores the challenges of dealing with */}
-{/* > information on the edge. */}
 
 So if you've been building for the web lately no doubt you've heard about edge platforms.
 Two popular offerings are [Cloudflare Workers][workers] and
@@ -56,7 +53,8 @@ Just let the CDNs handle it.
 
 ## Global middleware
 
-So when does it make sense to use the edge? Here are a few examples
+So when does it make sense to use the edge? Here are a few examples I found from
+the Cloudflare & Vercel docs.
 
 - A/B testing
 - Feature Flags
@@ -91,16 +89,15 @@ the origin entirely!
 
 The ecosystem around javascript web frameworks definitely isn't standing still.
 Next.js, Remix, SvelteKit, Solid, Qwik, Vue/Nuxt, Marko even HTMX & Astro they're all
-pushing their own takes on what it means to build for the web. This new breed of meta-frameworks
+pushing their own takes on what it means to build for the web. The new breeds of meta-frameworks
 take care of an incredible amount of stuff... Routing, bundling, rendering
-and much more.
+and much, much more.
 
 Interestingly a lot of these projects are advertising first class support for
-edge runtimes. My personal experience is that "first class" is a bit of a stretch
-but they're definitely getting better. Focusing just on the framework & runtime there's
-really nothing stopping us from building apps entirely on the edge.
+edge runtimes. My personal experience is they're often "first class" in theory,
+but they're definitely getting better.
 
-So, Programs on the edge... Are we there yet? Yes! Edge runtimes are already good enough
+So, Programs on the edge... Are we there yet? I think so! Edge runtimes are already good enough
 and frameworks are catching up quickly and won't be slowing down anytime soon.
 [Examples](https://blog.cloudflare.com/welcome-to-wildebeest-the-fediverse-on-cloudflare/)
 are starting to pop up to support this.
@@ -113,7 +110,7 @@ that manages all the information that you and your users derive value from when 
 software.
 
 You may have noticed the emphasis of **programs** on the edge. That's
-intentional because it's only half the story. Our programs are just the machinery around the
+intentional because it's only half the story. Programs are just the machinery around the
 **information** our systems manage. If we really want to build good software entirely on the
 edge we better have a good way of dealing with information. The second article in this
 series will explore the challenges of dealing with information on the edge.

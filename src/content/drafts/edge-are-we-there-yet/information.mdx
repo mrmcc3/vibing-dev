@@ -79,7 +79,7 @@ why am I using it? or why do people use it? Do your answers match any of the fol
 Google, Twitter, News Sites, Excel Spreadsheets, Text Editors, Gmail, Facebook, Netflix, Git and
 Github they're all information merchants! Even e-commerce companies like amazon or services like
 Uber/AirBnB have significant information components. Would any of these applications work at all
-you took away the information they manage?
+if you took away the parts that deal with information?
 
 You might not be building the next Twitter but information handling is just as
 vital in internal business apps and enterprise software. It might seem obvious, we work in
@@ -97,15 +97,16 @@ I like to think of it as any old collection of values.
 - there's no required structure or shape to data.
 
 As an example here's some data: `["michael", 21]` a string and a number.
-Does that data convey any information? I'd argue no, not anything useful. At best you could
-say it's partial or incomplete information.
+Does that data convey any information? I'd argue no, not anything useful. Could be anything?
+At best you could say it's partial or incomplete information.
 
 What about `["michael", 21, "years_old"]`? Michael is 21 years old. Is that a complete piece
 of information? Is it useful? If I gave it to someone else could they use it? Not really,
-because we don't know when Michael was 21 years old.
+because we don't know **when** Michael was 21 years old.
 
 `["michael", 21, "years_old", "2012-01-01"]`. Okay now we've got a concrete piece of information.
-There's a lot to say about it compared to the first two examples.
+Turns out adding that extra timestamp to the data is a big deal. There's a lot to say about this
+example compared to the first two examples.
 
 - It's useful.
   - I can figure out a time frame when michael was born!
@@ -117,9 +118,11 @@ There's a lot to say about it compared to the first two examples.
 - I can remember it.
 - I can simply share it to convey the information.
 - Others can remember it and see the same thing. It's the same information.
-- Others could reproduce the same result from it.
+  - Information is location independent
+- Others could reproduce the same results from it that I can.
 - Sharing does not involve coordination or locking, just send it.
 - It **can not change**. If it could change, what exactly are you conveying?
+  - In other words information is timeless, immutable.
 - I can cache it indefinitely. If you're struggling with cache invalidation you're
   **not** dealing with information! (at least how it's defined here)
 - A piece of information can be modelled with as little as 4 values.
@@ -129,9 +132,36 @@ There's a lot to say about it compared to the first two examples.
   - a time of the observation
 - All information is data. But data is not always information.
 - Information has nothing to do with truth or veracity that's a higher level concept.
-  - It's okay to decide information is wrong or bad at a latter time or to add better information.
+  - Was michael actually 21 years old in 2012? That's a judgement you can make using information,
+    not a property of the information itself.
+  - It's okay to decide information is wrong or bad at a later time or to add better information.
 - A piece of information can be about the future (a prediction).
-- Transactions are a mechanism for ingesting & creating information so that certain constraints
-  and system guarantees are met.
-  - Once the transaction is finished the result is (or should be) just information with the same
-    characteristics listed above.
+- Transactions are a coordination mechanism for ingesting & creating information so that certain
+  constraints and guarantees are met.
+  - The information that results from a transaction isn't _special_ it has the same properties
+    as all other information.
+- When collecting pieces of information the aggregate information exhibits all the same
+  properties as the parts.
+
+### Is information on the edge a good fit?
+
+When you deploy programs to the edge you distribute and run them all over the globe. Can we
+also distribute information? Absolutely... It's location independent. It's the same everywhere.
+
+The edge runtimes provide [access][cache-api] to local [caches][cf-cache]. Are there any concerns
+with putting information in caches? Information doesn't change... Go nuts. Same story for durable
+storage like [Cloudflare KV][cf-kv].
+
+It's not the information itself holding us back from having applications run entirely on the edge.
+In fact I'd argue the opposite. Information as defined here is a great fit for edge computing.
+
+### Databases on the edge... Are we there yet?
+
+No, Not really. There's a lot more to databases than just information.
+Transaction processing, indexing and query engines come to mind. Perhaps not all
+of these are a fit for edge computing, but given how crucial information is to our
+systems and the capabilities the edge can provide, it's worth exploring.
+
+[cf-cache]: https://developers.cloudflare.com/workers/learning/how-the-cache-works/
+[cache-api]: https://developer.mozilla.org/en-US/docs/Web/API/Cache
+[cf-kv]: https://developers.cloudflare.com/workers/learning/how-kv-works/

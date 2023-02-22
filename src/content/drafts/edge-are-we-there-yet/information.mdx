@@ -68,14 +68,15 @@ _specialized data APIs_.
 Let's face it the overwhelming majority of software we build exists primarily to give users
 leverage over information. Think about pretty much any bit of software you've worked on or
 an online service you use and ask yourself, at a high level, what does it do?
-why am I using it? or why do people use it? Do your answers match any of the following.
+why am I using it? or why do people use it? Do your answers include any of the following.
+People find the software/service useful because...
 
-- presenting information
-- providing leverage over information
-- searching/locating/finding bits of information
-- running calculations on information
-- recording new information
-- enforcing constraints on new information
+- it presents information
+- it provides leverage over information
+- it allows searching/locating/finding bits of information
+- it can run calculations on information
+- it can record and manage new information
+- it can enforce constraints and guarantees on new information
 
 Google, Twitter, News Sites, Excel Spreadsheets, Text Editors, Gmail, Facebook, Netflix, Git and
 Github they're all information merchants! Even e-commerce companies like amazon or services like
@@ -85,7 +86,7 @@ if you took away the parts that deal with information?
 You might not be building the next Twitter but information handling is just as
 vital in internal business apps and enterprise software. It might seem obvious, we work in
 "information technology" after all, but It's funny we seem to spend very little time talking about
-information compared to our code constructs and tooling.
+information compared to everything else involved in making software.
 
 ### So information... What is it?
 
@@ -109,38 +110,37 @@ because we don't know **when** Michael was 21 years old.
 Turns out adding that extra timestamp to the data is a big deal. There's a lot to say about this
 example compared to the first two examples.
 
-- It's useful.
+- It's **useful**. It conveys some meaning
   - I can figure out a time frame when michael was born!
   - Or roughly how many years old michael is at any other time.
   - I can compare it to other information. Is michael older than me?
-- It's complete. I don't need something else to use it.
-  - Sure I might need **other** information to understand more but
+- It's **complete**. I don't need something else to use it.
+  - Sure I might need other information to understand more but
     this piece of information by itself is enough to be useful.
 - I can remember it.
 - I can simply share it to convey the information.
 - Others can remember it and see the same thing. It's the same information.
-  - Information is location independent
+  - Information is **location independent**
 - Others could reproduce the same results from it that I can.
 - Sharing does not involve coordination or locking, just send it.
 - It **can not change**. If it could change, what exactly are you conveying?
-  - In other words information is timeless, immutable.
-- I can cache it indefinitely. If you're struggling with cache invalidation you're
-  **not** dealing with information! (at least how it's defined here)
+  - In other words information is timeless. It's immutable.
+- But what if it's wrong? Information has nothing to do with truth or veracity that's a higher level concept.
+  - Was michael actually 21 years old in 2012? That's a judgement you can make using information,
+    not a property of the information itself.
+  - It's okay to decide information is wrong or bad at a later time or to add better information.
+- A piece of information can be about the future (a prediction).
+  - Whether it turns out to be true isn't a property of the information.
+- Not all data is information (like the first two examples above).
+- If you can craft data that meets the above characteristics then it's information!
+  - Irrespective of it's use case, topic, or how it was collected.
+  - The information that results from a transaction isn't _special_ it has the same properties
+    as any other information.
 - A piece of information can be modelled with as little as 4 values.
   - entity. the thing being observed
   - a named property or attribute being observed.
   - the magnitude/quantity of the named property
   - a time of the observation
-- Not all data is information.
-- Information has nothing to do with truth or veracity that's a higher level concept.
-  - Was michael actually 21 years old in 2012? That's a judgement you can make using information,
-    not a property of the information itself.
-  - It's okay to decide information is wrong or bad at a later time or to add better information.
-- A piece of information can be about the future (a prediction).
-- Transactions are a coordination mechanism for ingesting & creating information so that certain
-  constraints and guarantees are met.
-  - The information that results from a transaction isn't _special_ it has the same properties
-    as all other information.
 - When collecting pieces of information the aggregate information exhibits all the same
   properties as the individual pieces.
 
@@ -149,32 +149,25 @@ example compared to the first two examples.
 When you deploy programs to the edge you distribute and run them all over the globe. Can we
 also distribute information? Absolutely... It's location independent. It's the same everywhere.
 
-The edge runtimes provide [access][cache-api] to local [caches][cf-cache]. Are there any concerns
-with putting information in caches? Information doesn't change... Go nuts. Same story for durable
-storage like [Cloudflare KV][cf-kv].
+Edge runtimes provide [access][cache-api] to local [caches][cf-cache]. Are there any concerns
+with putting information in caches? Information doesn't change... Go nuts.
+Same story for durable storage like [Cloudflare KV][cf-kv].
 
 It's not the information itself holding us back from having applications run entirely on the edge.
 In fact I'd argue the opposite. Information as defined here is a great fit for edge computing.
 
 ### Databases on the edge... Are we there yet?
 
-Take a look at the latest and greatest in databases
+I'd argue No, Not really. There's a lot of innovation and marketing going on in the database space,
+However when evaluating backend solutions for the edge we should be asking the very specific
+questions. Does solution `X` give my program running on the edge direct
+(data-center local) access to information? Is the stuff going in and out of the backend
+actually information? Or is it just data.
 
-- [State of DBs in 2023][state-of-dbs]
-- [Futuristic DBs][future-dbs]
-
-[future-dbs]: https://youtu.be/jb2AvF8XzII
-[state-of-dbs]: https://leerob.io/blog/backend
-
-How many of these solve the "Often heard criticism" mentioned in this article.
-When a request comes in how many of them allow programs to leverage information directly at the
-edge? In the same data center or perhaps even in the same running process?
-Perhaps [cloudflare D1][d1]? Maybe something like [LiteFS][lite-fs]?
-
-Databases on the edge... Are we there yet? No, Not really. There's a lot more to databases
-than just information. Transaction processing, indexing and query engines come to mind.
-Perhaps not all of these are a fit for edge computing, but given how crucial information
-is to our systems and the novel capabilities of the edge, it's definitely worth exploring.
+There's a lot more to databases than just information. Transaction processing, indexing and query
+engines come to mind. Perhaps not all of these are a fit for edge computing, but given how crucial
+information is to our systems and the novel capabilities of the edge, it's definitely
+worth exploring.
 
 [d1]: https://blog.cloudflare.com/introducing-d1/
 [lite-fs]: https://fly.io/blog/introducing-litefs/

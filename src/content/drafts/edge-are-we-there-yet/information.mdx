@@ -4,7 +4,7 @@ title: Information on The Edge... Are we there yet?
 ---
 
 > This is the second of two articles about software on the edge.
-> It explores the challenges of dealing with **information** on the edge.
+> It looks at the properties of **information** and if it's a fit for software on the edge.
 > The [first article](/edge-are-we-there-yet/programs) looks at the types of
 > **programs** that you might run on the edge.
 
@@ -42,12 +42,13 @@ deploying applications to the edge is slow because of the non-edge stuff.
 
 That seems a bit presumptuous. Sure many systems
 exhibit, or require a large degree of locality. The edge by definition seems like a bad fit here.
-Yet plenty of applications serve users all over the globe. To quote [cloudflare](https://blog.cloudflare.com/early-hints-performance/)
+Yet plenty of applications serve users all over the globe. Besides it's not about what I want,
+it's what my users want. To quote [Cloudflare](https://blog.cloudflare.com/early-hints-performance/)
 
-> Cloudflare sits within 50 milliseconds of 95% of the Internet-connected population globally
+> Cloudflare sits within 50 milliseconds of 95% of the Internet-connected population globally.
 
-Maybe I'm too optimistic, but that seems like a big opportunity to give the users what they
-want! fast leverage over information wherever they may be.
+Maybe I'm too optimistic, but that seems like a big opportunity to give the users fast leverage
+over information wherever they may be.
 
 **“Edge came off as replicating data to every region. Most of the time, that's probably not what you want for general transactional data."**
 
@@ -74,7 +75,7 @@ why am I using it? or why do people use it? Do your answers match any of the fol
 - searching/locating/finding bits of information
 - running calculations on information
 - recording new information
-- enforcing constraints on new information (coordination)
+- enforcing constraints on new information
 
 Google, Twitter, News Sites, Excel Spreadsheets, Text Editors, Gmail, Facebook, Netflix, Git and
 Github they're all information merchants! Even e-commerce companies like amazon or services like
@@ -86,7 +87,7 @@ vital in internal business apps and enterprise software. It might seem obvious, 
 "information technology" after all, but It's funny we seem to spend very little time talking about
 information compared to our code constructs and tooling.
 
-### Information... What is it?
+### So information... What is it?
 
 What is this stuff? Let's start with **data**. We've all got some understanding of what data is.
 I like to think of it as any old collection of values.
@@ -97,7 +98,7 @@ I like to think of it as any old collection of values.
 - there's no required structure or shape to data.
 
 As an example here's some data: `["michael", 21]` a string and a number.
-Does that data convey any information? I'd argue no, not anything useful. Could be anything?
+Does that data convey any information? I'd argue no, not anything useful. It could mean anything?
 At best you could say it's partial or incomplete information.
 
 What about `["michael", 21, "years_old"]`? Michael is 21 years old. Is that a complete piece
@@ -130,7 +131,7 @@ example compared to the first two examples.
   - a named property or attribute being observed.
   - the magnitude/quantity of the named property
   - a time of the observation
-- All information is data. But data is not always information.
+- Not all data is information.
 - Information has nothing to do with truth or veracity that's a higher level concept.
   - Was michael actually 21 years old in 2012? That's a judgement you can make using information,
     not a property of the information itself.
@@ -141,7 +142,7 @@ example compared to the first two examples.
   - The information that results from a transaction isn't _special_ it has the same properties
     as all other information.
 - When collecting pieces of information the aggregate information exhibits all the same
-  properties as the parts.
+  properties as the individual pieces.
 
 ### Is information on the edge a good fit?
 
@@ -157,11 +158,26 @@ In fact I'd argue the opposite. Information as defined here is a great fit for e
 
 ### Databases on the edge... Are we there yet?
 
-No, Not really. There's a lot more to databases than just information.
-Transaction processing, indexing and query engines come to mind. Perhaps not all
-of these are a fit for edge computing, but given how crucial information is to our
-systems and the capabilities the edge can provide, it's worth exploring.
+Take a look at the latest and greatest in databases
 
+- [State of DBs in 2023][state-of-dbs]
+- [Futuristic DBs][future-dbs]
+
+[future-dbs]: https://youtu.be/jb2AvF8XzII
+[state-of-dbs]: https://leerob.io/blog/backend
+
+How many of these solve the "Often heard criticism" mentioned in this article.
+When a request comes in how many of them allow programs to leverage information directly at the
+edge? In the same data center or perhaps even in the same running process?
+Perhaps [cloudflare D1][d1]? Maybe something like [LiteFS][lite-fs]?
+
+Databases on the edge... Are we there yet? No, Not really. There's a lot more to databases
+than just information. Transaction processing, indexing and query engines come to mind.
+Perhaps not all of these are a fit for edge computing, but given how crucial information
+is to our systems and the novel capabilities of the edge, it's definitely worth exploring.
+
+[d1]: https://blog.cloudflare.com/introducing-d1/
+[lite-fs]: https://fly.io/blog/introducing-litefs/
 [cf-cache]: https://developers.cloudflare.com/workers/learning/how-the-cache-works/
 [cache-api]: https://developer.mozilla.org/en-US/docs/Web/API/Cache
 [cf-kv]: https://developers.cloudflare.com/workers/learning/how-kv-works/

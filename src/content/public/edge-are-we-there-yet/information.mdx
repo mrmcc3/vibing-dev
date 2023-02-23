@@ -1,12 +1,16 @@
 ---
 kind: "article"
-title: Information on The Edge... Are we there yet?
+title: Information on the edge... Are we there yet?
+description: "Why not databases on the edge? Information itself isn't holding us back from running serious
+applications on the edge."
+pubDate: "2023-02-23T07:31:36.689Z"
 ---
 
 > This is the second of two articles about software on the edge.
-> It looks at the properties of **information** and if it's a fit for software on the edge.
-> The [first article](/edge-are-we-there-yet/programs) looks at the types of
-> **programs** that you might run on the edge.
+> The [first article](/edge-are-we-there-yet/programs) looks at running
+> **programs** on the edge. This article argues that information
+> itself isn't holding us back from running serious applications on the edge because it's
+> fundamentally location independent.
 
 An often heard criticism of deploying programs to the edge goes something like this:
 
@@ -22,17 +26,17 @@ SvelteKit, maybe it's Remix.
 
 Yes there's other approaches to sessions, and maybe you could find a way to jam all your data
 requirements into a single request, but that's beside the point. If you have to make a request to
-the other side of the world than there's essentially no benefit to constructing the user response
+the other side of the world then there's essentially no benefit to constructing the user response
 at the edge compared to an origin server near the data. The more requests to the database,
 the slower the edge application is.
 
 I guess that leads to recommendations like this [tweet](https://twitter.com/leeerob/status/1618005723421769735)
 
-> You (probably) don't want global data.
+> "You (probably) don't want global data."
 >
-> "Edge" came off as replicating data to every region. Most of the time, that's probably not what you want for general transactional data.
+> "Edge came off as replicating data to every region. Most of the time, that's probably not what you want for general transactional data."
 >
-> You want regional compute, close to your data, with _specialized data APIs_ for truly global data.
+> "You want regional compute, close to your data, with _specialized data APIs_ for truly global data."
 
 On one hand it's practical advice given the current tech landscape, on the other I think it's a
 step in the entirely wrong direction. If you think about it that argument is essentially saying:
@@ -68,7 +72,7 @@ _specialized data APIs_.
 Let's face it the overwhelming majority of software we build exists primarily to give users
 leverage over information. Think about pretty much any bit of software you've worked on or
 an online service you use and ask yourself, at a high level, what does it do?
-why am I using it? or why do people use it? Do your answers include any of the following.
+why am I using it? or why do people use it? Do your answers include any of the following?
 People find the software/service useful because...
 
 - it presents information
@@ -125,7 +129,7 @@ example compared to the first two examples.
 - Sharing does not involve coordination or locking, just send it.
 - It **can not change**. If it could change, what exactly are you conveying?
   - In other words information is timeless. It's immutable.
-- But what if it's wrong? Information has nothing to do with truth or veracity that's a higher level concept.
+- But what if it's wrong? Information has nothing to do with truth or veracity, that's a higher level concept.
   - Was michael actually 21 years old in 2012? That's a judgement you can make using information,
     not a property of the information itself.
   - It's okay to decide information is wrong or bad at a later time or to add better information.
@@ -136,11 +140,6 @@ example compared to the first two examples.
   - Irrespective of it's use case, topic, or how it was collected.
   - The information that results from a transaction isn't _special_ it has the same properties
     as any other information.
-- A piece of information can be modelled with as little as 4 values.
-  - entity. the thing being observed
-  - a named property or attribute being observed.
-  - the magnitude/quantity of the named property
-  - a time of the observation
 - When collecting pieces of information the aggregate information exhibits all the same
   properties as the individual pieces.
 
@@ -158,7 +157,7 @@ In fact I'd argue the opposite. Information as defined here is a great fit for e
 
 ### Databases on the edge... Are we there yet?
 
-I'd argue No, Not really. There's a lot of innovation and marketing going on in the database space,
+I'd say no, not really. There's a lot of innovation and marketing going on in the database space,
 However when evaluating backend solutions for the edge we should be asking the very specific
 questions. Does solution `X` give my program running on the edge direct
 (data-center local) access to information? Is the stuff going in and out of the backend

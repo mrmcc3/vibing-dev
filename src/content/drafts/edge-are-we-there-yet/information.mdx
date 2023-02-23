@@ -22,7 +22,7 @@ SvelteKit, maybe it's Remix.
 
 Yes there's other approaches to sessions, and maybe you could find a way to jam all your data
 requirements into a single request, but that's beside the point. If you have to make a request to
-the other side of the world than there's essentially no benefit to constructing the user response
+the other side of the world then there's essentially no benefit to constructing the user response
 at the edge compared to an origin server near the data. The more requests to the database,
 the slower the edge application is.
 
@@ -68,7 +68,7 @@ _specialized data APIs_.
 Let's face it the overwhelming majority of software we build exists primarily to give users
 leverage over information. Think about pretty much any bit of software you've worked on or
 an online service you use and ask yourself, at a high level, what does it do?
-why am I using it? or why do people use it? Do your answers include any of the following.
+why am I using it? or why do people use it? Do your answers include any of the following?
 People find the software/service useful because...
 
 - it presents information
@@ -125,7 +125,7 @@ example compared to the first two examples.
 - Sharing does not involve coordination or locking, just send it.
 - It **can not change**. If it could change, what exactly are you conveying?
   - In other words information is timeless. It's immutable.
-- But what if it's wrong? Information has nothing to do with truth or veracity that's a higher level concept.
+- But what if it's wrong? Information has nothing to do with truth or veracity, that's a higher level concept.
   - Was michael actually 21 years old in 2012? That's a judgement you can make using information,
     not a property of the information itself.
   - It's okay to decide information is wrong or bad at a later time or to add better information.
@@ -158,7 +158,7 @@ In fact I'd argue the opposite. Information as defined here is a great fit for e
 
 ### Databases on the edge... Are we there yet?
 
-I'd argue No, Not really. There's a lot of innovation and marketing going on in the database space,
+I'd argue no, not really. There's a lot of innovation and marketing going on in the database space,
 However when evaluating backend solutions for the edge we should be asking the very specific
 questions. Does solution `X` give my program running on the edge direct
 (data-center local) access to information? Is the stuff going in and out of the backend

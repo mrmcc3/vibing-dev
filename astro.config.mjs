@@ -4,6 +4,7 @@ import mdx from "@astrojs/mdx";
 import getReadingTime from "reading-time";
 import { toString } from "mdast-util-to-string";
 import sitemap from "@astrojs/sitemap";
+import tailwind from "@astrojs/tailwind";
 
 export function remarkReadingTime() {
   return function (tree, { data }) {
@@ -15,6 +16,7 @@ export function remarkReadingTime() {
   };
 }
 
+// https://astro.build/config
 export default defineConfig({
   site: "https://vibing.dev",
   markdown: {
@@ -30,6 +32,7 @@ export default defineConfig({
     sitemap({
       filter: (p) => !p.includes("/draft/"),
     }),
+    tailwind(),
   ],
   trailingSlash: "never",
 });

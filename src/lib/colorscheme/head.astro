@@ -4,9 +4,7 @@
   const html = document.documentElement.classList;
   const applyColorScheme = () => {
     const cs = localStorage.colorScheme;
-    cs === "dark" || (cs !== "light" && pref.matches)
-      ? html.add("dark")
-      : html.remove("dark");
+    cs === "dark" || (cs !== "light" && pref.matches) ? html.add("dark") : html.remove("dark");
     document
       .querySelector('meta[name="color-scheme"]')
       ?.setAttribute("content", cs || "light dark");

@@ -4,10 +4,6 @@ import Vitals from "./vitals.svelte";
 
 {
   import.meta.env.VERCEL_ANALYTICS_ID && (
-    <Vitals
-      client:idle
-      dsn={import.meta.env.VERCEL_ANALYTICS_ID}
-      page={Astro.url.pathname}
-    />
+    <Vitals client:idle dsn={import.meta.env.VERCEL_ANALYTICS_ID} page={Astro.url.pathname} />
   )
 }

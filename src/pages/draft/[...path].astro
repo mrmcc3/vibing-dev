@@ -45,13 +45,9 @@ const {
           <div class="text-sm text-zinc-600 dark:text-zinc-400">
             {
               kind === "article" ? (
-                <span class="font-medium text-blue-600 dark:text-blue-400">
-                  Article
-                </span>
+                <span class="font-medium text-blue-600 dark:text-blue-400">Article</span>
               ) : kind === "note" ? (
-                <span class="font-medium text-rose-600 dark:text-rose-400">
-                  Note
-                </span>
+                <span class="font-medium text-rose-600 dark:text-rose-400">Note</span>
               ) : null
             }
             {pubDate ? <span>due {format(pubDate, "do MMM")}</span> : null}
@@ -69,9 +65,8 @@ const {
 
       <mdx.blockquote>
         <mdx.p>
-          This is a <mdx.strong>draft</mdx.strong>. It likely has errors and
-          half-formed ideas. If you've found issues or have suggestions, get in
-          touch!
+          This is a <mdx.strong>draft</mdx.strong>. It likely has errors and half-formed ideas. If
+          you've found issues or have suggestions, get in touch!
         </mdx.p>
       </mdx.blockquote>
 

@@ -10,9 +10,7 @@
   class="text-gray-12 inline-flex items-center p-1 transition duration-200 motion-reduce:transition-none sm:motion-safe:hover:rotate-12 sm:motion-safe:hover:scale-110"
   aria-label="Switch color scheme"
   on:click={() =>
-    colorScheme.update((s) =>
-      s === "light" ? "dark" : s === "dark" ? null : "light"
-    )}
+    colorScheme.update((s) => (s === "light" ? "dark" : s === "dark" ? null : "light"))}
 >
   {#if $colorScheme === "dark"}
     <MoonSolidIcon class="h-7 w-7" />

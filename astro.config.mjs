@@ -5,6 +5,7 @@ import getReadingTime from "reading-time";
 import { toString } from "mdast-util-to-string";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
+import vercel from "@astrojs/vercel/edge";
 
 export function remarkReadingTime() {
   return function (tree, { data }) {
@@ -35,4 +36,9 @@ export default defineConfig({
     tailwind(),
   ],
   trailingSlash: "never",
+  adapter: vercel(),
+  output: "hybrid",
+  experimental: {
+    hybridOutput: true,
+  },
 });

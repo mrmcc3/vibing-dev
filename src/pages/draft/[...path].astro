@@ -4,9 +4,7 @@ import Head from "$lib/head.astro";
 import Nav from "$lib/navbar.astro";
 import Footer from "$lib/footer.astro";
 import { CollectionEntry, getCollection } from "astro:content";
-import * as mdx from "$lib/mdx/all";
 import { format } from "date-fns";
-import ClockIcon from "$lib/icons/hero/mini/clock.svelte";
 
 export async function getStaticPaths() {
   const pub = await getCollection("drafts");
@@ -25,10 +23,7 @@ const { entry } = Astro.props;
 const {
   data: { title, description, pubDate, kind },
 } = entry;
-const {
-  Content,
-  remarkPluginFrontmatter: { minutesRead },
-} = await entry.render();
+const { Content } = await entry.render();
 ---
 
 <Html>
@@ -36,7 +31,7 @@ const {
   <Nav />
 
   <main class="flex-1 px-4">
-    <article class="mx-auto max-w-prose break-words pb-12 sm:pb-24">
+    <article class="prose mx-auto break-words pb-12 dark:prose-invert sm:pb-24">
       <div class="flex flex-col items-start">
         <h1 class="text-2xl font-black leading-tight">
           {title}
@@ -52,25 +47,17 @@ const {
             }
             {pubDate ? <span>due {format(pubDate, "do MMM")}</span> : null}
           </div>
-          {
-            kind === "article" ? (
-              <div class="flex items-center">
-                <ClockIcon class="mr-1 h-4 w-4" />
-                <span class="text-sm font-medium">{minutesRead}</span>
-              </div>
-            ) : null
-          }
         </div>
       </div>
 
-      <mdx.blockquote>
-        <mdx.p>
-          This is a <mdx.strong>draft</mdx.strong>. It likely has errors and half-formed ideas. If
-          you've found issues or have suggestions, get in touch!
-        </mdx.p>
-      </mdx.blockquote>
+      <blockquote>
+        <p>
+          This is a <strong>draft</strong>. It likely has errors and half-formed ideas. If you've
+          found issues or have suggestions, get in touch!
+        </p>
+      </blockquote>
 
-      <Content components={mdx} />
+      <Content />
       <Footer />
     </article>
   </main>

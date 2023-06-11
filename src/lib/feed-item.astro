@@ -1,8 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import * as mdx from "$lib/mdx/all";
-import { format, formatDistanceToNowStrict } from "date-fns";
-import ClockIcon from "$lib/icons/hero/mini/clock.svelte";
+import { format } from "date-fns";
 
 interface Props {
   entry: CollectionEntry<"public">;
@@ -12,10 +10,7 @@ const {
   slug,
   data: { title, description, pubDate, kind },
 } = entry;
-const {
-  Content,
-  remarkPluginFrontmatter: { minutesRead },
-} = await entry.render();
+const { Content } = await entry.render();
 ---
 
 <li class="pb-20">
@@ -36,23 +31,14 @@ const {
           ) : null
         } published on {format(pubDate, "do MMM yy")}
       </div>
-      {
-        kind === "article" ? (
-          <div class="flex items-center">
-            <ClockIcon class="mr-1 h-4 w-4" />
-            <span class="text-sm font-medium">{minutesRead}</span>
-          </div>
-        ) : null
-      }
     </div>
   </div>
-
-  <div class="">
+  <div class="prose dark:prose-invert">
     {
       kind === "article" ? (
         <p class="my-5 break-words leading-snug">{description}</p>
       ) : kind === "note" ? (
-        <Content components={mdx} />
+        <Content />
       ) : null
     }
   </div>

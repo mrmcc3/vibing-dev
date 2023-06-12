@@ -1,9 +1,9 @@
 <script>
   import { colorScheme, prefersColorScheme } from "./store";
-  import MoonSolidIcon from "$lib/icons/hero/solid/moon.svelte";
-  import SunSolidIcon from "$lib/icons/hero/solid/sun.svelte";
-  import MoonIcon from "$lib/icons/hero/outline/moon.svelte";
-  import SunIcon from "$lib/icons/hero/outline/sun.svelte";
+  import MoonSolidIcon from "icons/hero/solid/moon.svelte";
+  import SunSolidIcon from "icons/hero/solid/sun.svelte";
+  import MoonIcon from "icons/hero/outline/moon.svelte";
+  import SunIcon from "icons/hero/outline/sun.svelte";
 </script>
 
 <button

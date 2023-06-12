@@ -1,13 +1,12 @@
 ---
-import Html from "$lib/html.astro";
-import Head from "$lib/head.astro";
-import Nav from "$lib/navbar.astro";
-import Footer from "$lib/footer.astro";
+import Html from "components/html.astro";
+import Nav from "components/navbar.astro";
+import Footer from "components/footer.astro";
 import { CollectionEntry, getCollection } from "astro:content";
 import { format } from "date-fns";
 
 export async function getStaticPaths() {
-  const pub = await getCollection("public");
+  const pub = await getCollection("published");
   return pub.map((entry) => ({
     params: { path: entry.slug },
     props: { entry },
@@ -15,7 +14,7 @@ export async function getStaticPaths() {
 }
 
 interface Props {
-  entry: CollectionEntry<"public">;
+  entry: CollectionEntry<"published">;
 }
 
 const { entry } = Astro.props;
@@ -25,11 +24,10 @@ const {
 const { Content } = await entry.render();
 ---
 
-<Html>
-  <Head slot="head" title={title} description={description} ogType="article" />
+<Html title={title} description={description} ogType="article">
   <Nav />
   <main class="flex-1 px-4">
-    <article class="prose dark:prose-invert mx-auto break-words pb-12 sm:pb-24">
+    <article class="mx-auto max-w-prose break-words pb-12 sm:pb-24">
       <div class="flex flex-col items-start">
         <h1 class="text-2xl font-black leading-tight">
           {title}

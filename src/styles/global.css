@@ -7,7 +7,7 @@
   font-style: normal;
   font-weight: 200 700;
   font-display: optional;
-  src: url(fonts/general-sans.woff2) format("woff2");
+  src: url(../fonts/general-sans.woff2) format("woff2");
 }
 
 @font-face {
@@ -15,7 +15,7 @@
   font-style: italic;
   font-weight: 200 700;
   font-display: optional;
-  src: url(fonts/general-sans-italic.woff2) format("woff2");
+  src: url(../fonts/general-sans-italic.woff2) format("woff2");
 }
 
 @font-face {
@@ -23,7 +23,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(fonts/berkeley-mono.woff2) format("woff2");
+  src: url(../fonts/berkeley-mono.woff2) format("woff2");
 }
 
 @font-face {
@@ -31,7 +31,7 @@
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url(fonts/berkeley-mono-bold.woff2) format("woff2");
+  src: url(../fonts/berkeley-mono-bold.woff2) format("woff2");
 }
 
 @font-face {
@@ -39,7 +39,7 @@
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url(fonts/berkeley-mono-italic.woff2) format("woff2");
+  src: url(../fonts/berkeley-mono-italic.woff2) format("woff2");
 }
 
 @font-face {
@@ -47,7 +47,7 @@
   font-style: italic;
   font-weight: 600;
   font-display: swap;
-  src: url(fonts/berkeley-mono-bolditalic.woff2) format("woff2");
+  src: url(../fonts/berkeley-mono-bolditalic.woff2) format("woff2");
 }
 
 @layer components {

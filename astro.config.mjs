@@ -10,10 +10,10 @@ export default defineConfig({
   trailingSlash: "never",
   integrations: [
     svelte(),
+    tailwind(),
     markdoc(),
     sitemap({
-      filter: (p) => !p.includes("/draft/"),
+      filter: (p) => !p.data.draft,
     }),
-    tailwind(),
   ],
 });

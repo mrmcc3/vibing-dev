@@ -2,9 +2,9 @@ import rss, { RSSOptions } from "@astrojs/rss";
 import { getCollection } from "astro:content";
 
 export async function get(context: RSSOptions) {
-  const pub = await getCollection("public");
+  const all = await getCollection("published");
+  const pub = all.filter((p) => !p.data.draft);
   pub.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
-
   return rss({
     title: "vibing.dev",
     description: "Outlet for whatever I'm vibing. Mostly web dev.",

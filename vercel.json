@@ -3,6 +3,10 @@
   "trailingSlash": false,
   "headers": [
     {
+      "source": "/site.webmanifest",
+      "headers": [{ "key": "Content-Type", "value": "application/manifest+json" }]
+    },
+    {
       "source": "/(.*)",
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
@@ -10,10 +14,6 @@
         { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
       ]
-    },
-    {
-      "source": "/manifest.json",
-      "headers": [{ "key": "Content-Type", "value": "application/json" }]
     }
   ],
   "rewrites": [

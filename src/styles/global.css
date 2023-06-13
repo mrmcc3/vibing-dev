@@ -52,6 +52,7 @@
 
 @layer components {
   :root {
+    --astro-code-color-background: theme(colors.zinc.50);
     --astro-code-color-text: theme(colors.zinc.600);
     --astro-code-token-string: theme(colors.emerald.600);
     --astro-code-token-function: theme(colors.zinc.800);
@@ -65,6 +66,7 @@
     --astro-code-token-link: var(--astro-code-token-string-expression);
   }
   .dark {
+    --astro-code-color-background: theme(colors.zinc.800);
     --astro-code-color-text: theme(colors.zinc.400);
     --astro-code-token-function: theme(colors.zinc.200);
     --astro-code-token-string: theme(colors.emerald.500);

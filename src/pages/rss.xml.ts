@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 
 export async function get(context: RSSOptions) {
   const all = await getCollection("published");
-  const pub = all.filter((p) => !p.data.draft);
+  const pub = all.filter((p) => !p.slug.startsWith("draft/"));
   pub.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
   return rss({
     title: "vibing.dev",

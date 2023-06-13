@@ -8,12 +8,13 @@ import tailwind from "@astrojs/tailwind";
 export default defineConfig({
   site: "https://vibing.dev",
   trailingSlash: "never",
+  experimental: { assets: true },
   integrations: [
     svelte(),
     tailwind(),
     markdoc(),
     sitemap({
-      filter: (p) => !p.data.draft,
+      filter: (p) => !p.includes("/draft/"),
     }),
   ],
 });

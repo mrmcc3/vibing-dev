@@ -1,10 +1,10 @@
 ---
-import "styles/global.css";
+import ColorScheme from "components/colorscheme/head.astro";
 import font from "fonts/general-sans.woff2";
+import at_icon from "images/apple-touch-icon.png";
 import banner from "images/banner.jpg";
 import icon from "images/icon.svg";
-import ColorScheme from "components/colorscheme/head.astro";
-import Vitals from "components/vercel/vitals.astro";
+import "styles/global.css";
 
 export interface Props {
   title: string;
@@ -58,22 +58,22 @@ const url = canonical();
       <meta property="twitter:card" content="summary_large_image" />
     </slot>
     <link rel="icon" href={icon.src} type="image/svg+xml" />
-    {
-      /* TODO https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs
-      <link rel="icon" href="/favicon.ico" sizes="32x32" />
-      <link rel="apple-touch-icon" href={iconAppleSVG.src} />
-      <link rel="manifest" href="/site.webmanifest" />
-    */
-    }
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href={at_icon.src} />
+    <link rel="manifest" href="/site.webmanifest" />
     {themeColor && <meta name="theme-color" content={themeColor} />}
     <ColorScheme />
     <link rel="preload" href={font} as="font" type="font/woff2" crossorigin />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="rss" />
-    {import.meta.env.vercel === "1" ? <script defer src="/_vercel/insights/script.js" /> : null}
     <slot name="head" />
   </head>
-  <body class="flex h-full flex-col bg-white dark:bg-black">
+  <body class="flex h-full flex-col bg-white dark:bg-zinc-900">
     <slot />
+    {
+      import.meta.env.VERCEL_ENV === "production" && (
+        <script defer src="/_pl/script.js" data-api="/_pl/event" data-domain="vibing.dev" />
+      )
+    }
   </body>
 </html>

@@ -1,10 +1,11 @@
 ---
+import { getCollection } from "astro:content";
+import FeedItem from "components/feed-item.astro";
 import Html from "components/html.astro";
 import Nav from "components/navbar.astro";
-import FeedItem from "components/feed-item.astro";
-import { getCollection } from "astro:content";
 
-const pub = await getCollection("published");
+let pub = await getCollection("published");
+if (import.meta.env.PROD) pub = pub.filter((p) => !p.slug.startsWith("draft/"));
 pub.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 ---
 

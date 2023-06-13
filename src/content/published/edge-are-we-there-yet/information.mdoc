@@ -14,8 +14,8 @@ pubDate: "2023-02-23T07:31:36.689Z"
 
 An often heard criticism of deploying programs to the edge goes something like this:
 
-> "Yeah but you have to go to the database anyway so any benefit of running
-> at the edge disappears"
+> Yeah but you have to go to the database anyway so any benefit of running
+> at the edge disappears
 
 The argument is presented well in this video [Is _edge_ computing really faster](https://youtu.be/yOP5-3_WFus).
 As an example say you're building a web app and decide to deploy to the edge. Perhaps with
@@ -32,17 +32,17 @@ the slower the edge application is.
 
 I guess that leads to recommendations like this [tweet](https://twitter.com/leeerob/status/1618005723421769735)
 
-> "You (probably) don't want global data."
->
-> "Edge came off as replicating data to every region. Most of the time, that's probably not what you want for general transactional data."
->
-> "You want regional compute, close to your data, with _specialized data APIs_ for truly global data."
+> You (probably) don't want global data.
+
+> Edge came off as replicating data to every region. Most of the time, that's probably not what you want for general transactional data.
+
+> You want regional compute, close to your data, with _specialized data APIs_ for truly global data.
 
 On one hand it's practical advice given the current tech landscape, on the other I think it's a
 step in the entirely wrong direction. If you think about it that argument is essentially saying:
 deploying applications to the edge is slow because of the non-edge stuff.
 
-**"You (probably) don't want global data."**
+> You (probably) don't want global data.
 
 That seems a bit presumptuous. Sure many systems
 exhibit, or require a large degree of locality. The edge by definition seems like a bad fit here.
@@ -54,12 +54,12 @@ it's what my users want. To quote [Cloudflare](https://blog.cloudflare.com/early
 Maybe I'm too optimistic, but that seems like a big opportunity to give the users fast leverage
 over information wherever they may be.
 
-**“Edge came off as replicating data to every region. Most of the time, that's probably not what you want for general transactional data."**
+> Edge came off as replicating data to every region. Most of the time, that's probably not what you want for general transactional data.
 
 So because information enters in a transaction we're not allowed to move it close to users? 🤔
 why is that?
 
-**"You want regional compute, close to your data, with specialized data APIs for truly global data."**
+> You want regional compute, close to your data, with specialized data APIs for truly global data.
 
 What makes data truly global? [config data?](https://vercel.com/blog/edge-config-public-beta)
 why does config data get a ticket to the edge but nothing else?

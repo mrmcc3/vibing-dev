@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import Prose from "components/prose.astro";
 import { format } from "date-fns";
 
 interface Props {
@@ -11,10 +12,11 @@ const {
   data: { title, description, pubDate, kind },
 } = entry;
 const { Content } = await entry.render();
+const draft = entry.slug.startsWith("draft/");
 ---
 
 <li class="pb-20">
-  <div class="flex flex-col items-start">
+  <div class="mb-5 flex flex-col items-start">
     <a
       class="text-2xl font-bold leading-tight decoration-zinc-900 decoration-2 underline-offset-2 hover:underline dark:decoration-white"
       href={slug}
@@ -27,19 +29,24 @@ const { Content } = await entry.render();
           kind === "article" ? (
             <span class="font-medium text-blue-600 dark:text-blue-400">Article</span>
           ) : kind === "note" ? (
-            <span class="font-medium text-rose-600 dark:text-rose-400">Note</span>
+            <span class="font-medium text-emerald-600 dark:text-emerald-400">Note</span>
           ) : null
         } published on {format(pubDate, "do MMM yy")}
       </div>
+      {
+        draft && (
+          <div class="text-sm font-black uppercase text-rose-600 dark:text-rose-600">draft</div>
+        )
+      }
     </div>
   </div>
-  <div class="prose dark:prose-invert">
+  <Prose>
     {
       kind === "article" ? (
-        <p class="my-5 break-words leading-snug">{description}</p>
+        <p class="break-words">{description}</p>
       ) : kind === "note" ? (
         <Content />
       ) : null
     }
-  </div>
+  </Prose>
 </li>

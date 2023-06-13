@@ -54,7 +54,7 @@
   :root {
     --astro-code-color-background: theme(colors.zinc.50);
     --astro-code-color-text: theme(colors.zinc.600);
-    --astro-code-token-string: theme(colors.emerald.600);
+    --astro-code-token-string: theme(colors.emerald.700);
     --astro-code-token-function: theme(colors.zinc.800);
     --astro-code-token-comment: theme(colors.blue.600);
     --astro-code-token-keyword: theme(colors.orange.900);

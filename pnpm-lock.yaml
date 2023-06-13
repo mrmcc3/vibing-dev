@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -48,9 +48,6 @@ dependencies:
     specifier: ^3.59.1
     version: 3.59.1
   tailwindcss:
-    specifier: ^3.3.2
-    version: 3.3.2
-  web-vitals:
     specifier: ^3.3.2
     version: 3.3.2
 
@@ -3814,10 +3811,6 @@ packages:
 
   /web-namespaces@2.0.1:
     resolution: {integrity: sha512-bKr1DkiNa2krS7qxNtdrtHAmzuYGFQLiQ13TsorsdT6ULTkPLKuu5+GsFpDlg6JFjUTwX2DyhMPG2be8uPrqsQ==}
-    dev: false
-
-  /web-vitals@3.3.2:
-    resolution: {integrity: sha512-qRkpmSeKfEWAzNhtX541xA8gCJ+pqCqBmUlDVkVDSCSYUvfvNqF+k9g8I+uyreRcDBdfiJrd0/aLbTy5ydo49Q==}
     dev: false
 
   /which-pm-runs@1.1.0:

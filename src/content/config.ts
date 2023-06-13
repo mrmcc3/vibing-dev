@@ -1,33 +1,8 @@
 import { defineCollection, z } from "astro:content";
 
-const Kind = z.enum(["article", "note"]);
-
-// ideas. only available locally, ignored by git. all schema is optional, just write.
-const ideas = defineCollection({
+const published = defineCollection({
   schema: z.object({
-    kind: Kind.optional(),
-    title: z.string().optional(),
-    description: z.string().optional(),
-    pubDate: z.coerce.date().optional(),
-    tags: z.string().array().default([]),
-  }),
-});
-
-// drafts. hidden everywhere except if you have the url.
-const drafts = defineCollection({
-  schema: z.object({
-    kind: Kind.default("article"), // drafts are usually for articles
-    title: z.string(), // working title is required
-    description: z.string().optional(),
-    pubDate: z.coerce.date().optional(),
-    tags: z.string().array().default([]),
-  }),
-});
-
-// public content. available everywhere.
-const publicContent = defineCollection({
-  schema: z.object({
-    kind: Kind, // explicit on all public content
+    kind: z.enum(["article", "note"]).default("note"),
     title: z.string(),
     description: z.string(),
     pubDate: z.coerce.date(),
@@ -35,8 +10,4 @@ const publicContent = defineCollection({
   }),
 });
 
-export const collections = {
-  ideas,
-  drafts,
-  public: publicContent,
-};
+export const collections = { published };

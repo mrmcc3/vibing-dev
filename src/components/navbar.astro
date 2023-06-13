@@ -1,0 +1,40 @@
+---
+import ColorSchemeToggle from "components/colorscheme/toggle.svelte";
+import HomeModernIcon from "icons/hero/outline/home-modern.svelte";
+import InfoIcon from "icons/hero/outline/info-circle.svelte";
+import HomeModernSolidIcon from "icons/hero/solid/home-modern.svelte";
+import InfoSolidIcon from "icons/hero/solid/info-circle.svelte";
+---
+
+<header class="mb-8 flex items-center justify-between p-4 sm:px-8">
+  <div class="flex items-center space-x-4">
+    <a
+      aria-label="home"
+      href="/"
+      class="flex items-center p-1 transition-all motion-reduce:transition-none sm:hover:motion-safe:scale-110"
+    >
+      {
+        Astro.url.pathname === "/" ? (
+          <HomeModernSolidIcon class="h-7 w-7" />
+        ) : (
+          <HomeModernIcon class="h-7 w-7" />
+        )
+      }
+    </a>
+    <a
+      aria-label="Site Info"
+      href="/site-info"
+      class="flex items-center p-1 transition-all motion-reduce:transition-none sm:hover:motion-safe:scale-110"
+    >
+      {
+        Astro.url.pathname.startsWith("/site-info") ? (
+          <InfoSolidIcon class="h-7 w-7" />
+        ) : (
+          <InfoIcon class="h-7 w-7" />
+        )
+      }
+    </a>
+  </div>
+  <div class="flex-1"></div>
+  <ColorSchemeToggle client:idle />
+</header>

@@ -1,15 +1,16 @@
 ---
-import Html from "$lib/html.astro";
-import Head from "$lib/head.astro";
-import Nav from "$lib/navbar.astro";
-import Footer from "$lib/footer.astro";
 import { CollectionEntry, getCollection } from "astro:content";
-import * as mdx from "$lib/mdx/all";
+import Html from "components/html.astro";
+import Nav from "components/navbar.astro";
+import Prose from "components/prose.astro";
 import { format } from "date-fns";
-import ClockIcon from "$lib/icons/hero/mini/clock.svelte";
+import FeedbackIcon from "icons/hero/outline/chat-bubbles.svelte";
+import ReplyIcon from "icons/hero/outline/envelope.svelte";
+import HomeIcon from "icons/hero/outline/home-modern.svelte";
+import CoffeeIcon from "icons/tabler/cup.svelte";
 
 export async function getStaticPaths() {
-  const pub = await getCollection("public");
+  const pub = await getCollection("published");
   return pub.map((entry) => ({
     params: { path: entry.slug },
     props: { entry },
@@ -17,55 +18,75 @@ export async function getStaticPaths() {
 }
 
 interface Props {
-  entry: CollectionEntry<"public">;
+  entry: CollectionEntry<"published">;
 }
 
 const { entry } = Astro.props;
-
 const {
   data: { title, description, pubDate, kind },
 } = entry;
-const {
-  Content,
-  remarkPluginFrontmatter: { minutesRead },
-} = await entry.render();
+const { Content } = await entry.render();
+
+const draft = entry.slug.startsWith("draft/");
 ---
 
-<Html>
-  <Head slot="head" title={title} description={description} ogType="article" />
+<Html
+  title={title}
+  description={description}
+  ogType="article"
+  robots={draft ? "noindex" : undefined}
+>
   <Nav />
-
-  <main class="flex-1 px-4">
-    <article class="mx-auto max-w-prose break-words pb-12 sm:pb-24">
-      <div class="flex flex-col items-start">
-        <h1 class="text-2xl font-black leading-tight">
+  <main class="flex-1 px-4 pb-12 sm:pb-24">
+    <article class="mx-auto max-w-prose break-words">
+      <div class="mb-5 flex flex-col items-start">
+        <h1 class="text-3xl font-black leading-tight">
           {title}
         </h1>
         <div class="flex items-center space-x-1">
           <div class="text-sm text-zinc-600 dark:text-zinc-400">
             {
               kind === "article" ? (
-                <span class="font-medium text-blue-600 dark:text-blue-400">
-                  Article
-                </span>
+                <span class="font-medium text-blue-600 dark:text-blue-400">Article</span>
               ) : kind === "note" ? (
-                <span class="font-medium text-rose-600 dark:text-rose-400">Note</span>
+                <span class="font-medium text-emerald-700 dark:text-emerald-400">Note</span>
               ) : null
             } published on {format(pubDate, "do MMM yy")}
           </div>
           {
-            kind === "article" ? (
-              <div class="flex items-center">
-                <ClockIcon class="mr-1 h-4 w-4" />
-                <span class="text-sm font-medium">{minutesRead}</span>
-              </div>
-            ) : null
+            draft && (
+              <div class="text-sm font-black uppercase text-rose-600 dark:text-rose-600">draft</div>
+            )
           }
         </div>
       </div>
-
-      <Content components={mdx} />
-      <Footer />
+      <Prose>
+        <Content />
+      </Prose>
     </article>
+    <div
+      class="mx-auto flex max-w-prose flex-row flex-wrap items-center justify-between gap-4 pt-8 sm:justify-center sm:pt-16"
+    >
+      <a class="inline-flex items-center font-medium underline" href="/">
+        <HomeIcon class="mr-1 h-5 w-5" />
+        <span>Home</span>
+      </a>
+      <a
+        class="inline-flex items-center font-medium underline"
+        href={`mailto:feedback@vibing.dev?subject=${encodeURIComponent(
+          `Feedback ${Astro.url.pathname}`
+        )}`}
+      >
+        <ReplyIcon class="mr-1 h-5 w-5" />
+        <span>Reply</span>
+      </a>
+      <a
+        class="inline-flex items-center font-medium underline"
+        href="https://github.com/mrmcc3/vibing-dev/discussions"
+      >
+        <FeedbackIcon class="mr-1 h-5 w-5" />
+        <span>Feedback</span>
+      </a>
+    </div>
   </main>
 </Html>

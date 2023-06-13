@@ -1,11 +1,9 @@
 ---
-import Html from "$lib/html.astro";
-import Head from "$lib/head.astro";
-import Nav from "$lib/navbar.astro";
+import Html from "components/html.astro";
+import Nav from "components/navbar.astro";
 ---
 
-<Html>
-  <Head slot="head" title="No Vibe" description="Not Found" noindex={true} />
+<Html title="No Vibe" description="Not Found" robots="noindex">
   <Nav />
   <main class="px-4 text-center">
     <div class="py-12">

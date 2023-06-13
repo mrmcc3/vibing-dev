@@ -1,20 +1,15 @@
 ---
-import Html from "$lib/html.astro";
-import Head from "$lib/head.astro";
-import Nav from "$lib/navbar.astro";
-import FeedItem from "$lib/feed-item.astro";
 import { getCollection } from "astro:content";
+import FeedItem from "components/feed-item.astro";
+import Html from "components/html.astro";
+import Nav from "components/navbar.astro";
 
-const pub = await getCollection("public");
+let pub = await getCollection("published");
+if (import.meta.env.PROD) pub = pub.filter((p) => !p.slug.startsWith("draft/"));
 pub.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 ---
 
-<Html>
-  <Head
-    slot="head"
-    title="vibing.dev"
-    description="Outlet for whatever I'm vibing. Mostly web dev."
-  />
+<Html title="vibing.dev" description="Outlet for whatever I'm vibing. Mostly web dev.">
   <Nav />
   <main class="px-4 pb-12">
     <ul class="mx-auto max-w-prose">

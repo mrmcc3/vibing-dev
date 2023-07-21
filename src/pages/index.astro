@@ -11,7 +11,7 @@ pub.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 
 <Html title="vibing.dev" description="Outlet for whatever I'm vibing. Mostly web dev.">
   <Nav />
-  <main class="px-4 pb-12" transition:animate="slide">
+  <main class="px-4 pb-12">
     <ul class="mx-auto max-w-prose">
       {pub.map((entry) => <FeedItem entry={entry} />)}
     </ul>

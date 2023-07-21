@@ -1,8 +1,8 @@
 <meta name="color-scheme" content="light dark" />
 <script is:inline>
   const pref = globalThis.matchMedia("(prefers-color-scheme: dark)");
-  const html = document.documentElement.classList;
   const applyColorScheme = () => {
+    const html = document.documentElement.classList;
     const cs = localStorage.colorScheme;
     cs === "dark" || (cs !== "light" && pref.matches) ? html.add("dark") : html.remove("dark");
     document

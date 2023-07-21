@@ -37,7 +37,7 @@ const draft = entry.slug.startsWith("draft/");
   robots={draft ? "noindex" : undefined}
 >
   <Nav />
-  <main class="flex-1 px-4 pb-12 sm:pb-24">
+  <main class="flex-1 px-4 pb-12 sm:pb-24" transition:animate="slide">
     <article class="mx-auto max-w-prose break-words">
       <div class="mb-5 flex flex-col items-start">
         <h1 class="text-3xl font-black leading-tight">
@@ -74,7 +74,7 @@ const draft = entry.slug.startsWith("draft/");
       <a
         class="inline-flex items-center font-medium underline"
         href={`mailto:feedback@vibing.dev?subject=${encodeURIComponent(
-          `Feedback ${Astro.url.pathname}`
+          `Feedback ${Astro.url.pathname}`,
         )}`}
       >
         <ReplyIcon class="mr-1 h-5 w-5" />

@@ -12,8 +12,8 @@ Here's an interesting architecture for a reporting site.
 2. A static [Astro][2] site where templates can directly leverage DuckDB's rich analytical queries
 3. The built site is published to Cloudflare Pages (or similar)
 
-The steps above run on a schedule in github actions. The DB file is
-cached and restored on every run (but can be rebuilt if lost).
+The steps above run on a schedule in github actions. The DB file is cached and restored on every run
+(but can be rebuilt if lost).
 
 [1]: https://duckdb.org/why_duckdb
 [2]: https://astro.build/

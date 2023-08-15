@@ -5,6 +5,7 @@ import at_icon from "images/apple-touch-icon.png";
 import banner from "images/banner.jpg";
 import icon from "images/icon.svg";
 import "styles/global.css";
+import { ViewTransitions } from "astro:transitions";
 
 export interface Props {
   title: string;
@@ -67,6 +68,7 @@ const url = canonical();
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="rss" />
     <slot name="head" />
+    <ViewTransitions fallback="none" />
   </head>
   <body class="flex h-full flex-col bg-white dark:bg-zinc-900">
     <slot />

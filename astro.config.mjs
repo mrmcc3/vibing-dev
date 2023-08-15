@@ -8,7 +8,7 @@ import tailwind from "@astrojs/tailwind";
 export default defineConfig({
   site: "https://vibing.dev",
   trailingSlash: "never",
-  experimental: { assets: true },
+  experimental: { assets: true, viewTransitions: true },
   integrations: [
     svelte(),
     tailwind(),

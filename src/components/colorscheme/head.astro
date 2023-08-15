@@ -1,15 +1,18 @@
 <meta name="color-scheme" content="light dark" />
 <script is:inline>
-  const pref = globalThis.matchMedia("(prefers-color-scheme: dark)");
-  const applyColorScheme = () => {
-    const html = document.documentElement.classList;
-    const cs = localStorage.colorScheme;
-    cs === "dark" || (cs !== "light" && pref.matches) ? html.add("dark") : html.remove("dark");
-    document
-      .querySelector('meta[name="color-scheme"]')
-      ?.setAttribute("content", cs || "light dark");
-  };
-  applyColorScheme();
-  pref.addEventListener("change", applyColorScheme);
-  Object.assign(globalThis, { applyColorScheme });
+  if (!globalThis.applyColorScheme) {
+    const pref = globalThis.matchMedia("(prefers-color-scheme: dark)");
+    const applyColorScheme = () => {
+      const html = document.documentElement.classList;
+      const cs = localStorage.colorScheme;
+      cs === "dark" || (cs !== "light" && pref.matches) ? html.add("dark") : html.remove("dark");
+      document
+        .querySelector('meta[name="color-scheme"]')
+        ?.setAttribute("content", cs || "light dark");
+    };
+    applyColorScheme();
+    pref.addEventListener("change", applyColorScheme);
+    Object.assign(globalThis, { applyColorScheme });
+    document.addEventListener("astro:beforeload", applyColorScheme);
+  }
 </script>

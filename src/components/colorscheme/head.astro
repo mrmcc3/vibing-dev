@@ -13,6 +13,6 @@
     applyColorScheme();
     pref.addEventListener("change", applyColorScheme);
     Object.assign(globalThis, { applyColorScheme });
-    document.addEventListener("astro:beforeload", applyColorScheme);
+    document.addEventListener("astro:after-swap", applyColorScheme);
   }
 </script>

@@ -11,9 +11,5 @@
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
       ]
     }
-  ],
-  "rewrites": [
-    { "source": "/_pl/script.js", "destination": "https://plausible.io/js/script.js" },
-    { "source": "/_pl/event", "destination": "https://plausible.io/api/event" }
   ]
 }

@@ -7,6 +7,7 @@ const published = defineCollection({
     description: z.string(),
     pubDate: z.coerce.date(),
     tags: z.string().array().default([]),
+    list: z.boolean().default(true),
   }),
 });
 

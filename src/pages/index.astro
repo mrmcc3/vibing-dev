@@ -5,7 +5,7 @@ import Html from "components/html.astro";
 import Nav from "components/navbar.astro";
 
 let pub = await getCollection("published");
-if (import.meta.env.PROD) pub = pub.filter((p) => !p.slug.startsWith("draft/"));
+if (import.meta.env.PROD) pub = pub.filter((p) => p.data.list && !p.slug.startsWith("draft/"));
 pub.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 ---
 

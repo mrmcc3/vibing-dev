@@ -39,7 +39,7 @@ function canonical() {
 const url = canonical();
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html class="h-full antialiased" lang="en">
   <head>
     <meta charset="utf-8" />
@@ -72,10 +72,5 @@ const url = canonical();
   </head>
   <body class="flex h-full flex-col bg-white dark:bg-zinc-900">
     <slot />
-    {
-      import.meta.env.VERCEL_ENV === "production" && (
-        <script defer src="/_pl/script.js" data-api="/_pl/event" data-domain="vibing.dev" />
-      )
-    }
   </body>
 </html>

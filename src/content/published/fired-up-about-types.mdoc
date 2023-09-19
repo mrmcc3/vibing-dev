@@ -9,21 +9,21 @@ slug: "draft/types"
 ---
 
 The open source project [turbo][turbo] decided to move it's codebase from typescript to javascript
-and drama ensued. Developers flocked to twitter to submit their visceral reactions, mock PRs were
-opened, response videos were made and articles (like this one) were written.
+and drama ensued. Developers flocked to twitter with visceral reactions, mock PRs were opened,
+response videos were made and articles (like this one) were written.
 
 ![duty-calls](../../images/duty_calls.png)
 
 The change is described in this post [Turbo 8 is dropping TypeScript][dropping-ts] by DHH. You could
-argue that it's not worth writting about. Too bad. I'm channeling the same energy as the stick
-figure above... [duty calls](https://xkcd.com/386/).
+argue that it's not worth writing about this drama anymore. Too bad. I'm channeling the same energy
+as the stick figure above... [duty calls](https://xkcd.com/386/).
 
 Let's be clear, I do not want to talk about DHH or his history. I'm pretty sure that a lot of the
 online commentary is driven by the desire to dunk on him. I don't care about that, maybe he deserves
 it, maybe he doesn't. I do find the technical arguments people are using to go about their "dunk"
 very interesting though.
 
-Minus some embelishment the article is straightforward. TLDR version
+Minus some embellishment the article is straightforward. TLDR version
 
 - People like typescript. We don't.
 - All typescript and type info will be removed in the next version.
@@ -48,7 +48,7 @@ change?
 
 {% /box %}
 
-Not knowning what turbo is I had a look at the documentation. Maybe I'm missing something but the
+Not knowing what turbo is I had a look at the documentation. Maybe I'm missing something but the
 public api seems to only have four methods. In fact as far as I can tell you're meant to use it by
 dropping in a script tag with no custom code at all! Similar to something like [htmx][htmx]. It
 can't break your typescript/javascript if you don't have any!
@@ -62,7 +62,7 @@ all the type definitions. Maybe your code imports those definitions and now your
 Uh oh, you'd have to change your codebase to fix it. That's a breaking change!
 
 Yeah yeah, but how many people are actually using turbo like that? Surely the majority are just
-making a handfull of calls to those API functions... or they're not using the API at all!
+making a handful of calls to those API functions... or they're not using the API at all!
 Unfortunately you can't wriggle out of breaking changes like that.
 
 This is a breaking change.
@@ -77,7 +77,7 @@ This is a breaking change.
 To recap
 
 1. Does it break existing code that just drops in the script. Nope.
-2. Does it break existing code that calls the minimal api without expicitly importing types. Nope.
+2. Does it break existing code that calls the minimal api without explicitly importing types. Nope.
 3. Does it break users or wrapping libraries that explicitly import the types. Yep.
 
 What percentage of users are impacted? This is really hard to know without monitoring or telemetry.
@@ -97,13 +97,13 @@ maintain what was removed outside of the official project.
 {% box %}
 
 For a bit of perspective let's pivot and consider an alternate situation. Just a few weeks ago
-[Astro 3.0](https://astro.build/blog/astro-3/) dropped, alongside an anouncement that Vercel will
+[Astro 3.0](https://astro.build/blog/astro-3/) dropped, alongside an announcement that Vercel will
 become their official hosting partner. At the same time they dropped support for edge rendering in
 their official Vercel adapter. It's a breaking change.
 
 They determined (via telemetry) that it only affected a small number of users. The change was
-justified because it was an internal maintanence burden and a solution was to maintain the removed
-behaviour outside of the official project.
+justified because it was an internal maintenance burden and a solution was to maintain the removed
+behavior outside of the official project.
 
 If you think this is a fair course of action, then it seems like you should at least consider the
 decision made by [turbo][turbo] to be fair as well? no?
@@ -118,7 +118,7 @@ buying the "think of the poor users" argument in this case.
 ## Don't mess with my DX!
 
 If it's not an egregious breaking change, why the outrage? As developers we get way too attached to
-our tools. We're so concerened about our "editing experience" it seems we forget about what actually
+our tools. We're so concerned about our "editing experience" it seems we forget about what actually
 matters to the users of our software. A lot of dunks focused on DX.
 
 > "to take the first API i can find referenced in the docs — if I start typing Turbo.visit(...), I
@@ -154,11 +154,11 @@ Here is a scale I just completely made up about things you might consider when e
 
 I'm not saying DX doesn't matter at all. I'm an autocomplete enjoyer like the rest of you. I'd also
 agree that providing type information has become table stakes in modern frontend development. But
-really, is it so important that we need to lob molitov cocktail tweets. It might be shocking, but
+really, is it so important that we need to lob molotov cocktail tweets. It might be shocking, but
 quality software was written before editors supported autocomplete, language server protocol, and
-red squigly lines. There are more important things (especially for your users).
+red squiggly lines. There are more important things (especially for your users).
 
-## Types are part of my identiy
+## It's 2023! you gotta use types
 
 Alright here we are, the part of the discussion about types vs no types. Reading through the
 [PR](https://github.com/hotwired/turbo/pull/971) it's clear that some people just couldn't come to
@@ -166,15 +166,13 @@ terms with the fact maintainers didn't want to use typescript. It's kind of comi
 about people being offended by another project not using types or a certain tool.
 
 Look I get it typechecking can help a lot, I use it frequently. But it's just a tool, with its own
-set of tradeoffs. It certainly isn't a prerequisite for writting quality software. There are many,
+set of tradeoffs. It certainly isn't a prerequisite for writing quality software. There are many,
 many examples that counter that.
 
 ## None of this matters
 
-I've found all the outrage on this topic a bit surprising and the arguments weak at best. Maybe you
-completely disagree and you'll now need to lob more molitov cocktails takes. At the end of the day
-unless you maintain turbo my opions and yours cary no weight at all. We're talking about open source
-software, given freely.
+At the end of the day unless you are a turbo maintainer my opinions and yours cary no weight at all.
+We're talking about open source software, given freely.
 
 > "The only people entitled to say how open source 'ought' to work are people who run projects, and
 > the scope of their entitlement extends only to their own projects."

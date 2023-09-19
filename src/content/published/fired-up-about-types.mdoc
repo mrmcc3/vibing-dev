@@ -5,7 +5,6 @@ description:
   "An open source project decided to move it's codebase from typescript to javascript and developers
   were not happy about it."
 pubDate: "2023-09-18T23:38:33.561Z"
-slug: "draft/types"
 ---
 
 The open source project [turbo][turbo] decided to move it's codebase from typescript to javascript
@@ -14,9 +13,9 @@ response videos were made and articles (like this one) were written.
 
 ![duty-calls](../../images/duty_calls.png)
 
-The change is described in this post [Turbo 8 is dropping TypeScript][dropping-ts] by DHH. You could
-argue that it's not worth writing about this drama anymore. Too bad. I'm channeling the same energy
-as the stick figure above... [duty calls](https://xkcd.com/386/).
+The change is described in the article [Turbo 8 is dropping TypeScript][dropping-ts] by DHH. You
+could argue that it's not worth writing about this drama anymore. Too bad. I'm channeling the same
+energy as the stick figure above... [duty calls](https://xkcd.com/386/).
 
 Let's be clear, I do not want to talk about DHH or his history. I'm pretty sure that a lot of the
 online commentary is driven by the desire to dunk on him. I don't care about that, maybe he deserves
@@ -91,7 +90,7 @@ For those in situation 3. What's required to proceed?
 [react-types]: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react
 
 As far as breaking changes go it's not the worst I've seen, not even close. You could summarize it
-as - A build time breakage to a minimal API that effects minority of users. Where the solution is to
+as - A build time breakage to a minimal API that effects minority of users. The solution is to
 maintain what was removed outside of the official project.
 
 {% box %}
@@ -112,7 +111,7 @@ decision made by [turbo][turbo] to be fair as well? no?
 
 I've seen a lot of outrage about how inconsiderate [turbo][turbo] developers are to their users with
 this change, showing egregious lack of empathy. Oh boy, if you're upset about this I can't wait to
-here your python 2/3 takes. Like it or not breaking changes happen all the time. Sorry, I'm not
+hear your python 2/3 takes. Like it or not breaking changes happen all the time. Sorry, I'm not
 buying the "think of the poor users" argument in this case.
 
 ## Don't mess with my DX!
@@ -135,8 +134,6 @@ matters to the users of our software. A lot of dunks focused on DX.
 > user-hostile dickwaddery." -
 > [Rich Harris](https://twitter.com/Rich_Harris/status/1699490194565578882)
 
-Yep, the worst possible outcome in software development - developers without autocomplete.
-
 > "Say it with me:
 >
 > TypeScript was built to make your IDE more powerful.
@@ -146,33 +143,33 @@ Yep, the worst possible outcome in software development - developers without aut
 > It's as simple as that." -
 > [Matt Pocock](https://twitter.com/mattpocockuk/status/1699541372242436394)
 
-Gather around folks, join me for some DX bikeshedding!
-
-Here is a scale I just completely made up about things you might consider when evaluating a library.
+Yep, the worst possible outcome in software development - developers without autocomplete. This is
+pure DX bikeshedding! Here is a scale I just completely made up showing things you might consider
+when evaluating a library.
 
 ![scale for evaluating libraries](../../images/library-eval-scale.png)
 
 I'm not saying DX doesn't matter at all. I'm an autocomplete enjoyer like the rest of you. I'd also
 agree that providing type information has become table stakes in modern frontend development. But
-really, is it so important that we need to lob molotov cocktail tweets. It might be shocking, but
-quality software was written before editors supported autocomplete, language server protocol, and
-red squiggly lines. There are more important things (especially for your users).
+really, is it so important that we need to lob tweets like molotov cocktails. It might be shocking,
+but quality software was written before editors supported autocomplete, language server protocol,
+and red squiggly lines. There are more important things (especially for your users).
 
-## It's 2023! you gotta use types
+## It's 2023! You gotta use them types
 
-Alright here we are, the part of the discussion about types vs no types. Reading through the
-[PR](https://github.com/hotwired/turbo/pull/971) it's clear that some people just couldn't come to
-terms with the fact maintainers didn't want to use typescript. It's kind of comical when you think
-about people being offended by another project not using types or a certain tool.
+Alright here we are, the part of the discussion about types vs no types. I'll keep it short. Reading
+through the [PR](https://github.com/hotwired/turbo/pull/971) it's clear that some people just
+couldn't come to terms with the fact maintainers didn't like typescript. It's kind of comical when
+you think about people being offended by another project not using types or a certain tool.
 
-Look I get it typechecking can help a lot, I use it frequently. But it's just a tool, with its own
+Look I get it, typechecking can help a lot, I use it frequently. But it's just a tool, with its own
 set of tradeoffs. It certainly isn't a prerequisite for writing quality software. There are many,
 many examples that counter that.
 
 ## None of this matters
 
-At the end of the day unless you are a turbo maintainer my opinions and yours cary no weight at all.
-We're talking about open source software, given freely.
+We're talking about open source software. Everyone is allowed their own opinions, I certainly have
+some. However, unless you're a turbo maintainer they simply don't matter.
 
 > "The only people entitled to say how open source 'ought' to work are people who run projects, and
 > the scope of their entitlement extends only to their own projects."

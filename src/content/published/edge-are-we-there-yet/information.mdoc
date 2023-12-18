@@ -1,8 +1,9 @@
 ---
 kind: "article"
 title: Information on the edge... Are we there yet?
-description: "Why not databases on the edge? Information itself isn't holding us back from running serious
-applications on the edge."
+description:
+  "Why not databases on the edge? Information itself isn't holding us back from running serious
+  applications on the edge."
 pubDate: "2023-02-23T07:31:36.689Z"
 ---
 
@@ -19,10 +20,10 @@ The argument is presented well in this video
 [Is _edge_ computing really faster](https://youtu.be/yOP5-3_WFus). As an example say you're building
 a web app and decide to deploy to the edge. Perhaps with SvelteKit, maybe it's Remix.
 
-- A request comes in & you lookup a users session to validate it. That's one trip to the DB
+- A request comes in & you look up a user session to validate it. That's one trip to the DB
 - Now for a specific route you have to load some data or handle an action. That's another trip
 
-Yes there's other approaches to sessions, and maybe you could find a way to jam all your data
+Yes there are other approaches to sessions, and maybe you could find a way to jam all your data
 requirements into a single request, but that's beside the point. If you have to make a request to
 the other side of the world then there's essentially no benefit to constructing the user response at
 the edge compared to an origin server near the data. The more requests to the database, the slower
@@ -46,7 +47,7 @@ deploying applications to the edge is slow because of the non-edge stuff.
 
 That seems a bit presumptuous. Sure many systems exhibit, or require a large degree of locality. The
 edge by definition seems like a bad fit here. Yet plenty of applications serve users all over the
-globe. Besides it's not about what I want, it's what my users want. To quote
+globe. Besides, it's not about what I want, it's what my users want. To quote
 [Cloudflare](https://blog.cloudflare.com/early-hints-performance/)
 
 > Cloudflare sits within 50 milliseconds of 95% of the Internet-connected population globally.
@@ -71,7 +72,7 @@ data it's the "global" stuff, it goes into _specialized data APIs_.
 
 Let's face it the overwhelming majority of software we build exists primarily to give users leverage
 over information. Think about pretty much any bit of software you've worked on or an online service
-you use and ask yourself, at a high level, what does it do? why am I using it? or why do people use
+you use and ask yourself, at a high level, what does it do? Why am I using it? Or why do people use
 it? Do your answers include any of the following? People find the software/service useful because...
 
 - it presents information
@@ -82,7 +83,7 @@ it? Do your answers include any of the following? People find the software/servi
 - it can enforce constraints and guarantees on new information
 
 Google, Twitter, News Sites, Excel Spreadsheets, Text Editors, Gmail, Facebook, Netflix, Git and
-Github they're all information merchants! Even e-commerce companies like amazon or services like
+Github they're all information merchants! Even e-commerce companies like Amazon or services like
 Uber/AirBnB have significant information components. Would any of these applications work at all if
 you took away the parts that deal with information?
 
@@ -102,7 +103,7 @@ like to think of it as any old collection of values.
 - there's no required structure or shape to data.
 
 As an example here's some data: `["michael", 21]` a string and a number. Does that data convey any
-information? I'd argue no, not anything useful. It could mean anything? At best you could say it's
+information? I'd argue no, not anything useful. It could mean anything? At best, you could say it's
 partial or incomplete information.
 
 What about `["michael", 21, "years_old"]`? Michael is 21 years old. Is that a complete piece of
@@ -137,7 +138,7 @@ example compared to the first two examples.
   - Whether it turns out to be true isn't a property of the information.
 - Not all data is information (like the first two examples above).
 - If you can craft data that meets the above characteristics then it's information!
-  - Irrespective of it's use case, topic, or how it was collected.
+  - Irrespective of its use case, topic, or how it was collected.
   - The information that results from a transaction isn't _special_ it has the same properties as
     any other information.
 - When collecting pieces of information the aggregate information exhibits all the same properties
@@ -153,7 +154,7 @@ putting information in caches? Information doesn't change... Go nuts. Same story
 like [Cloudflare KV][cf-kv].
 
 It's not the information itself holding us back from having applications run entirely on the edge.
-In fact I'd argue the opposite. Information as defined here is a great fit for edge computing.
+In fact, I'd argue the opposite. Information as defined here is a great fit for edge computing.
 
 ## Databases on the edge... Are we there yet?
 

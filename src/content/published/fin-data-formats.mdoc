@@ -1,0 +1,298 @@
+---
+kind: "article"
+title: "Fin Data Formats"
+description: "Describes what Fin data is and how to format it for transmission or storage"
+pubDate: "2024-01-01T23:38:33.561Z"
+slug: "draft/fin-data-formats"
+---
+
+> This is a draft / alpha
+
+This document describes what Fin data is and how to format it for transmission or storage. Two
+formats are provided.
+
+- A [text format](#fin-text-format) (`.fin` extension), designed primarily for humans to read,
+  author and manipulate with a text editor.
+- A [binary format](#fin-binary-format) (`.fib` extension), designed to efficiently convey data
+  between programs.
+
+Both formats are **self-describing**, meaning aside from this specification no additional
+information or out of band schema is required to interpret it.
+
+## Motivating use cases
+
+- Human authored records. Configuration, documentation, change logs etc.
+- Sending values efficiently between programs.
+- Precise value types for domains that require it (financial applications).
+- Long term data preservation.
+- To describe programs. It should be expressive/capable enough to use as the basis for a programming
+  language syntax.
+
+## Goals
+
+- **Straightforward**. The syntax rules should be simple and obvious. Working with fin data should
+  quickly become automatic and take very little mental capacity. In my personal experience JSON has
+  this property. YAML does not.
+  - There's nuance to this goal. Less syntax is often better, but care must be taken to **avoid
+    overloading** which increases the mental capacity required by us to process the text format.
+- **Value semantics**. Fin formats aren't concerned with higher level concepts such as schemas,
+  validation or remote procedure calls. There is no concept of objects or reference types. The
+  formats are nothing more than a mechanism to convey values.
+- **Canonical output**. Text decoders are flexible to the layout of incoming fin data, encoders are
+  not. There is one agreed upon way to output fin data and all encoders enforce it. Auto-formatting
+  tools (e.g. prettier) are not required as a decode/encode roundtrip produces canonical output.
+- **No versioning**. We'd like our formats to be enduring with stable semantics.
+  - It's okay to iterate and rapidly prototype prior to release (alpha).
+  - If the released spec is broken, deficient or unusable that's okay. We'll make a new one with a
+    different name.
+  - Adding complexity to simple data formats in anticipation of future requirements/versions is
+    counterproductive.
+- **Extensible**. If the core (first-class) data types are chosen correctly, consumers and produces
+  can compose them to convey domain-specific semantics and intermediaries can be oblivious to it.
+  New specification versions are not required for every new use-case or custom data type. They can
+  be built on top the core types.
+- Tools for working with fin data.
+  - Reference encoders/decoders and test cases.
+  - A CLI for inspecting and converting between data formats.
+  - A language server for text editors.
+
+## Non-Goals / Out of scope
+
+- **Compactness**. This is not to say that the formats presented here are not compact or efficient.
+  Just that other goals were not thrown out to achieve more compact representations.
+- **Language mappings**. How these formats map to the data types provided by different languages and
+  runtimes is not addressed by this specification.
+- **Streaming**. Streaming applications have a different set of constraints and considerations but
+  can be thought of as a sequence of small values (chunks). In this framing the formats presented
+  here may or may not be enough to build streaming encoders and decoders. Perhaps an additional
+  specification or format is required. In any case streaming and the constraints that go with it are
+  out of scope and not considered for this specification.
+- **Lossless conversion between formats**. The binary format is designed for value exchange between
+  programs and as such does not encode comments which exist for human purposes (documentation and
+  controlling layout). Converting text to binary will strip comments but maintain value equivalence
+  (which is a goal).
+
+## Requires further investigation
+
+- **Hashing**. A hash that represents the value being conveyed. This specification clearly defines
+  how values are represented from top level down to primitives. It would be straightforward to
+  provide an algorithm to calculate an overall hash for both formats.
+  - It's undecided (yet to be seen) if this should be included in encoders/decoders or is out of
+    scope.
+
+# Fin Text Format
+
+Extension `.fin`
+
+## Text Encoding
+
+UTF-8
+
+## Normalization
+
+The fin text format is designed to be authored by humans and as such invalid syntax is to be
+expected. In cases where the input is strictly invalid, but it can be determined precisely what the
+user was intending (unambiguous fix) then decoders should accept the invalid code. They should
+provide feedback to the user (via reporting) and fix it. This is a better experience than strictly
+failing on invalid input.
+
+**Normalization only applies when decoding the text format**. This document will explicitly point
+out normalization rules. Compliant fin text decoders must provide two modes
+
+- `strict`. Fail immediately when invalid input is found.
+- `lax` (default). Collect issues, perform normalization (as outlined in this document) and continue
+  decoding where possible.
+
+## Comments
+
+- Exist only for human communication / documentation. This means they're only found in the text
+  format.
+- They do not represent values. This is evident when they appear inside [aggregates][agg] like
+  arrays and maps but don't count as components.
+- By definition comments extend at least to the end of the line.
+  - It's impossible to output an [aggregate][agg] map/array on a single line if it contains a
+    comment.
+  - This property means authors can use comments to control the canonical text output of aggregates
+
+[agg]: #aggregate-value-types
+[prim]: #primitive-value-types
+
+```
+# this is a comment which extends to the next two lines.
+# comments are verbatim utf-8 sequences with no escaping.
+# if required a space will be inserted after the initial #.
+
+[1, 2, 3] # this is a trailing comment which terminates at EOL.
+# this is a separate comment from the one above.
+
+[
+  # comments follow normal indentation rules.
+  # this comment appears inside an array.
+  # as a result the arrays canonical output has expanded.
+  1, 2
+  3
+]
+
+## comments that start with double-hash are auto wrapped at 65
+## character width (not including `## `).
+```
+
+## Primitive value types
+
+### Symbols
+
+TODO.
+
+An unadorned primitive intended to represent names and identifiers.
+
+- Why not use strings?
+- Ergonomics - why does JSON struggle as a foundation for a programming language?
+- Include `:` and `_` to allow for components within the name (e.g. namespaces)
+- Used by [calls](#calls) to provide an extension mechanism.
+
+```
+hello1, _world2, hello1_world2
+:hello, hello1:world2, :msg:hello1_world2
+```
+
+- `camelCase` will be normalized to `camel_case`
+- `kebab-case` will be normalized to `kebab_case`
+
+### Booleans
+
+```
+true, false
+```
+
+- Uppercase will be normalized to lowercase.
+
+### Integers
+
+- Arbitrary precision integers are written verbatim in decimal notation.
+- Common prefixes for binary `0b`, octal `0o` and hexadecimal `0x` are accepted but will normalize
+  to decimal notation. See [bytes](#bytes) for a hex literal.
+- All leading `+` signs will be stripped.
+- A single `-` sign is considered part of the integer. It will be stripped from zero.
+- Internal underscores `_` are often used to visually separate number digits. They are accepted but
+  will be stripped when normalizing.
+
+```
+0, -1, 42
+```
+
+### Decimals
+
+- Arbitrary precision decimals
+- Similar to integers underscores `_` will be stripped.
+- alternate base notation will be converted to decimal.
+
+```
+0.0, -.123, 1.23e+10
+nan, inf, -inf # ?
+```
+
+### Code Points
+
+```
+'a' '\n' '\xef' '\u0007' '\t'
+```
+
+### Escaped Strings
+
+```
+"this string\r\n\t supports escape sequences \xef \u0007"
+```
+
+### Raw Strings
+
+```
+|raw string | no escapes
+|comments are # part of the string
+```
+
+### Bytes
+
+- raw data (byte arrays, bytes) are represented inline in hexadecimal notation between angle
+  brackets
+- uppercase will be normalized to lowercase.
+
+```
+<00>, <de ad be ef> # spaces between bytes/octets
+```
+
+### Instants
+
+TODO.
+
+- why?
+- can an extension be used?
+
+## Aggregate value types
+
+### Rationals
+
+TODO
+
+- why?
+- can an extension be used?
+- what about complex numbers?
+
+```
+1/2, -12/3
+1/0, -1/0, 0/0
+```
+
+### Arrays
+
+```
+[1, 2, true] # inline
+
+[
+  # expanded
+  42
+]
+```
+
+### Maps
+
+- Technically an aggregate for a sequence of items is enough for a functional data format.
+- This is evident when considering lisp and s-expressions.
+- Why have different syntax for maps? If yes why not sets?
+- Sugar over array of entries (array). Is this how they're stored in binary?
+- Do the value semantics include order? Or are they unordered?
+
+```
+(a 1, b 2) # inline
+(
+  # expanded
+  a 1
+  b 2
+)
+
+```
+
+### Calls
+
+TODO.
+
+- why?
+- why only single tag?
+
+```
+print["hello", "world"]
+```
+
+## Top-level value
+
+TODO. Implicit map.
+
+# Fin Binary Format
+
+Extension `.fib`
+
+> In Development
+
+## Comments
+
+Comments only exists in the text format. Binary encoders should provide an API that accepts comments
+and simply drops them.

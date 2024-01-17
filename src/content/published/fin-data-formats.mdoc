@@ -25,8 +25,29 @@ information or out of band schema is required to interpret it.
 - Sending values efficiently between programs.
 - Precise value types for domains that require it (financial applications).
 - Long term data preservation.
-- To describe programs. It should be expressive/capable enough to use as the basis for a programming
-  language syntax.
+- To describe programs. It should be expressive/capable enough to use as the base syntax for general
+  purpose and domain specific programming languages.
+
+{% box %}
+
+**Why another format?** YAML is _still_ common place. In fact, I can see some at the top of this
+article in my text editor. Here is my favorite review of YAML
+
+> nothing but a labyrinth of white space and inscrutable symbols, a prison for the unwary coder. It
+> mocks my intelligence with its simplistic structure and minimal syntax, yet it still manages to
+> ensnare me in its deadly embrace. I curse the day I first laid eyes on that ridiculous format, and
+> the false promises of ease and clarity it offered me. It has only brought me pain and frustration,
+> with its inconsistent indentation and subtle errors lurking in every line.
+>
+> [Andrew Kelley (creator of the Zig programming language)](https://github.com/ziglang/zig/pull/14265#issue-1528464069)
+
+JSON/TOML are certainly better, but also have downsides. Yet these formats are often
+[chosen](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-formats.html), even
+for DSLs. This [xkcd](https://xkcd.com/927/) comic is a classic, but there's no such thing as too
+many ideas, especially if innovation is the goal. I'm frustrated with many existing data formats and
+curious if I could do better.
+
+{% /box %}
 
 ## Goals
 
@@ -43,7 +64,7 @@ information or out of band schema is required to interpret it.
   tools (e.g. prettier) are not required as a decode/encode roundtrip produces canonical output.
 - **No versioning**. We'd like our formats to be enduring with stable semantics.
   - It's okay to iterate and rapidly prototype prior to release (alpha).
-  - If the released spec is broken, deficient or unusable that's okay. We'll make a new one with a
+  - If the released spec is broken, deficient or unusable that's okay. We can make a new one with a
     different name.
   - Adding complexity to simple data formats in anticipation of future requirements/versions is
     counterproductive.
@@ -59,9 +80,9 @@ information or out of band schema is required to interpret it.
 ## Non-Goals / Out of scope
 
 - **Compactness**. This is not to say that the formats presented here are not compact or efficient.
-  Just that other goals were not thrown out to achieve more compact representations.
+  Just that other goals were not compromised to achieve more compact representations.
 - **Language mappings**. How these formats map to the data types provided by different languages and
-  runtimes is not addressed by this specification.
+  runtimes is not addressed.
 - **Streaming**. Streaming applications have a different set of constraints and considerations but
   can be thought of as a sequence of small values (chunks). In this framing the formats presented
   here may or may not be enough to build streaming encoders and decoders. Perhaps an additional
@@ -72,21 +93,19 @@ information or out of band schema is required to interpret it.
   controlling layout). Converting text to binary will strip comments but maintain value equivalence
   (which is a goal).
 
-## Requires further investigation
-
-- **Hashing**. A hash that represents the value being conveyed. This specification clearly defines
-  how values are represented from top level down to primitives. It would be straightforward to
-  provide an algorithm to calculate an overall hash for both formats.
-  - It's undecided (yet to be seen) if this should be included in encoders/decoders or is out of
-    scope.
-
 # Fin Text Format
 
-Extension `.fin`
+- File extension is `.fin`
+- MIME type is `application/fin`
+- The fin text format is defined in terms of Unicode text (code points).
+- Each code point is distinct and no Unicode normalization is performed.
+- The only supported character encoding is UTF-8.
+- The UTF-8 byte order mark (BOM) may be stripped if present and disallowed from the remaining
+  input.
 
-## Text Encoding
+**TODO** TOC links
 
-UTF-8
+**TODO** any illegal code points? NUL
 
 ## Normalization
 
@@ -97,30 +116,20 @@ provide feedback to the user (via reporting) and fix it. This is a better experi
 failing on invalid input.
 
 **Normalization only applies when decoding the text format**. This document will explicitly point
-out normalization rules. Compliant fin text decoders must provide two modes
+out when normalization should happen. Compliant fin text decoders must provide two modes
 
 - `strict`. Fail immediately when invalid input is found.
 - `lax` (default). Collect issues, perform normalization (as outlined in this document) and continue
   decoding where possible.
 
+**TODO** Line normalization. any other global normalization?
+
 ## Comments
-
-- Exist only for human communication / documentation. This means they're only found in the text
-  format.
-- They do not represent values. This is evident when they appear inside [aggregates][agg] like
-  arrays and maps but don't count as components.
-- By definition comments extend at least to the end of the line.
-  - It's impossible to output an [aggregate][agg] map/array on a single line if it contains a
-    comment.
-  - This property means authors can use comments to control the canonical text output of aggregates
-
-[agg]: #aggregate-value-types
-[prim]: #primitive-value-types
 
 ```
 # this is a comment which extends to the next two lines.
 # comments are verbatim utf-8 sequences with no escaping.
-# if required a space will be inserted after the initial #.
+# if required, a space will be inserted after the initial #.
 
 [1, 2, 3] # this is a trailing comment which terminates at EOL.
 # this is a separate comment from the one above.
@@ -137,34 +146,125 @@ out normalization rules. Compliant fin text decoders must provide two modes
 ## character width (not including `## `).
 ```
 
+- Exist only for human communication / documentation. This means they're only found in the text
+  format.
+- They do not represent values. The array in the above example contains three numbers, the comment
+  does not count as a value.
+- By definition comments extend at least to the end of the line.
+  - It's impossible to output an aggregate map or array on a single line if it contains a comment.
+  - This property means authors can use comments to control the canonical text output of aggregates.
+
+[agg]: #aggregate-value-types
+[prim]: #primitive-value-types
+
 ## Primitive value types
 
-### Symbols
-
-TODO.
-
-An unadorned primitive intended to represent names and identifiers.
-
-- Why not use strings?
-- Ergonomics - why does JSON struggle as a foundation for a programming language?
-- Include `:` and `_` to allow for components within the name (e.g. namespaces)
-- Used by [calls](#calls) to provide an extension mechanism.
+### Boolean
 
 ```
-hello1, _world2, hello1_world2
-:hello, hello1:world2, :msg:hello1_world2
-```
-
-- `camelCase` will be normalized to `camel_case`
-- `kebab-case` will be normalized to `kebab_case`
-
-### Booleans
-
-```
-true, false
+true
+false
 ```
 
 - Uppercase will be normalized to lowercase.
+
+### Symbols
+
+```
+abc
+_
+:println
+_abc:d12:e_3
+:crypto:sha256
+```
+
+- A string-like primitive with no wrapping delimiters.
+  - They are a natural fit to represent names and identifiers where a string would be more
+    cumbersome.
+- One of the stated [use cases](#motivating-use-cases) for fin data is to describe programs where
+  local names and identifiers are abundant.
+  - Having a more ergonomic syntax than strings provides a huge benefit to authors and consumers.
+  - It's not just programming languages though. If you look at most JSON payloads, object keys are
+    almost always symbols and the use of strings is unnecessary.
+- Symbols are an essential part of fins own [extension syntax](#calls)
+- They are restricted to the following subset of code points (`a-z`, `0-9`, `:`, `_`)
+  - Must not start with a digit.
+  - The underscore is provided to break up words.
+    - Only `snake_case` is possible.
+    - `camelCase` and `kebab-case` are accepted but normalized to snake case. Any remaining
+      uppercase code points are converted to lowercase.
+  - The colon is provided to support breaking up the symbol into segments. This allows symbols to be
+    used for higher level semantics like namespaces/aliasing without resorting to strings.
+  - Symbol code points are a subset of the Basic Latin Unicode Block and by definition are all
+    one-byte in UTF-8. They're more compact and simpler to decode than strings.
+
+---
+
+**WIP**
+
+### Strings
+
+String literals are used to convey Unicode text.
+
+- They are guaranteed to represent a valid sequence of Unicode code points.
+
+  - Encoders/Decoders enforce this.
+
+- A string literal that supports escape sequences.
+- Newline, backslash double quote are not allowed unescaped.
+- Common escapes. `\n \r \t \" \\`
+- Unicode escapes. `\u{1f602}` Same as code points
+
+```
+
+"this \t string \n supports \\ escape \" sequences \u{1f602}"
+
+```
+
+**TODO** absorb into string. Code point literals are delimited by **single** quotes and are used to
+represent a **single** Unicode code point. Ultimately they are integers (in the range 0-0x10FFFF)
+which defines their position in the Unicode code space.
+
+- There are two types of code point literals
+  - Unescaped (single character).
+    - A valid UTF-8 byte sequence between single quotes. For example `'a'` is code point `97`.
+    - Newline and single quote are not allowed unescaped.
+    - More than one code point is a syntax error `'ab'`.
+  - Escaped sequences (backslash followed by one or more characters).
+    - Common.`'\n', '\r', '\t', '\''`
+    - Unicode. Codepoint is specified with hex digits `'\u{1f602}'`.
+      - All uppercase is normalized to lowercase.
+      - Leading zeros are removed.
+- **TODO** Should surrogate code points be dis-allowed? Any others?
+- There are alternate ways to represent code points.
+  - One option is to not use them at all and overload strings instead (e.g. javascript)
+    - This actually doesn't seem too bad.
+  - Another is to use [extension](#calls) `code_point[97]`
+- The escape syntax in particular code be more compact however it was chosen to match the escapes
+  used in [string literals](#strings)
+
+### Raw Strings
+
+```
+|raw string | no escapes
+|comments are # part of the string
+```
+
+- Block syntax is similar to comments accept they are treated as values
+- also force aggregates to expand
+- **TODO** can they be trailing?
+
+### Bytes
+
+- raw data (byte arrays, bytes) are represented inline in hexadecimal notation between angle
+  brackets
+- uppercase will be normalized to lowercase.
+
+```
+
+<00>, <de ad be ef> # spaces between bytes/octets
+
+```
 
 ### Integers
 
@@ -177,7 +277,9 @@ true, false
   will be stripped when normalizing.
 
 ```
+
 0, -1, 42
+
 ```
 
 ### Decimals
@@ -187,37 +289,23 @@ true, false
 - alternate base notation will be converted to decimal.
 
 ```
-0.0, -.123, 1.23e+10
-nan, inf, -inf # ?
-```
 
-### Code Points
+0.0, -.123, 1.23e+10 nan, inf, -inf # ?
 
 ```
-'a' '\n' '\xef' '\u0007' '\t'
-```
 
-### Escaped Strings
+### Rationals
 
-```
-"this string\r\n\t supports escape sequences \xef \u0007"
-```
+TODO
 
-### Raw Strings
+- why?
+- can an extension be used?
+- what about complex numbers?
 
 ```
-|raw string | no escapes
-|comments are # part of the string
-```
 
-### Bytes
+1/2, -12/3 1/0, -1/0, 0/0
 
-- raw data (byte arrays, bytes) are represented inline in hexadecimal notation between angle
-  brackets
-- uppercase will be normalized to lowercase.
-
-```
-<00>, <de ad be ef> # spaces between bytes/octets
 ```
 
 ### Instants
@@ -229,45 +317,51 @@ TODO.
 
 ## Aggregate value types
 
-### Rationals
-
-TODO
-
-- why?
-- can an extension be used?
-- what about complex numbers?
-
-```
-1/2, -12/3
-1/0, -1/0, 0/0
-```
-
 ### Arrays
 
 ```
+
 [1, 2, true] # inline
 
 [
-  # expanded
-  42
-]
+
+# expanded
+
+42 ]
+
 ```
 
 ### Maps
 
-- Technically an aggregate for a sequence of items is enough for a functional data format.
-- This is evident when considering lisp and s-expressions.
-- Why have different syntax for maps? If yes why not sets?
-- Sugar over array of entries (array). Is this how they're stored in binary?
-- Do the value semantics include order? Or are they unordered?
+- Technically an aggregate for a sequence of items (e.g. [arrays](#arrays)) is enough for a working
+  data format. For example consider lisp and s-expressions.
+- Why have different syntax for maps?
+  - Maps are everywhere. Most JSON payloads have more objects than arrays.
+  - If built on top of arrays. They require significantly more delimiters and commas.
+  - A single starting symbol is required to signal to the reader that it's a map which may not
+    always be visible.
+  - A different syntax is less verbose and makes it immediately obvious it's a map.
+- Other than the syntax change semantically it's equiv to an array of key value pairs
+  - Two maps with different order are two different values. Is this ok?
+  - Consumers can decide if order is significant or not
 
 ```
-(a 1, b 2) # inline
-(
-  # expanded
-  a 1
-  b 2
-)
+
+map[[k1, v1], [k2, v2]] # call to array of key-value pairs. 1 symbol, 6 delimiters, 3 commas
+
+(k1 v1, k2 v2) # same but using map syntax. 2 delimiters, 1 comma
+
+map[
+
+# expanded. 1 symbol, 6 delimiters, 2 commas
+
+[k1, v1] [k2, v2] ] (
+
+# expanded. 2 delimiters
+
+a 1 b 2 )
+
+# it's clear that the map syntax is a lot more minimal
 
 ```
 
@@ -279,7 +373,9 @@ TODO.
 - why only single tag?
 
 ```
+
 print["hello", "world"]
+
 ```
 
 ## Top-level value

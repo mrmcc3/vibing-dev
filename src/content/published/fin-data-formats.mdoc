@@ -124,6 +124,10 @@ out when normalization should happen. Compliant fin text decoders must provide t
 
 **TODO** Line normalization. any other global normalization?
 
+## Syntax types
+
+**TODO** Explain inline, block and expanded syntax
+
 ## Comments
 
 ```
@@ -153,6 +157,7 @@ out when normalization should happen. Compliant fin text decoders must provide t
 - By definition comments extend at least to the end of the line.
   - It's impossible to output an aggregate map or array on a single line if it contains a comment.
   - This property means authors can use comments to control the canonical text output of aggregates.
+- Block syntax
 
 [agg]: #aggregate-value-types
 [prim]: #primitive-value-types
@@ -167,6 +172,7 @@ false
 ```
 
 - Uppercase will be normalized to lowercase.
+- Inline syntax
 
 ### Symbols
 
@@ -197,6 +203,7 @@ _abc:d12:e_3
     used for higher level semantics like namespaces/aliasing without resorting to strings.
   - Symbol code points are a subset of the Basic Latin Unicode Block and by definition are all
     one-byte in UTF-8. They're more compact and simpler to decode than strings.
+- Inline syntax
 
 ---
 
@@ -214,6 +221,8 @@ String literals are used to convey Unicode text.
 - Newline, backslash double quote are not allowed unescaped.
 - Common escapes. `\n \r \t \" \\`
 - Unicode escapes. `\u{1f602}` Same as code points
+- Inline syntax
+- should the empty string `""` be disallowed? What are you conveying?
 
 ```
 
@@ -250,23 +259,30 @@ which defines their position in the Unicode code space.
 |comments are # part of the string
 ```
 
-- Block syntax is similar to comments accept they are treated as values
+- Very similar to comments accept they are treated as values
 - also force aggregates to expand
-- **TODO** can they be trailing?
+- **TODO** can they be trailing? Does line normalization still apply?
+- should the empty string be disallowed? What are you conveying?
+
+- Block syntax
 
 ### Bytes
 
+```
+<00>, <de ad be ef> # spaces between bytes/octets
+```
+
 - raw data (byte arrays, bytes) are represented inline in hexadecimal notation between angle
   brackets
+- `<>` is a syntax error
 - uppercase will be normalized to lowercase.
-
-```
-
-<00>, <de ad be ef> # spaces between bytes/octets
-
-```
+- Inline syntax
 
 ### Integers
+
+```
+0, -1, 42
+```
 
 - Arbitrary precision integers are written verbatim in decimal notation.
 - Common prefixes for binary `0b`, octal `0o` and hexadecimal `0x` are accepted but will normalize
@@ -275,45 +291,38 @@ which defines their position in the Unicode code space.
 - A single `-` sign is considered part of the integer. It will be stripped from zero.
 - Internal underscores `_` are often used to visually separate number digits. They are accepted but
   will be stripped when normalizing.
-
-```
-
-0, -1, 42
-
-```
+- Inline syntax
 
 ### Decimals
+
+```
+0.0, -.123, 1.23e+10 nan, inf, -inf # ?
+```
 
 - Arbitrary precision decimals
 - Similar to integers underscores `_` will be stripped.
 - alternate base notation will be converted to decimal.
-
-```
-
-0.0, -.123, 1.23e+10 nan, inf, -inf # ?
-
-```
+- Inline syntax
 
 ### Rationals
 
-TODO
+```
+1/2, -12/3, 1/0, -1/0, 0/0
+```
 
-- why?
+- **TODO** why?
 - can an extension be used?
 - what about complex numbers?
-
-```
-
-1/2, -12/3 1/0, -1/0, 0/0
-
-```
+- Inline syntax
 
 ### Instants
 
-TODO.
+```
+# TODO
+```
 
-- why?
-- can an extension be used?
+- why? can an extension be used?
+- Inline syntax
 
 ## Aggregate value types
 
@@ -331,7 +340,17 @@ TODO.
 
 ```
 
+- Inline & expanded syntax
+
 ### Maps
+
+```
+
+map[[k1, v1], [k2, v2]] # call to array of key-value pairs. 1 symbol, 6 delimiters, 3 commas
+
+(k1 v1, k2 v2) # same but using map syntax. 2 delimiters, 1 comma
+
+```
 
 - Technically an aggregate for a sequence of items (e.g. [arrays](#arrays)) is enough for a working
   data format. For example consider lisp and s-expressions.
@@ -344,43 +363,29 @@ TODO.
 - Other than the syntax change semantically it's equiv to an array of key value pairs
   - Two maps with different order are two different values. Is this ok?
   - Consumers can decide if order is significant or not
-
-```
-
-map[[k1, v1], [k2, v2]] # call to array of key-value pairs. 1 symbol, 6 delimiters, 3 commas
-
-(k1 v1, k2 v2) # same but using map syntax. 2 delimiters, 1 comma
-
-map[
-
-# expanded. 1 symbol, 6 delimiters, 2 commas
-
-[k1, v1] [k2, v2] ] (
-
-# expanded. 2 delimiters
-
-a 1 b 2 )
-
-# it's clear that the map syntax is a lot more minimal
-
-```
+- Inline & expanded syntax
 
 ### Calls
 
 TODO.
 
+```
+print["hello", "world"]
+```
+
 - why?
 - why only single tag?
-
-```
-
-print["hello", "world"]
-
-```
+- Inline & expanded syntax
 
 ## Top-level value
 
-TODO. Implicit map.
+```
+a 1, b 2
+c 3
+```
+
+- **TODO** Implicit map.
+- Expanded syntax
 
 # Fin Binary Format
 

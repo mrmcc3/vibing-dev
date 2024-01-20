@@ -375,10 +375,22 @@ print["hello", "world"]
 ```
 a 1, b 2
 c 3
+
+letters ["a", "b", "c"]
+numbers [1, 2, 3]
 ```
 
-- **TODO** Implicit map.
-- Syntax classification: `top-level`, `expanded`.
+- Is an implicit, expanded map. Implicit means the opening/closing map delimiters `()` are implied
+  when processing the top level (root) value.
+- Key value pairs are listed with no indentation.
+- Otherwise all the same syntax rules of an expanded map apply.
+- When you receive a fin payload you can be sure it's a map.
+  - I'd wager the majority of JSON payloads in the wild are objects.
+  - In practice there aren't any use cases where forcing a top-level map is infeasible or
+    prohibitive.
+    - e.g. if the thing you're sending is not a map, maybe a big array or bytes it can easily be
+      nested in the top level map. `big_array []`
+- Syntax classification: `top-level`, `aggregate`, `expanded`.
 
 ## Fin Binary Format
 

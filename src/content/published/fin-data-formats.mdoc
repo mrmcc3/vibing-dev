@@ -31,7 +31,7 @@ information or out of band schema is required to interpret it.
 {% box %}
 
 **Why another format?** YAML is _still_ common place. In fact, I can see some at the top of this
-article in my text editor. Here is my favorite review of YAML
+article in my text editor. Here is my favourite review of YAML
 
 > nothing but a labyrinth of white space and inscrutable symbols, a prison for the unwary coder. It
 > mocks my intelligence with its simplistic structure and minimal syntax, yet it still manages to
@@ -51,11 +51,11 @@ curious if I could do better.
 
 ## Goals
 
-- **Straightforward**. The syntax rules should be simple and obvious. Working with fin data should
-  quickly become automatic and take very little mental capacity. In my personal experience JSON has
-  this property. YAML does not.
+- **Straightforward**. The syntax rules should be simple and obvious. In particular, working with
+  fin data should quickly become automatic and take very little mental capacity. In my personal
+  experience JSON has this property. YAML does not.
   - There's nuance to this goal. Less syntax is often better, but care must be taken to **avoid
-    overloading** which increases the mental capacity required by us to process the text format.
+    overloading** which increases the mental capacity required by us to process syntax.
 - **Value semantics**. Fin formats aren't concerned with higher level concepts such as schemas,
   validation or remote procedure calls. There is no concept of objects or reference types. The
   formats are nothing more than a mechanism to convey values.
@@ -83,22 +83,28 @@ curious if I could do better.
   Just that other goals were not compromised to achieve more compact representations.
 - **Language mappings**. How these formats map to the data types provided by different languages and
   runtimes is not addressed.
+  - **TODO**. languages with nulls, undefined etc
 - **Streaming**. Streaming applications have a different set of constraints and considerations but
   can be thought of as a sequence of small values (chunks). In this framing the formats presented
   here may or may not be enough to build streaming encoders and decoders. Perhaps an additional
   specification or format is required. In any case streaming and the constraints that go with it are
   out of scope and not considered for this specification.
-- **Lossless conversion between formats**. The binary format is designed for value exchange between
-  programs and as such does not encode comments which exist for human purposes (documentation and
-  controlling layout). Converting text to binary will strip comments but maintain value equivalence
-  (which is a goal).
+- **Lossless conversion between formats**. For our benefit the text format provides multiple ways to
+  represent the same value (e.g. [raw strings](#raw-strings) vs
+  [escaped strings](#escaped-strings)). [Comments](#comments) are also provided for our benefit and
+  do not represent values at all. To support these, text encoders and decoders have to keep track of
+  extra metadata.
 
-# Fin Text Format
+  On the other hand the binary format is for efficient value exchange between programs and by design
+  does not encode unnecessary metadata. Converting from the fin text format to binary and back is
+  likely to produce different output that represents the same value.
+
+## Fin Text Format
 
 - File extension is `.fin`
 - MIME type is `application/fin`
 - The fin text format is defined in terms of Unicode text (code points).
-- Each code point is distinct and no Unicode normalization is performed.
+- Each code point is distinct and no Unicode normalisation is performed.
 - The only supported character encoding is UTF-8.
 - The UTF-8 byte order mark (BOM) may be stripped if present and disallowed from the remaining
   input.
@@ -107,7 +113,7 @@ curious if I could do better.
 
 **TODO** any illegal code points? NUL
 
-## Normalization
+### Normalisation
 
 The fin text format is designed to be authored by humans and as such invalid syntax is to be
 expected. In cases where the input is strictly invalid, but it can be determined precisely what the
@@ -115,20 +121,33 @@ user was intending (unambiguous fix) then decoders should accept the invalid cod
 provide feedback to the user (via reporting) and fix it. This is a better experience than strictly
 failing on invalid input.
 
-**Normalization only applies when decoding the text format**. This document will explicitly point
-out when normalization should happen. Compliant fin text decoders must provide two modes
+**Normalisation only applies when decoding the text format**. This document will explicitly point
+out when normalisation should happen. Compliant fin text decoders must provide two modes
 
 - `strict`. Fail immediately when invalid input is found.
-- `lax` (default). Collect issues, perform normalization (as outlined in this document) and continue
+- `lax` (default). Collect issues, perform normalisation (as outlined in this document) and continue
   decoding where possible.
 
-**TODO** Line normalization. any other global normalization?
+**TODO** Line normalisation. any other global normalisation?
 
-## Syntax types
+### Syntax types
 
-**TODO** Explain inline, block and expanded syntax
+**TODO**
 
-## Comments
+- Explain
+  - inline, block and expanded syntax
+  - non-value (1).
+    - [comments](#comments)
+  - primitives (8).
+    - [booleans](#booleans), [symbols](#symbols), [strings](#strings), [bytes](#bytes),
+      [integers](#integers), [decimals](#decimals), [rationals](#rationals), [instants](#instants)
+  - aggregates (3).
+    - [arrays](#arrays), [maps](#maps), [calls](#calls)
+    - combine other syntax elements.
+    - unlike primitives can provide nesting often to an arbitrary depth (recursive definition)
+  - top-level
+
+### Comments
 
 ```
 # this is a comment which extends to the next two lines.
@@ -157,22 +176,17 @@ out when normalization should happen. Compliant fin text decoders must provide t
 - By definition comments extend at least to the end of the line.
   - It's impossible to output an aggregate map or array on a single line if it contains a comment.
   - This property means authors can use comments to control the canonical text output of aggregates.
-- Block syntax
+- Syntax classification: `non-value`, `block`.
 
-[agg]: #aggregate-value-types
-[prim]: #primitive-value-types
-
-## Primitive value types
-
-### Boolean
+### Booleans
 
 ```
 true
 false
 ```
 
-- Uppercase will be normalized to lowercase.
-- Inline syntax
+- Uppercase will be normalised to lowercase.
+- Syntax classification: `primitive`, `inline`.
 
 ### Symbols
 
@@ -197,13 +211,13 @@ _abc:d12:e_3
   - Must not start with a digit.
   - The underscore is provided to break up words.
     - Only `snake_case` is possible.
-    - `camelCase` and `kebab-case` are accepted but normalized to snake case. Any remaining
+    - `camelCase` and `kebab-case` are accepted but normalised to snake case. Any remaining
       uppercase code points are converted to lowercase.
   - The colon is provided to support breaking up the symbol into segments. This allows symbols to be
     used for higher level semantics like namespaces/aliasing without resorting to strings.
   - Symbol code points are a subset of the Basic Latin Unicode Block and by definition are all
     one-byte in UTF-8. They're more compact and simpler to decode than strings.
-- Inline syntax
+- Syntax classification: `primitive`, `inline`.
 
 ---
 
@@ -211,72 +225,54 @@ _abc:d12:e_3
 
 ### Strings
 
-String literals are used to convey Unicode text.
+String literals are used to convey Unicode text. Text encoders and decoders ensure strings are a
+valid sequence of Unicode code points. Two syntax forms are provided for strings.
 
-- They are guaranteed to represent a valid sequence of Unicode code points.
-
-  - Encoders/Decoders enforce this.
-
-- A string literal that supports escape sequences.
-- Newline, backslash double quote are not allowed unescaped.
-- Common escapes. `\n \r \t \" \\`
-- Unicode escapes. `\u{1f602}` Same as code points
-- Inline syntax
-- should the empty string `""` be disallowed? What are you conveying?
+#### Escaped Strings
 
 ```
-
 "this \t string \n supports \\ escape \" sequences \u{1f602}"
-
+"" # empty strings are okay
 ```
 
-**TODO** absorb into string. Code point literals are delimited by **single** quotes and are used to
-represent a **single** Unicode code point. Ultimately they are integers (in the range 0-0x10FFFF)
-which defines their position in the Unicode code space.
+- Newline, backslash and double quote are not allowed unescaped.
+- Common escapes. `\n \r \t \" \\`
+- Unicode escapes. Code point is specified with hex digits `'\u{1f602}'`.
+  - All uppercase is normalised to lowercase.
+  - Leading zeros are removed.
+- No byte escapes? Are they okay if encoders/decoders enforce valid Unicode?
+- Syntax classification: `primitive`, `inline`.
 
-- There are two types of code point literals
-  - Unescaped (single character).
-    - A valid UTF-8 byte sequence between single quotes. For example `'a'` is code point `97`.
-    - Newline and single quote are not allowed unescaped.
-    - More than one code point is a syntax error `'ab'`.
-  - Escaped sequences (backslash followed by one or more characters).
-    - Common.`'\n', '\r', '\t', '\''`
-    - Unicode. Codepoint is specified with hex digits `'\u{1f602}'`.
-      - All uppercase is normalized to lowercase.
-      - Leading zeros are removed.
-- **TODO** Should surrogate code points be dis-allowed? Any others?
-- There are alternate ways to represent code points.
-  - One option is to not use them at all and overload strings instead (e.g. javascript)
-    - This actually doesn't seem too bad.
-  - Another is to use [extension](#calls) `code_point[97]`
-- The escape syntax in particular code be more compact however it was chosen to match the escapes
-  used in [string literals](#strings)
-
-### Raw Strings
+#### Raw Strings
 
 ```
-|raw string | no escapes
-|comments are # part of the string
+|raw string | no escapes so newlines
+|and comments are # part of the raw string
+
+[
+  | another raw string this time indented
+]
+
+# below is an empty raw strings
+|
 ```
 
-- Very similar to comments accept they are treated as values
+- Very similar to [comments](#comments) but are values
 - also force aggregates to expand
-- **TODO** can they be trailing? Does line normalization still apply?
-- should the empty string be disallowed? What are you conveying?
-
-- Block syntax
+- **TODO** can they be trailing? Does line normalisation still apply?
+- Syntax classification: `primitive`, `block`.
 
 ### Bytes
 
 ```
-<00>, <de ad be ef> # spaces between bytes/octets
+<00>, <de ad be ef> # spaces between bytes/octets?
+<> # zero bytes is ok
 ```
 
 - raw data (byte arrays, bytes) are represented inline in hexadecimal notation between angle
   brackets
-- `<>` is a syntax error
-- uppercase will be normalized to lowercase.
-- Inline syntax
+- uppercase will be normalised to lowercase.
+- Syntax classification: `primitive`, `inline`.
 
 ### Integers
 
@@ -285,13 +281,13 @@ which defines their position in the Unicode code space.
 ```
 
 - Arbitrary precision integers are written verbatim in decimal notation.
-- Common prefixes for binary `0b`, octal `0o` and hexadecimal `0x` are accepted but will normalize
-  to decimal notation. See [bytes](#bytes) for a hex literal.
+- Common prefixes for binary `0b`, octal `0o` and hexadecimal `0x` are accepted but will normalise
+  to decimal notation. See [bytes](#bytes) for a hex literal. **TODO** is this the best choice?
 - All leading `+` signs will be stripped.
 - A single `-` sign is considered part of the integer. It will be stripped from zero.
 - Internal underscores `_` are often used to visually separate number digits. They are accepted but
-  will be stripped when normalizing.
-- Inline syntax
+  will be stripped when normalising.
+- Syntax classification: `primitive`, `inline`.
 
 ### Decimals
 
@@ -302,7 +298,7 @@ which defines their position in the Unicode code space.
 - Arbitrary precision decimals
 - Similar to integers underscores `_` will be stripped.
 - alternate base notation will be converted to decimal.
-- Inline syntax
+- Syntax classification: `primitive`, `inline`.
 
 ### Rationals
 
@@ -313,7 +309,7 @@ which defines their position in the Unicode code space.
 - **TODO** why?
 - can an extension be used?
 - what about complex numbers?
-- Inline syntax
+- Syntax classification: `primitive`, `inline`.
 
 ### Instants
 
@@ -321,10 +317,8 @@ which defines their position in the Unicode code space.
 # TODO
 ```
 
-- why? can an extension be used?
-- Inline syntax
-
-## Aggregate value types
+- why? Can an extension be used?
+- Syntax classification: `primitive`, `inline`.
 
 ### Arrays
 
@@ -333,14 +327,13 @@ which defines their position in the Unicode code space.
 [1, 2, true] # inline
 
 [
-
-# expanded
-
-42 ]
+  # expanded
+  42
+]
 
 ```
 
-- Inline & expanded syntax
+- Syntax classification: `aggregate`, `inline` & `expanded`.
 
 ### Maps
 
@@ -363,7 +356,7 @@ map[[k1, v1], [k2, v2]] # call to array of key-value pairs. 1 symbol, 6 delimite
 - Other than the syntax change semantically it's equiv to an array of key value pairs
   - Two maps with different order are two different values. Is this ok?
   - Consumers can decide if order is significant or not
-- Inline & expanded syntax
+- Syntax classification: `aggregate`, `inline` & `expanded`.
 
 ### Calls
 
@@ -375,9 +368,9 @@ print["hello", "world"]
 
 - why?
 - why only single tag?
-- Inline & expanded syntax
+- Syntax classification: `aggregate`, `inline` & `expanded`.
 
-## Top-level value
+### Top-level value
 
 ```
 a 1, b 2
@@ -385,15 +378,9 @@ c 3
 ```
 
 - **TODO** Implicit map.
-- Expanded syntax
+- Syntax classification: `top-level`, `expanded`.
 
-# Fin Binary Format
+## Fin Binary Format
 
-Extension `.fib`
-
-> In Development
-
-## Comments
-
-Comments only exists in the text format. Binary encoders should provide an API that accepts comments
-and simply drops them.
+- File extension is `.fib`
+- MIME type is `application/fib`?

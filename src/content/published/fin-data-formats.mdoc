@@ -72,10 +72,12 @@ curious if I could do better.
   can compose them to convey domain-specific semantics and intermediaries can be oblivious to it.
   New specification versions are not required for every new use-case or custom data type. They can
   be built on top the core types.
-- Tools for working with fin data.
+- **Tooling**. Developer experience is very much an auxiliary goal that only makes sense if primary
+  goals are met.
   - Reference encoders/decoders and test cases.
-  - A CLI for inspecting and converting between data formats.
+  - A Tree-sitter grammar.
   - A language server for text editors.
+  - A CLI for inspecting and converting between data formats.
 
 ## Non-Goals / Out of scope
 
@@ -83,7 +85,9 @@ curious if I could do better.
   Just that other goals were not compromised to achieve more compact representations.
 - **Language mappings**. How these formats map to the data types provided by different languages and
   runtimes is not addressed.
-  - **TODO**. languages with nulls, undefined etc
+  - In particular, many languages have `null`, `nil`, `undefined` or `void` types to represent the
+    _absence_ of a value. Fin is about conveying values, so does not encode these types. Leaving
+    them out of the data achieves the same outcome.
 - **Streaming**. Streaming applications have a different set of constraints and considerations but
   can be thought of as a sequence of small values (chunks). In this framing the formats presented
   here may or may not be enough to build streaming encoders and decoders. Perhaps an additional

@@ -134,14 +134,21 @@ out when normalisation should happen. Compliant fin text decoders must provide t
 
 **TODO** Line normalisation. any other global normalisation?
 
-### Syntax types
+### Syntax Categories
 
 **TODO**
 
-- Explain
-  - inline, block and expanded syntax
+- Form
+  - inline.
+    - starts and ends on the same line
+  - block.
+    - starts with a delimiter and extends to the end of line
+  - expanded.
+    - contains sub-syntax on multiple lines
+- Category
   - non-value (1).
     - [comments](#comments)
+    - [gaps](#gaps)
   - primitives (8).
     - [booleans](#booleans), [symbols](#symbols), [strings](#strings), [bytes](#bytes),
       [integers](#integers), [decimals](#decimals), [rationals](#rationals), [instants](#instants)
@@ -157,9 +164,6 @@ out when normalisation should happen. Compliant fin text decoders must provide t
 # this is a comment which extends to the next two lines.
 # comments are verbatim utf-8 sequences with no escaping.
 # if required, a space will be inserted after the initial #.
-
-[1, 2, 3] # this is a trailing comment which terminates at EOL.
-# this is a separate comment from the one above.
 
 [
   # comments follow normal indentation rules.
@@ -180,6 +184,15 @@ out when normalisation should happen. Compliant fin text decoders must provide t
 - By definition comments extend at least to the end of the line.
   - It's impossible to output an aggregate map or array on a single line if it contains a comment.
   - This property means authors can use comments to control the canonical text output of aggregates.
+- Trailing comments are not allowed and will be moved to a new line.
+- Syntax classification: `non-value`, `block`.
+
+### Gaps
+
+**TODO**
+
+- vertical space
+- sub-syntax element seen in expanded aggregates.
 - Syntax classification: `non-value`, `block`.
 
 ### Booleans
@@ -296,7 +309,7 @@ valid sequence of Unicode code points. Two syntax forms are provided for strings
 ### Decimals
 
 ```
-0.0, -.123, 1.23e+10 nan, inf, -inf # ?
+0.0, -.123, 1.23e+10 nan, inf, -inf
 ```
 
 - Arbitrary precision decimals
@@ -318,17 +331,19 @@ valid sequence of Unicode code points. Two syntax forms are provided for strings
 ### Instants
 
 ```
-# TODO
+2024-01-22T22:53:52.548Z
 ```
 
 - why? Can an extension be used?
+- time or date only?
 - Syntax classification: `primitive`, `inline`.
 
 ### Arrays
 
 ```
 
-[1, 2, true] # inline
+# inline
+[1, 2, true]
 
 [
   # expanded
@@ -343,10 +358,11 @@ valid sequence of Unicode code points. Two syntax forms are provided for strings
 
 ```
 
-map[[k1, v1], [k2, v2]] # call to array of key-value pairs. 1 symbol, 6 delimiters, 3 commas
+# call to array of key-value pairs. 1 symbol, 6 delimiters, 3 commas
+map[[k1, v1], [k2, v2]]
 
-(k1 v1, k2 v2) # same but using map syntax. 2 delimiters, 1 comma
-
+# same but using map syntax. 2 delimiters, 1 comma
+(k1 v1, k2 v2)
 ```
 
 - Technically an aggregate for a sequence of items (e.g. [arrays](#arrays)) is enough for a working

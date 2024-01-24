@@ -113,8 +113,6 @@ curious if I could do better.
 - The UTF-8 byte order mark (BOM) may be stripped if present and disallowed from the remaining
   input.
 
-**TODO** TOC links
-
 **TODO** any illegal code points? NUL
 
 ### Normalisation
@@ -132,7 +130,12 @@ out when normalisation should happen. Compliant fin text decoders must provide t
 - `lax` (default). Collect issues, perform normalisation (as outlined in this document) and continue
   decoding where possible.
 
-**TODO** Line normalisation. any other global normalisation?
+#### Global Rules
+
+- Canonical output is free of carriage return (`"\r"`) code points. However, it can almost always
+  safely be accepted and removed from canonical output
+- Capital letters `A-Z` are invalid except as part of [comment](#comments) and [string](#strings)
+  literals and can safely be normalised to lower case.
 
 ### Syntax Categories
 

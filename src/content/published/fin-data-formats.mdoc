@@ -21,10 +21,10 @@ information or out of band schema is required to interpret it.
 
 ## Motivating use cases
 
-- Human authored records. Configuration, documentation, change logs etc.
+- Human authored records. Configuration, metadata, documentation, logs etc.
 - Sending values efficiently between programs.
-- Precise value types for domains that require it (financial applications).
-- Long term data preservation.
+- Domains that require precise value types (e.g. financial applications).
+- Long term information preservation.
 - To describe programs. It should be expressive/capable enough to use as the base syntax for general
   purpose and domain specific programming languages.
 
@@ -87,7 +87,7 @@ curious if I could do better.
   runtimes is not addressed.
   - In particular, many languages have `null`, `nil`, `undefined` or `void` types to represent the
     _absence_ of a value. Fin is about conveying values, so does not encode these types. Leaving
-    them out of the data achieves the same outcome.
+    them out of the data achieves the same result.
 - **Streaming**. Streaming applications have a different set of constraints and considerations but
   can be thought of as a sequence of small values (chunks). In this framing the formats presented
   here may or may not be enough to build streaming encoders and decoders. Perhaps an additional
@@ -142,24 +142,26 @@ out when normalisation should happen. Compliant fin text decoders must provide t
 **TODO**
 
 - Form
-  - inline.
-    - starts and ends on the same line
-  - block.
-    - starts with a delimiter and extends to the end of line
-  - expanded.
-    - contains sub-syntax on multiple lines
+  - Inline.
+    - Starts and ends on the same line.
+    - Optionally surrounded by delimiters.
+  - Block.
+    - starts with a delimiter and extends to the end of line. If the first non whitespace code point
+      on the next line is the block delimiter then the block expands to include that line, and so
+      on.
+  - Expanded.
+    - Contains sub-syntax that span multiple lines.
+    - Optionally surrounded by delimiters.
 - Category
-  - non-value (1).
-    - [comments](#comments)
-    - [gaps](#gaps)
+  - non-value (2).
+    - [comments](#comments), [gaps](#gaps)
   - primitives (8).
     - [booleans](#booleans), [symbols](#symbols), [strings](#strings), [bytes](#bytes),
       [integers](#integers), [decimals](#decimals), [rationals](#rationals), [instants](#instants)
   - aggregates (3).
     - [arrays](#arrays), [maps](#maps), [calls](#calls)
     - combine other syntax elements.
-    - unlike primitives can provide nesting often to an arbitrary depth (recursive definition)
-  - top-level
+    - sub-syntax elements can also be aggregates (recursive nesting).
 
 ### Comments
 
@@ -360,7 +362,6 @@ valid sequence of Unicode code points. Two syntax forms are provided for strings
 ### Maps
 
 ```
-
 # call to array of key-value pairs. 1 symbol, 6 delimiters, 3 commas
 map[[k1, v1], [k2, v2]]
 
@@ -381,19 +382,7 @@ map[[k1, v1], [k2, v2]]
   - Consumers can decide if order is significant or not
 - Syntax classification: `aggregate`, `inline` & `expanded`.
 
-### Calls
-
-TODO.
-
-```
-print["hello", "world"]
-```
-
-- why?
-- why only single tag?
-- Syntax classification: `aggregate`, `inline` & `expanded`.
-
-### Top-level value
+#### Top-level Map
 
 ```
 a 1, b 2
@@ -403,8 +392,8 @@ letters ["a", "b", "c"]
 numbers [1, 2, 3]
 ```
 
-- Is an implicit, expanded map. Implicit means the opening/closing map delimiters `()` are implied
-  when processing the top level (root) value.
+- The top level value is always an implicit, expanded map. Implicit means the opening/closing map
+  delimiters `()` are implied when processing the top level (root) value.
 - Key value pairs are listed with no indentation.
 - Otherwise all the same syntax rules of an expanded map apply.
 - When you receive a fin payload you can be sure it's a map.
@@ -413,7 +402,54 @@ numbers [1, 2, 3]
     prohibitive.
     - e.g. if the thing you're sending is not a map, maybe a big array or bytes it can easily be
       nested in the top level map. `big_array []`
-- Syntax classification: `top-level`, `aggregate`, `expanded`.
+- Syntax classification: `aggregate`, `expanded`.
+
+### Calls
+
+```
+hello["world"]
+run(verbose true)
+foo[bar[baz[]]
+foo[
+  bar[
+    # this comment expands the bar call
+    # which in turn expands the foo call
+    # the baz call remains inline
+    baz[]
+  ]
+]
+
+# extension could even be used to rewrite nested calls (multiple tags)
+thread_first[[], baz, bar, foo]
+
+# more powerful than a simple list of tags
+thread_first[42, inc, add[2, 3]]
+add[inc[42], 2, 3]
+
+thread_last[42, inc, add[2, 3]]
+add[2, 3, inc[42]]
+
+thread_as[(x 42), foo(a x), add[2, x, 3]]
+add[2, foo[a 42], 3]
+```
+
+- Unlike array/maps which can contain any number of sub-syntax elements calls always contain exactly
+  two sub elements, and they're types are restricted.
+  - The first element (the tag) must be a [symbol](#symbols)
+  - The second element (the argument) must be an [array](#arrays) or a [map](#maps).
+  - The above restrictions allow call syntax to be defined without delimiters.
+  - Any symbol that immediately precedes an array or map is a valid call.
+  - Calls can be thought of as tagged values.
+- While array syntax could be overloaded to provide an extension mechanism (e.g. s-expressions)
+  calls provide a simple, obvious extension point for authors.
+- Why only a single tag per call?
+  - Some formats provide the ability to use multiple tags/annotations? They usually require extra
+    syntax delimiters.
+  - Extension even in the single-tag form described here is surprisingly powerful.
+  - See the `thread_` examples above for how you could build multi-tag semantics using only
+    single-tag calls.
+- Syntax classification: `aggregate`, `inline` & `expanded`.
+  - The call inherits the same form (`inline`/`expanded`) as its argument
 
 ## Fin Binary Format
 

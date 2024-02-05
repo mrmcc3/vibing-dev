@@ -8,7 +8,7 @@ slug: "draft/fin-data"
 
 > Alpha. Expect changes.
 
-This document describes what Fin data is and how to format it for transmission or storage. This
+This document describes what fin data is and how to format it for transmission or storage. This
 includes a [data model](#fin-data-model) and two formats.
 
 - A [text format](#fin-text-format) (`.fin` extension) for humans to read, author and manipulate
@@ -16,12 +16,12 @@ includes a [data model](#fin-data-model) and two formats.
 - A [binary format](#fin-binary-format) (`.fib` extension) to more efficiently convey data between
   programs.
 
-Both formats are **self-describing**, meaning aside from this specification no additional
-information or out of band schema is required to produce or interpret it.
+Both formats are **self-describing**, meaning aside from the rules outlined in this specification no
+additional information or out of band schema is required to produce or interpret it.
 
 ## Motivating use cases
 
-- Human authored records. Configuration, metadata, documentation, logs etc.
+- Human authored records (configuration, metadata, documentation, logs etc.)
 - Sending values efficiently between programs.
 - For use in domains that require precise value types (e.g. financial applications).
 - For archival and long term information preservation.
@@ -111,7 +111,49 @@ curious if I could do better.
 
 ## Fin Data Model
 
-**TODO**
+The fin data model describes a set of 10 value types.
+
+- 8 primitive types ([booleans](#booleans), [symbols](#symbols), [strings](#strings),
+  [bytes](#bytes), [integers](#integers), [decimals](#decimals), [rationals](#rationals),
+  [instants](#instants))
+- 2 collection types ([arrays](#arrays), [maps](#maps))
+  - combine other values of any type (heterogeneous) including other aggregates (recursive nesting).
+  - can optionally be tagged/prefixed with a symbol to signal domain-specific semantics
+    (extensibility).
+
+### Bytes
+
+Arbitrary binary data.
+
+### Strings
+
+Unicode text. A valid sequence of Unicode code points.
+
+### Symbols
+
+Restricted subset of strings for names and identifiers.
+
+### Booleans
+
+Booleans have two possible values `true` and `false`.
+
+### Integers
+
+Arbitrary precision
+
+### Decimals
+
+Arbitrary precision
+
+### Rationals
+
+Composite value of two integers (numerator/denominator).
+
+### Instants
+
+### Arrays
+
+### Maps
 
 ## Fin Text Format
 

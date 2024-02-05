@@ -1,37 +1,37 @@
 ---
 kind: "article"
-title: "Fin Data Formats"
-description: "Describes what Fin data is and how to format it for transmission or storage"
+title: "Fin Data"
+description: "Describes what Fin data is and how to format it for transmission or storage."
 pubDate: "2024-01-01T23:38:33.561Z"
-slug: "draft/fin-data-formats"
+slug: "draft/fin-data"
 ---
 
-> This is a draft / alpha
+> Alpha. Expect changes.
 
-This document describes what Fin data is and how to format it for transmission or storage. Two
-formats are provided.
+This document describes what Fin data is and how to format it for transmission or storage. This
+includes a [data model](#fin-data-model) and two formats.
 
-- A [text format](#fin-text-format) (`.fin` extension), designed primarily for humans to read,
-  author and manipulate with a text editor.
-- A [binary format](#fin-binary-format) (`.fib` extension), designed to efficiently convey data
-  between programs.
+- A [text format](#fin-text-format) (`.fin` extension) for humans to read, author and manipulate
+  with a text editor.
+- A [binary format](#fin-binary-format) (`.fib` extension) to more efficiently convey data between
+  programs.
 
 Both formats are **self-describing**, meaning aside from this specification no additional
-information or out of band schema is required to interpret it.
+information or out of band schema is required to produce or interpret it.
 
 ## Motivating use cases
 
 - Human authored records. Configuration, metadata, documentation, logs etc.
 - Sending values efficiently between programs.
-- Domains that require precise value types (e.g. financial applications).
-- Long term information preservation.
+- For use in domains that require precise value types (e.g. financial applications).
+- For archival and long term information preservation.
 - To describe programs. It should be expressive/capable enough to use as the base syntax for general
   purpose and domain specific programming languages.
 
 {% box %}
 
-**Why another format?** YAML is _still_ common place. In fact, I can see some at the top of this
-article in my text editor. Here is my favourite review of YAML
+**Why another format?** For example, consider YAML which is common place. In fact, I can see some at
+the top of this article in my text editor. Here is my favourite review of YAML
 
 > nothing but a labyrinth of white space and inscrutable symbols, a prison for the unwary coder. It
 > mocks my intelligence with its simplistic structure and minimal syntax, yet it still manages to
@@ -40,6 +40,9 @@ article in my text editor. Here is my favourite review of YAML
 > with its inconsistent indentation and subtle errors lurking in every line.
 >
 > [Andrew Kelley (creator of the Zig programming language)](https://github.com/ziglang/zig/pull/14265#issue-1528464069)
+
+Also see
+[The YAML document from hell](https://ruudvanasseldonk.com/2023/01/11/the-yaml-document-from-hell).
 
 JSON/TOML are certainly better, but also have downsides. Yet these formats are often
 [chosen](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-formats.html), even
@@ -63,15 +66,18 @@ curious if I could do better.
   not. There is one agreed upon way to output fin data and all encoders enforce it. Auto-formatting
   tools (e.g. prettier) are not required as a decode/encode roundtrip produces canonical output.
 - **No versioning**. We'd like our formats to be enduring with stable semantics.
-  - It's okay to iterate and rapidly prototype prior to release (alpha).
-  - If the released spec is broken, deficient or unusable that's okay. We can make a new one with a
-    different name.
+  - It's _okay_ to iterate and rapidly prototype prior to release (alpha).
+  - If the released spec is broken, deficient or unusable that's also okay. We can go back to the
+    drawing board and try again with a different name.
   - Adding complexity to simple data formats in anticipation of future requirements/versions is
     counterproductive.
 - **Extensible**. If the core (first-class) data types are chosen correctly, consumers and produces
   can compose them to convey domain-specific semantics and intermediaries can be oblivious to it.
   New specification versions are not required for every new use-case or custom data type. They can
   be built on top the core types.
+- **Pragmatic primitives**. A set of primitive data types that support a wide range of domains and
+  [use cases](#motivating-use-cases), leverage existing standards and increase interoperability
+  without introducing unacceptable complexity to syntax rules and implementations.
 - **Tooling**. Developer experience is very much an auxiliary goal that only makes sense if primary
   goals are met.
   - Reference encoders/decoders and test cases.
@@ -102,6 +108,10 @@ curious if I could do better.
   On the other hand the binary format is for efficient value exchange between programs and by design
   does not encode unnecessary metadata. Converting from the fin text format to binary and back is
   likely to produce different output that represents the same value.
+
+## Fin Data Model
+
+**TODO**
 
 ## Fin Text Format
 
@@ -137,31 +147,32 @@ out when normalisation should happen. Compliant fin text decoders must provide t
 - Capital letters `A-Z` are invalid except as part of [comment](#comments) and [string](#strings)
   literals and can safely be normalised to lower case.
 
-### Syntax Categories
+#### Syntax Forms
 
-**TODO**
+- Inline.
+  - Starts and ends on the same line.
+  - Optionally surrounded by delimiters.
+  - [booleans](#booleans), [symbols](#symbols), [strings](#strings), [bytes](#bytes),
+    [integers](#integers), [decimals](#decimals), [rationals](#rationals), [instants](#instants),
+- Block.
+  - starts with a delimiter and extends to the end of line. If the first non whitespace code point
+    on the next line is the block delimiter then the block expands to include that line, and so on.
+  - [comments](#comments), [gaps](#gaps)
+- Expanded.
+  - Contains sub-syntax that span multiple lines.
+  - Optionally surrounded by delimiters.
 
-- Form
-  - Inline.
-    - Starts and ends on the same line.
-    - Optionally surrounded by delimiters.
-  - Block.
-    - starts with a delimiter and extends to the end of line. If the first non whitespace code point
-      on the next line is the block delimiter then the block expands to include that line, and so
-      on.
-  - Expanded.
-    - Contains sub-syntax that span multiple lines.
-    - Optionally surrounded by delimiters.
-- Category
-  - non-value (2).
-    - [comments](#comments), [gaps](#gaps)
-  - primitives (8).
-    - [booleans](#booleans), [symbols](#symbols), [strings](#strings), [bytes](#bytes),
-      [integers](#integers), [decimals](#decimals), [rationals](#rationals), [instants](#instants)
-  - aggregates (3).
-    - [arrays](#arrays), [maps](#maps), [calls](#calls)
-    - combine other syntax elements.
-    - sub-syntax elements can also be aggregates (recursive nesting).
+#### Syntax Category
+
+- non-value (2).
+  - [comments](#comments), [gaps](#gaps)
+- primitives (8).
+  - [booleans](#booleans), [symbols](#symbols), [strings](#strings), [bytes](#bytes),
+    [integers](#integers), [decimals](#decimals), [rationals](#rationals), [instants](#instants)
+- aggregates (3).
+  - [arrays](#arrays), [maps](#maps), [calls](#calls)
+  - combine other syntax elements.
+  - sub-syntax elements can also be aggregates (recursive nesting).
 
 ### Comments
 
@@ -228,7 +239,7 @@ _abc:d12:e_3
   - Having a more ergonomic syntax than strings provides a huge benefit to authors and consumers.
   - It's not just programming languages though. If you look at most JSON payloads, object keys are
     almost always symbols and the use of strings is unnecessary.
-- Symbols are an essential part of fins own [extension syntax](#calls)
+- Symbols are an essential part of fins own [extension](#calls) mechanism.
 - They are restricted to the following subset of code points (`a-z`, `0-9`, `:`, `_`)
   - Must not start with a digit.
   - The underscore is provided to break up words.
@@ -272,7 +283,10 @@ valid sequence of Unicode code points. Two syntax forms are provided for strings
 |and comments are # part of the raw string
 
 [
+  # the two strings below are the same
   | another raw string this time indented
+  |  #\n|#
+  " another raw string this time indented\n  #\\n|#"
 ]
 
 # below is an empty raw strings
@@ -296,7 +310,9 @@ valid sequence of Unicode code points. Two syntax forms are provided for strings
 - uppercase will be normalised to lowercase.
 - Syntax classification: `primitive`, `inline`.
 
-### Integers
+### Numbers
+
+#### Integers
 
 ```
 0, -1, 42
@@ -311,7 +327,7 @@ valid sequence of Unicode code points. Two syntax forms are provided for strings
   will be stripped when normalising.
 - Syntax classification: `primitive`, `inline`.
 
-### Decimals
+#### Decimals
 
 ```
 0.0, -.123, 1.23e+10 nan, inf, -inf
@@ -322,7 +338,7 @@ valid sequence of Unicode code points. Two syntax forms are provided for strings
 - alternate base notation will be converted to decimal.
 - Syntax classification: `primitive`, `inline`.
 
-### Rationals
+#### Rationals
 
 ```
 1/2, -12/3, 1/0, -1/0, 0/0
@@ -337,9 +353,22 @@ valid sequence of Unicode code points. Two syntax forms are provided for strings
 
 ```
 2024-01-22T22:53:52.548Z
+2007-02-23T12:14:33.079-08:00
 ```
 
-- why? Can an extension be used?
+- A primitive to represent an instant in time.
+  - Also called an **exact time** which is the same everywhere. It has a basis, a consistent global
+    definition.
+  - Is unlike **wall-clock time** or **local time** which requires additional information to convey
+    something meaningful.
+- Why not use an extension?
+
+  - exact time is a fundamental part of information which is obvious when keeping historical
+    records. Its use is widespread.
+  - We could use an extension over raw bytes to represent strings or integers for example, but we
+    can all agree having string and number literals is advantageuos.
+  - Without a literal many different formats are used and we lose interop, basis, connection.
+
 - time or date only?
 - Syntax classification: `primitive`, `inline`.
 

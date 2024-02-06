@@ -73,14 +73,23 @@ In order of importance.
 - **Extensible**. If the core (first-class) value types are chosen correctly, consumers and produces
   can compose them to convey domain-specific semantics and intermediaries can be oblivious to it.
   New specification versions are not required for every new use-case or custom data type.
-- **Interoperability**. Allow a wide range of systems and programming languages to convey
-  information seamlessly without resorting to custom application logic (extension) across diverse
-  problem domains and [use cases](#use-cases). The goal is to choose a **pragmatic** set of
-  primitive value types that leverage existing standards to provide common ground without
-  introducing unacceptable complexity to syntax rules.
+- **Interoperability**. Allow a wide range of systems across diverse domains to convey information
+  seamlessly without resorting to custom application logic (extension). The goal is to choose a
+  **pragmatic set of primitives** that leverage existing standards to establish common ground
+  without introducing unacceptable complexity to syntax rules.
+  - In particular domains often require precise value types. It is preferable to have primitives
+    that support this use case. Capable systems can interchange data seamlessly. Less capable
+    systems will have to decide how to act given their constraints.
 - **Canonical output**. Text decoders are flexible to the layout of incoming fin data, encoders are
   not. There is one agreed upon way to output fin data and all encoders enforce it. Auto-formatting
   tools (e.g. prettier) are not required as a decode/encode roundtrip produces canonical output.
+- **Compactness**. This is not to say that the formats presented here are not compact or efficient.
+  Just that other goals were not compromised to achieve more compact representations.
+- **Streaming**. Streaming applications have a different set of constraints and considerations but
+  can be thought of as a sequence of small values (chunks). In this framing the formats presented
+  here may or may not be enough to build streaming encoders and decoders. Perhaps an additional
+  specification or format is required. In any case streaming and the constraints that go with it are
+  out of scope and not considered for this specification.
 - **Tooling**. Developer experience is very much an auxiliary goal that only makes sense if primary
   goals are met.
   - Reference encoders/decoders and test cases.
@@ -90,19 +99,12 @@ In order of importance.
 
 ## Non-Goals / Out of scope
 
-- **Compactness**. This is not to say that the formats presented here are not compact or efficient.
-  Just that other goals were not compromised to achieve more compact representations.
-- **Language mappings**. TODO. Precision and data first then language mappings not the other way
-  around. Precision over interoperability. How these formats map to the data types provided by
-  different languages and runtimes is not addressed.
-  - In particular, many languages have `null`, `nil`, `undefined` or `void` types to represent the
+- **Complete language mappings**. Interoperability is desirable, however the design of the formats
+  should not be driven by the choices made in existing programming languages. Encoders/Decoders
+  should take a "best-effort" approach when mapping fin data to their own data model.
+  - For example, many languages have `null`, `nil`, `undefined` or `void` types to represent the
     _absence_ of a value. Fin is about conveying values, so does not encode these types. Leaving
     them out of the data achieves the same result.
-- **Streaming**. Streaming applications have a different set of constraints and considerations but
-  can be thought of as a sequence of small values (chunks). In this framing the formats presented
-  here may or may not be enough to build streaming encoders and decoders. Perhaps an additional
-  specification or format is required. In any case streaming and the constraints that go with it are
-  out of scope and not considered for this specification.
 - **Lossless conversion between formats**. For our benefit the text format provides multiple ways to
   represent the same value (e.g. [raw strings](#raw-strings) vs
   [escaped strings](#escaped-strings)). [Comments](#comments) are also provided for our benefit and

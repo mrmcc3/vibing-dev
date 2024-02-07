@@ -114,15 +114,14 @@ In order of importance.
 
 ## Fin Data Model
 
-The fin data model describes a set of 10 value types.
+The fin data model describes a set of 9 value types.
 
-- 8 primitives ([byte arrays](#byte-arrays), [strings](#strings), [symbols](#symbols),
-  [booleans](#booleans), [integers](#integers), [decimals](#decimals), [rationals](#rationals),
-  [instants](#instants))
-- 2 collections ([arrays](#arrays), [maps](#maps))
+- 7 primitive types ([byte arrays](#byte-arrays), [strings](#strings), [symbols](#symbols),
+  [booleans](#booleans), [decimals](#decimals), [integers](#integers), [instants](#instants))
+- 2 collection types ([arrays](#arrays), [maps](#maps))
   - combine other values of any type (heterogeneous) including other collections (recursive
     nesting).
-  - can optionally be tagged/prefixed with a symbol to signal domain-specific semantics
+  - can optionally be tagged (prefixed) with a symbol to signal domain-specific semantics
     (extensibility).
 
 ### Byte Arrays
@@ -140,33 +139,40 @@ Strings are used to convey Unicode text.
 - The Unicode standard is ubiquitous and makes sense as a core primitive. In almost all cases, if a
   producer wants to convey text, it will be Unicode text. (interoperability)
 - Encoders and decoders must ensure strings are a valid sequence of Unicode code points.
-- They do not perform Unicode canonicalization.
+- No Unicode canonicalization occurs (out of scope).
 
 ### Symbols
 
-Restricted subset of strings for names and identifiers.
+Symbols are simplified strings used to represent names and identifiers.
+
+- Restricted to the following code points (`a-z`, `0-9`, `:`, `_`)
+  - Subset of the Basic Latin Unicode Block (one-byte in UTF-8).
+- Must not start with a digit.
+- The underscore is provided to break up words
+  - Only `snake_case` is possible
+- The colon is provided to support breaking up the symbol into segments.
+  - Enables higher level semantics like namespaces/aliasing.
+- Symbols are part of fins extension mechanism (tagged collections).
 
 ### Booleans
 
 Booleans have two possible values `true` and `false`.
 
-### Integers
-
-Arbitrary precision
-
 ### Decimals
 
 Arbitrary precision
 
-### Rationals
+### Integers
 
-Composite value of two integers (numerator/denominator).
+Arbitrary precision
 
 ### Instants
 
 ### Arrays
 
 ### Maps
+
+---
 
 ## Fin Text Format
 

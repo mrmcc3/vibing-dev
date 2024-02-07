@@ -59,61 +59,58 @@ In order of importance.
 - **No versioning**. We'd like our formats to be enduring with stable semantics.
   - It's _okay_ to iterate and rapidly prototype prior to release (alpha).
   - If the released spec is broken, deficient or unusable that's also okay. We can go back to the
-    drawing board and try again with a different name.
-  - Adding complexity to simple data formats in anticipation of future requirements/versions is
-    counterproductive.
+    drawing board and try again with a different name, a different spec.
+  - Adding complexity to data format specs in anticipation of future versions is counterproductive.
+    So is handling multiple versions in implementations.
 - **Straightforward**. The syntax rules should be simple and obvious. In particular, working with
-  fin data should quickly become automatic and take very little mental capacity. In my personal
-  experience JSON has this property. YAML does not.
+  fin data should quickly become automatic and take very little mental capacity.
+  - In my personal experience JSON has this property. YAML does not.
   - There's nuance to this goal. Less syntax is often better, but care must be taken to **avoid
     overloading** which increases the mental capacity required by us to process syntax.
 - **Value semantics**. Fin formats aren't concerned with higher level concepts such as schemas,
-  validation or remote procedure calls. There is no concept of objects or reference types. The
-  formats are nothing more than a mechanism to combine and convey values.
-- **Extensible**. If the core (first-class) value types are chosen correctly, consumers and produces
-  can compose them to convey domain-specific semantics and intermediaries can be oblivious to it.
-  New specification versions are not required for every new use-case or custom data type.
-- **Interoperability**. Allow a wide range of systems across diverse domains to convey information
-  seamlessly without resorting to custom application logic (extension). The goal is to choose a
-  **pragmatic set of primitives** that leverage existing standards to establish common ground
-  without introducing unacceptable complexity to syntax rules.
+  validation or remote procedure calls. There is no concept of objects or references. The formats
+  are nothing more than a mechanism to combine and convey values.
+- **Interoperability**. We'd like to allow a wide range of systems across diverse domains to convey
+  most information seamlessly without resorting to custom application logic (extension). Interop can
+  mean a wide variety of things here are some notes relevant to the design of fin.
+  - The goal is to choose a **pragmatic set of primitives** that leverage existing standards for
+    universal data types that establish common ground without introducing unacceptable complexity to
+    syntax rules.
   - In particular domains often require precise value types. It is preferable to have primitives
-    that support this use case. Capable systems can interchange data seamlessly. Less capable
-    systems will have to decide how to act given their constraints.
+    that support this use case. Capable systems can interchange data seamlessly and less capable
+    systems can decide how to act given their constraints.
+  - Interoperability is desirable, however the design should not be driven by the choices made in
+    existing programming languages or other formats. Encoders/Decoders should take a "best-effort"
+    approach when mapping to a given language or non-fin format.
+  - As an example, many languages have `null`, `nil`, `undefined` or `void` types to represent the
+    _absence_ of a value. Fin is about conveying values, so does not encode these types. Leaving
+    them out of the data achieves the same result.
+- **Extensible**. If the core (first-class) value types support extension, consumers and produces
+  can compose them to signal domain-specific semantics and intermediaries can be oblivious to it.
+  New specification versions are not required for every new use-case or custom data type.
+- **Compactness**. Where possible design choices should be made that lead to compact representation
+  and efficient implementations but not at the cost of the goals listed above.
 - **Canonical output**. Text decoders are flexible to the layout of incoming fin data, encoders are
   not. There is one agreed upon way to output fin data and all encoders enforce it. Auto-formatting
   tools (e.g. prettier) are not required as a decode/encode roundtrip produces canonical output.
-- **Compactness**. This is not to say that the formats presented here are not compact or efficient.
-  Just that other goals were not compromised to achieve more compact representations.
-- **Streaming**. Streaming applications have a different set of constraints and considerations but
-  can be thought of as a sequence of small values (chunks). In this framing the formats presented
-  here may or may not be enough to build streaming encoders and decoders. Perhaps an additional
-  specification or format is required. In any case streaming and the constraints that go with it are
-  out of scope and not considered for this specification.
+- **Top Level Streaming**. The formats should support top-level value streams. This means the top
+  level value can be conveyed in small chunks over a long-lived connection, and could grow to
+  arbitrary length. We consider comprehensive streaming protocols to be a higher level concept (out
+  of scope) that could be built on top of this specification.
 - **Tooling**. Developer experience is very much an auxiliary goal that only makes sense if primary
   goals are met.
   - Reference encoders/decoders and test cases.
   - A Tree-sitter grammar.
   - A language server for text editors.
   - A CLI for inspecting and converting between data formats.
-
-## Non-Goals / Out of scope
-
-- **Complete language mappings**. Interoperability is desirable, however the design of the formats
-  should not be driven by the choices made in existing programming languages. Encoders/Decoders
-  should take a "best-effort" approach when mapping fin data to their own data model.
-  - For example, many languages have `null`, `nil`, `undefined` or `void` types to represent the
-    _absence_ of a value. Fin is about conveying values, so does not encode these types. Leaving
-    them out of the data achieves the same result.
-- **Lossless conversion between formats**. For our benefit the text format provides multiple ways to
-  represent the same value (e.g. [raw strings](#raw-strings) vs
-  [escaped strings](#escaped-strings)). [Comments](#comments) are also provided for our benefit and
-  do not represent values at all. To support these, text encoders and decoders have to keep track of
-  extra metadata.
-
-  On the other hand the binary format is for efficient value exchange between programs and by design
-  does not encode unnecessary metadata. Converting from the fin text format to binary and back is
-  likely to produce different output that represents the same value.
+- **Lossless conversion** between fin formats is not a goal.
+  - For our benefit the text format provides multiple ways to represent the same value (e.g.
+    [raw strings](#raw-strings) vs [escaped strings](#escaped-strings)). [Comments](#comments) are
+    also provided for our benefit and do not represent values at all. To support these, text
+    encoders and decoders have to keep track of extra metadata.
+  - On the other hand the binary format is for efficient value exchange between programs and by
+    design does not encode unnecessary metadata. Converting from the fin text format to binary and
+    back is likely to produce different output that represents the same value.
 
 ## Fin Data Model
 

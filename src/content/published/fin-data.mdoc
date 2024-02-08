@@ -117,7 +117,7 @@ In order of importance.
 The fin data model describes a set of 9 value types.
 
 - 7 primitive types ([byte arrays](#byte-arrays), [strings](#strings), [symbols](#symbols),
-  [booleans](#booleans), [decimals](#decimals), [integers](#integers), [instants](#instants))
+  [booleans](#booleans), [decimals](#decimals), [integers](#integers), [timestamps](#timestamps))
 - 2 collection types ([arrays](#arrays), [maps](#maps))
   - combine other values of any type (heterogeneous) including other collections (recursive
     nesting).
@@ -126,7 +126,7 @@ The fin data model describes a set of 9 value types.
 
 ### Byte Arrays
 
-Byte arrays represent a fixed-length array of bytes (octets).
+A byte arrays represents a fixed-length array of bytes (octets).
 
 - Byte arrays are used to directly embed raw binary data.
 - No interpretation or processing occurs at all (opaque).
@@ -166,7 +166,21 @@ Arbitrary precision
 
 Arbitrary precision
 
-### Instants
+### Timestamps
+
+A timestamp is a date-time record that conveys an exact point in time.
+
+- They have a consistent global definition.
+  > A timestamp is a date-time clock measurement along with that clocks **offset** from UTC
+  > ([Coordinated Universal Time](https://en.wikipedia.org/wiki/Coordinated_Universal_Timehttps://en.wikipedia.org/wiki/Coordinated_Universal_Time)).
+- UTC is the primary time standard globally used to regulate clocks and time.
+- A clock measurement includes the current date (conventionally using the Gregorian Calendar)
+- Fractional seconds can be used to record time with arbitrary precision.
+- It is possible for two different timestamps to represent the same instant in time (clocks with
+  different offsets)
+- Timestamps are not timezone-aware or calendar-aware. The expectation is authors will combine
+  timestamps with other fin primitives for use cases that call for additional date-time context
+  (timezone and alternate calendars).
 
 ### Arrays
 

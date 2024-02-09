@@ -114,10 +114,10 @@ In order of importance.
 
 ## Fin Data Model
 
-The fin data model describes a set of 9 value types.
+The fin data model describes a set of 8 value types.
 
-- 7 primitive types ([byte arrays](#byte-arrays), [strings](#strings), [symbols](#symbols),
-  [booleans](#booleans), [decimals](#decimals), [integers](#integers), [timestamps](#timestamps))
+- 6 primitive types ([byte arrays](#byte-arrays), [strings](#strings), [symbols](#symbols),
+  [booleans](#booleans), [decimals](#decimals), [timestamps](#timestamps))
 - 2 collection types ([arrays](#arrays), [maps](#maps))
   - combine other values of any type (heterogeneous) including other collections (recursive
     nesting).
@@ -140,6 +140,7 @@ Strings are used to convey Unicode text.
   producer wants to convey text, it will be Unicode text. (interoperability)
 - Encoders and decoders must ensure strings are a valid sequence of Unicode code points.
 - No Unicode canonicalization occurs (out of scope).
+- Empty strings are allowed.
 
 ### Symbols
 
@@ -147,6 +148,7 @@ Symbols are simplified strings used to represent names and identifiers.
 
 - Restricted to the following code points (`a-z`, `0-9`, `:`, `_`)
   - Subset of the Basic Latin Unicode Block (one-byte in UTF-8).
+- Empty (zero length) symbols are invalid.
 - Must not start with a digit.
 - `true` and `false` are invalid symbols
 - The underscore is provided to break up words
@@ -161,12 +163,12 @@ Booleans have two possible values `true` and `false`.
 
 ### Decimals
 
-- Arbitrary precision real numbers
-- Special values (`nan`, `inf`, `-inf`) are not real numbers even if defined in IEEE 754
+Decimals are used to represent real numbers.
 
-### Integers
-
-Arbitrary precision
+- Arbitrary precision.
+- Does not represent special values (`nan`, `inf`, `-inf`) which are not real numbers.
+- Includes all integers.
+- Can be combined (using tagged collections) to represent exact rationals and complex numbers.
 
 ### Timestamps
 
@@ -182,12 +184,20 @@ A timestamp is a date-time record that conveys an exact point in time.
   different offsets)
 - Timestamps do not encode timezone or alternate calendar information. The expectation is authors
   will combine timestamps with other fin primitives for use cases that require it.
+- **TODO** Why not use extension?
+  - exact time is a fundamental part of information which is obvious when keeping historical
+    records. Its use is widespread.
+  - We could use an extension over raw bytes to represent strings or integers for example, but we
+    can all agree having string and number literals is advantageous.
+  - Without a literal many different formats are used. We lose interoperability.
 
 ### Arrays
 
 ### Maps
 
 ---
+
+**WIP**
 
 ## Fin Text Format
 
@@ -237,18 +247,6 @@ out when normalisation should happen. Compliant fin text decoders must provide t
 - Expanded.
   - Contains sub-syntax that span multiple lines.
   - Optionally surrounded by delimiters.
-
-#### Syntax Category
-
-- non-value (2).
-  - [comments](#comments), [gaps](#gaps)
-- primitives (8).
-  - [booleans](#booleans), [symbols](#symbols), [strings](#strings), [bytes](#bytes),
-    [integers](#integers), [decimals](#decimals), [rationals](#rationals), [instants](#instants)
-- aggregates (3).
-  - [arrays](#arrays), [maps](#maps), [calls](#calls)
-  - combine other syntax elements.
-  - sub-syntax elements can also be aggregates (recursive nesting).
 
 ### Comments
 
@@ -315,22 +313,9 @@ _abc:d12:e_3
   - Having a more ergonomic syntax than strings provides a huge benefit to authors and consumers.
   - It's not just programming languages though. If you look at most JSON payloads, object keys are
     almost always symbols and the use of strings is unnecessary.
-- Symbols are an essential part of fins own [extension](#calls) mechanism.
-- They are restricted to the following subset of code points (`a-z`, `0-9`, `:`, `_`)
-  - Must not start with a digit.
-  - The underscore is provided to break up words.
-    - Only `snake_case` is possible.
-    - `camelCase` and `kebab-case` are accepted but normalised to snake case. Any remaining
-      uppercase code points are converted to lowercase.
-  - The colon is provided to support breaking up the symbol into segments. This allows symbols to be
-    used for higher level semantics like namespaces/aliasing without resorting to strings.
-  - Symbol code points are a subset of the Basic Latin Unicode Block and by definition are all
-    one-byte in UTF-8. They're more compact and simpler to decode than strings.
+- `camelCase` and `kebab-case` are accepted but normalised to snake case. Any remaining uppercase
+  code points are converted to lowercase.
 - Syntax classification: `primitive`, `inline`.
-
----
-
-**WIP**
 
 ### Strings
 
@@ -374,6 +359,8 @@ valid sequence of Unicode code points. Two syntax forms are provided for strings
 - **TODO** can they be trailing? Does line normalisation still apply?
 - Syntax classification: `primitive`, `block`.
 
+**TODO** perhaps single quotes or backticks for inline raw strings?
+
 ### Bytes
 
 ```
@@ -414,17 +401,6 @@ valid sequence of Unicode code points. Two syntax forms are provided for strings
 - alternate base notation will be converted to decimal.
 - Syntax classification: `primitive`, `inline`.
 
-#### Rationals
-
-```
-1/2, -12/3, 1/0, -1/0, 0/0
-```
-
-- **TODO** why?
-- can an extension be used?
-- what about complex numbers?
-- Syntax classification: `primitive`, `inline`.
-
 ### Instants
 
 ```
@@ -432,20 +408,7 @@ valid sequence of Unicode code points. Two syntax forms are provided for strings
 2007-02-23T12:14:33.079-08:00
 ```
 
-- A primitive to represent an instant in time.
-  - Also called an **exact time** which is the same everywhere. It has a basis, a consistent global
-    definition.
-  - Is unlike **wall-clock time** or **local time** which requires additional information to convey
-    something meaningful.
-- Why not use an extension?
-
-  - exact time is a fundamental part of information which is obvious when keeping historical
-    records. Its use is widespread.
-  - We could use an extension over raw bytes to represent strings or integers for example, but we
-    can all agree having string and number literals is advantageuos.
-  - Without a literal many different formats are used and we lose interop, basis, connection.
-
-- time or date only?
+- strict form of RFC3339. normalisations?
 - Syntax classification: `primitive`, `inline`.
 
 ### Arrays
@@ -510,6 +473,8 @@ numbers [1, 2, 3]
 - Syntax classification: `aggregate`, `expanded`.
 
 ### Calls
+
+**TODO** remove
 
 ```
 hello["world"]

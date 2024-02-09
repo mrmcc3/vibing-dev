@@ -65,38 +65,37 @@ In order of importance.
 - **Straightforward**. The syntax rules should be simple and obvious. In particular, working with
   fin data should quickly become automatic and take very little mental capacity.
   - In my personal experience JSON has this property. YAML does not.
-  - There's nuance to this goal. Less syntax is often better, but care must be taken to **avoid
+  - There's nuance to this goal. Less syntax is often better, but care must be taken to **reduce
     overloading** which increases the mental capacity required by us to process syntax.
 - **Value semantics**. Fin formats aren't concerned with higher level concepts such as schemas,
   validation or remote procedure calls. There is no concept of objects or references. The formats
   are nothing more than a mechanism to combine and convey values.
 - **Interoperability**. We'd like to allow a wide range of systems across diverse domains to convey
-  most information seamlessly without resorting to custom application logic (extension). Interop can
-  mean a wide variety of things here are some notes relevant to the design of fin.
+  most information seamlessly without resorting to custom application logic (extension).
   - The goal is to choose a **pragmatic set of primitives** that leverage existing standards for
-    universal data types that establish common ground without introducing unacceptable complexity to
+    fundamental data types to establish common ground without introducing unacceptable complexity to
     syntax rules.
-  - In particular domains often require precise value types. It is preferable to have primitives
-    that support this use case. Capable systems can interchange data seamlessly and less capable
-    systems can decide how to act given their constraints.
+  - Certain domains require precise value types. It is preferable to have primitives that support
+    this. Capable systems can interchange data seamlessly and less capable systems can decide how to
+    act given their constraints.
   - Interoperability is desirable, however the design should not be driven by the choices made in
     existing programming languages or other formats. Encoders/Decoders should take a "best-effort"
     approach when mapping to a given language or non-fin format.
-  - As an example, many languages have `null`, `nil`, `undefined` or `void` types to represent the
+  - As an example, many languages have `null`, `nil`, `undefined` or `void` to represent the
     _absence_ of a value. Fin is about conveying values, so does not encode these types. Leaving
     them out of the data achieves the same result.
 - **Extensible**. If the core (first-class) value types support extension, consumers and produces
   can compose them to signal domain-specific semantics and intermediaries can be oblivious to it.
   New specification versions are not required for every new use-case or custom data type.
-- **Compactness**. Where possible design choices should be made that lead to compact representation
-  and efficient implementations but not at the cost of the goals listed above.
-- **Canonical output**. Text decoders are flexible to the layout of incoming fin data, encoders are
-  not. There is one agreed upon way to output fin data and all encoders enforce it. Auto-formatting
-  tools (e.g. prettier) are not required as a decode/encode roundtrip produces canonical output.
 - **Top Level Streaming**. The formats should support top-level value streams. This means the top
   level value can be conveyed in small chunks over a long-lived connection, and could grow to
   arbitrary length. We consider comprehensive streaming protocols to be a higher level concept (out
   of scope) that could be built on top of this specification.
+- **Canonical output**. Text decoders are flexible to the layout of incoming fin data, encoders are
+  not. There is one agreed upon way to output fin data and all encoders enforce it. Auto-formatting
+  tools (e.g. prettier) are not required as a decode/encode roundtrip produces canonical output.
+- **Compactness**. Where possible design choices should be made that lead to compact representation
+  and efficient implementations but not at the cost of the goals listed above.
 - **Tooling**. Developer experience is very much an auxiliary goal that only makes sense if primary
   goals are met.
   - Reference encoders/decoders and test cases.
@@ -117,7 +116,7 @@ In order of importance.
 The fin data model describes a set of 8 value types.
 
 - 6 primitive types ([byte arrays](#byte-arrays), [strings](#strings), [symbols](#symbols),
-  [booleans](#booleans), [decimals](#decimals), [timestamps](#timestamps))
+  [booleans](#booleans), [numbers](#numbers), [timestamps](#timestamps))
 - 2 collection types ([arrays](#arrays), [maps](#maps))
   - combine other values of any type (heterogeneous) including other collections (recursive
     nesting).
@@ -175,11 +174,11 @@ strings is unnecessary.
 
 Booleans have two possible values `true` and `false`.
 
-### Decimals
+### Numbers
 
-Decimals are used to represent real numbers.
+Numbers are used to represent real numbers.
 
-- Arbitrary precision.
+- Arbitrary precision decimal notation.
 - Does not represent special values (`nan`, `inf`, `-inf`) which are not real numbers.
 - Includes all integers.
 - Can be combined (using tagged collections) to represent exact rationals and complex numbers.
@@ -264,12 +263,9 @@ out when normalisation should happen. Compliant fin text decoders must provide t
 - Inline.
   - Starts and ends on the same line.
   - Optionally surrounded by delimiters.
-  - [booleans](#booleans), [symbols](#symbols), [strings](#strings), [bytes](#bytes),
-    [integers](#integers), [decimals](#decimals), [rationals](#rationals), [instants](#instants),
 - Block.
   - starts with a delimiter and extends to the end of line. If the first non whitespace code point
     on the next line is the block delimiter then the block expands to include that line, and so on.
-  - [comments](#comments), [gaps](#gaps)
 - Expanded.
   - Contains sub-syntax that span multiple lines.
   - Optionally surrounded by delimiters.
@@ -396,11 +392,12 @@ valid sequence of Unicode code points. Two syntax forms are provided for strings
 
 ### Numbers
 
-#### Integers
-
 ```
 0, -1, 42
+0.0, -.123, 1.23e+10
 ```
+
+TODO combine integer?
 
 - Arbitrary precision integers are written verbatim in decimal notation.
 - Common prefixes for binary `0b`, octal `0o` and hexadecimal `0x` are accepted but will normalise
@@ -411,18 +408,12 @@ valid sequence of Unicode code points. Two syntax forms are provided for strings
   will be stripped when normalising.
 - Syntax classification: `primitive`, `inline`.
 
-#### Decimals
-
-```
-0.0, -.123, 1.23e+10 nan, inf, -inf
-```
-
 - Arbitrary precision decimals
 - Similar to integers underscores `_` will be stripped.
 - alternate base notation will be converted to decimal.
 - Syntax classification: `primitive`, `inline`.
 
-### Instants
+### Timestamps
 
 ```
 2024-01-22T22:53:52.548Z

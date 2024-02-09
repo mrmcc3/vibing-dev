@@ -157,6 +157,20 @@ Symbols are simplified strings used to represent names and identifiers.
   - Enables higher level semantics like namespaces/aliasing.
 - Symbols are part of fins extension mechanism (tagged collections).
 
+{% box %}
+
+**Why not use strings?** You could ask a similar question: why have a strings when byte arrays work?
+Hopefully it's obvious that strings are more useful to us than opaque blobs of hex or base64. In
+practice, the same applies for symbols, they are more useful than strings in certain situations.
+
+One of the [motivating use cases](#motivating-use-cases) for fin data is to describe programs where
+local names and identifiers are abundant. Having a restricted and more ergonomic primitive than
+strings makes a big difference writing programs (see JSON DSLs). It's not just programming languages
+though. If you look at most JSON payloads, object keys are almost always symbols and the use of
+strings is unnecessary.
+
+{% /box %}
+
 ### Booleans
 
 Booleans have two possible values `true` and `false`.
@@ -184,12 +198,24 @@ A timestamp is a date-time record that conveys an exact point in time.
   different offsets)
 - Timestamps do not encode timezone or alternate calendar information. The expectation is authors
   will combine timestamps with other fin primitives for use cases that require it.
-- **TODO** Why not use extension?
-  - exact time is a fundamental part of information which is obvious when keeping historical
-    records. Its use is widespread.
-  - We could use an extension over raw bytes to represent strings or integers for example, but we
-    can all agree having string and number literals is advantageous.
-  - Without a literal many different formats are used. We lose interoperability.
+
+{% box %}
+
+**Why not use an extension?** Exact time is a fundamental part of information which is obvious to
+anyone keeping historical records. Its use is widespread. By using a timestamp primitive we reduce
+the scenario where authors are choosing different ways to represent the same instant in time.
+Interoperability improves.
+
+In general, you could make the same argument for many data types (URLs, URIs, UUIDs, money, emails,
+regex, etc.) to be blessed as primitives (less overloading). It's a trade-off though, more
+primitives mean more syntax rules. It becomes harder for us to parse data at a glance (especially
+when taken to the extreme). There's also the awkward scenario when new standards emerge that
+_should_ be primitives based on those included in the released spec (extension solves this).
+
+Ultimately we made the judgement call that exact time is fundamental and would benefit the most from
+being primitive.
+
+{% /box %}
 
 ### Arrays
 
@@ -308,11 +334,6 @@ _abc:d12:e_3
 - A string-like primitive with no wrapping delimiters.
   - They are a natural fit to represent names and identifiers where a string would be more
     cumbersome.
-- One of the stated [use cases](#motivating-use-cases) for fin data is to describe programs where
-  local names and identifiers are abundant.
-  - Having a more ergonomic syntax than strings provides a huge benefit to authors and consumers.
-  - It's not just programming languages though. If you look at most JSON payloads, object keys are
-    almost always symbols and the use of strings is unnecessary.
 - `camelCase` and `kebab-case` are accepted but normalised to snake case. Any remaining uppercase
   code points are converted to lowercase.
 - Syntax classification: `primitive`, `inline`.

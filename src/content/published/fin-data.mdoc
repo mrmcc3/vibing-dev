@@ -148,6 +148,7 @@ Symbols are simplified strings used to represent names and identifiers.
 - Restricted to the following code points (`a-z`, `0-9`, `:`, `_`)
   - Subset of the Basic Latin Unicode Block (one-byte in UTF-8).
 - Must not start with a digit.
+- `true` and `false` are invalid symbols
 - The underscore is provided to break up words
   - Only `snake_case` is possible
 - The colon is provided to support breaking up the symbol into segments.
@@ -160,7 +161,8 @@ Booleans have two possible values `true` and `false`.
 
 ### Decimals
 
-Arbitrary precision
+- Arbitrary precision real numbers
+- Special values (`nan`, `inf`, `-inf`) are not real numbers even if defined in IEEE 754
 
 ### Integers
 
@@ -178,9 +180,8 @@ A timestamp is a date-time record that conveys an exact point in time.
 - Fractional seconds can be used to record time with arbitrary precision.
 - It is possible for two different timestamps to represent the same instant in time (clocks with
   different offsets)
-- Timestamps are not timezone-aware or calendar-aware. The expectation is authors will combine
-  timestamps with other fin primitives for use cases that call for additional date-time context
-  (timezone and alternate calendars).
+- Timestamps do not encode timezone or alternate calendar information. The expectation is authors
+  will combine timestamps with other fin primitives for use cases that require it.
 
 ### Arrays
 

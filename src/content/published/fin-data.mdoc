@@ -13,7 +13,7 @@ includes a [data model](#fin-data-model) and two formats.
 
 - A [text format](#fin-text-format) (`.fin` extension) for humans to read, author and manipulate
   with a text editor.
-- A [binary format](#fin-binary-format) (`.fib` extension) to more efficiently convey data between
+- A [binary format](#fin-binary-format) (`.fib` extension) to more efficient interchange between
   programs.
 
 Both formats are **self-describing**, meaning aside from the rules outlined in this specification no
@@ -65,8 +65,8 @@ In order of importance.
 - **Straightforward**. The syntax rules should be simple and obvious. In particular, working with
   fin data should quickly become automatic and take very little mental capacity.
   - In my personal experience JSON has this property. YAML does not.
-  - There's nuance to this goal. Less syntax is often better, but care must be taken to **reduce
-    overloading** which increases the mental capacity required by us to process syntax.
+  - There's nuance to this goal. Fewer syntax rules is usually a good thing but relying too much on
+    a limited set of primitives **overloads** them which is another form of complexity.
 - **Value semantics**. Fin formats aren't concerned with higher level concepts such as schemas,
   validation or remote procedure calls. There is no concept of objects or references. The formats
   are nothing more than a mechanism to combine and convey values.
@@ -158,7 +158,7 @@ Symbols are simplified strings used to represent names and identifiers.
 
 {% box %}
 
-**Why not use strings?** You could ask a similar question: why have a strings when byte arrays work?
+**Why not use strings?** You could ask a similar question: why have strings when byte arrays work?
 Hopefully it's obvious that strings are more useful to us than opaque blobs of hex or base64. In
 practice, the same applies for symbols, they are more useful than strings in certain situations.
 
@@ -176,12 +176,14 @@ Booleans have two possible values `true` and `false`.
 
 ### Numbers
 
-Numbers are used to represent real numbers.
+Numbers represent a [real number](https://en.wikipedia.org/wiki/Real_number) using arbitrary
+precision decimal notation.
 
-- Arbitrary precision decimal notation.
-- Does not represent special values (`nan`, `inf`, `-inf`) which are not real numbers.
 - Includes all integers.
-- Can be combined (using tagged collections) to represent exact rationals and complex numbers.
+- In practice, only approximates some rationals.
+- However can be combined (using tagged collections) to represent exact rationals and complex
+  numbers.
+- Does not represent special values (`nan`, `inf`, `-inf`) which are not real numbers.
 
 ### Timestamps
 
@@ -209,7 +211,7 @@ In general, you could make the same argument for many data types (URLs, URIs, UU
 regex, etc.) to be blessed as primitives (less overloading). It's a trade-off though, more
 primitives mean more syntax rules. It becomes harder for us to parse data at a glance (especially
 when taken to the extreme). There's also the awkward scenario when new standards emerge that
-_should_ be primitives based on those included in the released spec (extension solves this).
+_should_ be primitives based on those included in the released spec.
 
 Ultimately we made the judgement call that exact time is fundamental and would benefit the most from
 being primitive.
@@ -218,7 +220,23 @@ being primitive.
 
 ### Arrays
 
+Arrays are an **ordered** collection of values.
+
+- Each element can be of any type (heterogeneous) including collection making their definition
+  recursive.
+- Arrays can be tagged with a symbol. Consumers can interpret the tag as a signal that the array has
+  extended semantics.
+
 ### Maps
+
+Maps are an **unordered** collection of **associated** values.
+
+- WIP
+- Like arrays Maps can be tagged with a symbol.
+
+### Top Level Value
+
+The top level value must be a map. You can not send a single primitive or array.
 
 ---
 

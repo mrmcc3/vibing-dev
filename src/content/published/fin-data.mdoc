@@ -13,7 +13,7 @@ includes a [data model](#fin-data-model) and two formats.
 
 - A [text format](#fin-text-format) (`.fin` extension) for humans to read, author and manipulate
   with a text editor.
-- A [binary format](#fin-binary-format) (`.fib` extension) to more efficient interchange between
+- A [binary format](#fin-binary-format) (`.fib` extension) for more efficient interchange between
   programs.
 
 Both formats are **self-describing**, meaning aside from the rules outlined in this specification no
@@ -118,10 +118,18 @@ The fin data model describes a set of 8 value types.
 - 6 primitive types ([byte arrays](#byte-arrays), [strings](#strings), [symbols](#symbols),
   [booleans](#booleans), [numbers](#numbers), [timestamps](#timestamps))
 - 2 collection types ([arrays](#arrays), [maps](#maps))
-  - combine other values of any type (heterogeneous) including other collections (recursive
-    nesting).
-  - can optionally be tagged (prefixed) with a symbol to signal domain-specific semantics
-    (extensibility).
+
+{% box %}
+
+**Fin data model vs JSON.** JSON has 6 value types:
+
+- 4 primitive types (strings, numbers, booleans, null). In comparison, fin
+  - also has strings, numbers and booleans.
+  - does not have a null type.
+  - introduces byte arrays, symbols and timestamps.
+- 2 collection types (arrays, objects) are analogous to those (arrays, maps) in fin.
+
+{% /box %}
 
 ### Byte Arrays
 
@@ -158,15 +166,18 @@ Symbols are simplified strings used to represent names and identifiers.
 
 {% box %}
 
-**Why not use strings?** You could ask a similar question: why have strings when byte arrays work?
-Hopefully it's obvious that strings are more useful to us than opaque blobs of hex or base64. In
-practice, the same applies for symbols, they are more useful than strings in certain situations.
+**Why not use strings?** You could also ask why have strings when byte arrays work? Hopefully it's
+obvious that strings are more useful to us than opaque blobs of hex or base64. In practice, the same
+applies for symbols, they are more useful than strings in certain situations. You can make the case
+that
+[strings do too many things](https://buttondown.email/hillelwayne/archive/strings-do-too-many-things/)
+and extracting symbols as a primitive reduces overloading.
 
 One of the [motivating use cases](#motivating-use-cases) for fin data is to describe programs where
 local names and identifiers are abundant. Having a restricted and more ergonomic primitive than
 strings makes a big difference writing programs (see JSON DSLs). It's not just programming languages
 though. If you look at most JSON payloads, object keys are almost always symbols and the use of
-strings is unnecessary.
+strings is unwarranted.
 
 {% /box %}
 
@@ -193,7 +204,7 @@ A timestamp is a date-time record that conveys an exact point in time.
   > A timestamp is a date-time clock measurement along with that clocks **offset** from UTC
   > ([Coordinated Universal Time](https://en.wikipedia.org/wiki/Coordinated_Universal_Timehttps://en.wikipedia.org/wiki/Coordinated_Universal_Time)).
 - UTC is the primary time standard globally used to regulate clocks and time.
-- A clock measurement includes the current date (conventionally using the Gregorian Calendar)
+- A clock measurement includes a date component (conventionally using the Gregorian Calendar)
 - Fractional seconds can be used to record time with arbitrary precision.
 - It is possible for two different timestamps to represent the same instant in time (clocks with
   different offsets)
@@ -202,16 +213,20 @@ A timestamp is a date-time record that conveys an exact point in time.
 
 {% box %}
 
-**Why not use an extension?** Exact time is a fundamental part of information which is obvious to
-anyone keeping historical records. Its use is widespread. By using a timestamp primitive we reduce
-the scenario where authors are choosing different ways to represent the same instant in time.
-Interoperability improves.
+**Why are timestamps primitive?**
 
-In general, you could make the same argument for many data types (URLs, URIs, UUIDs, money, emails,
-regex, etc.) to be blessed as primitives (less overloading). It's a trade-off though, more
-primitives mean more syntax rules. It becomes harder for us to parse data at a glance (especially
-when taken to the extreme). There's also the awkward scenario when new standards emerge that
-_should_ be primitives based on those included in the released spec.
+- Exact time is a fundamental part of information which is obvious to anyone keeping historical
+  records.
+- Its use is widespread in many different domains.
+- A primitive reduces the scenario where authors are choosing different notation to represent the
+  same instant in time. Interoperability improves.
+- It's one less type to jam into strings which are already overloaded.
+
+That being said, you could make the same argument for many data types (URLs, URIs, UUIDs, money,
+emails, regex, etc.) to be blessed as primitives. It's a trade-off though, more primitives mean more
+syntax rules. It becomes harder for us to parse data at a glance (especially when taken to the
+extreme). There's also the awkward scenario when new standards emerge that _should_ be primitives
+based on those included in the specification.
 
 Ultimately we made the judgement call that exact time is fundamental and would benefit the most from
 being primitive.
@@ -220,23 +235,30 @@ being primitive.
 
 ### Arrays
 
-Arrays are an **ordered** collection of values.
+Arrays are an **ordered** collection of values (elements).
 
-- Each element can be of any type (heterogeneous) including collection making their definition
-  recursive.
-- Arrays can be tagged with a symbol. Consumers can interpret the tag as a signal that the array has
-  extended semantics.
+- Each element can be of any type (heterogeneous) including collections making the definition of
+  arrays recursive.
+- Arrays can be tagged (prefixed) with a symbol. Consumers can interpret the tag as a signal that
+  the array has extended semantics.
 
 ### Maps
 
-Maps are an **unordered** collection of **associated** values.
+Maps are an **unordered** collection of pairs.
 
-- WIP
-- Like arrays Maps can be tagged with a symbol.
+- A pair is a mapping (association) of a key to a value.
+- Keys and values can be any type.
+- Duplicate keys with different values are invalid (error).
+  - Encoders _should_ not produce duplicate keys.
+  - Decoders must ignore duplicate keys.
+- Like arrays Maps can be tagged with a symbol to signal extended semantics.
 
 ### Top Level Value
 
-The top level value must be a map. You can not send a single primitive or array.
+The top level (root) value must be a map.
+
+- You can not send a single primitive or array (just send it in the map instead).
+- The majority of JSON payloads in the wild are objects (mappings).
 
 ---
 
@@ -494,12 +516,6 @@ numbers [1, 2, 3]
   delimiters `()` are implied when processing the top level (root) value.
 - Key value pairs are listed with no indentation.
 - Otherwise all the same syntax rules of an expanded map apply.
-- When you receive a fin payload you can be sure it's a map.
-  - I'd wager the majority of JSON payloads in the wild are objects.
-  - In practice there aren't any use cases where forcing a top-level map is infeasible or
-    prohibitive.
-    - e.g. if the thing you're sending is not a map, maybe a big array or bytes it can easily be
-      nested in the top level map. `big_array []`
 - Syntax classification: `aggregate`, `expanded`.
 
 ### Calls

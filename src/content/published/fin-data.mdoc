@@ -87,8 +87,8 @@ In order of importance.
 - **Extensible**. If the core (first-class) value types support extension, consumers and produces
   can compose them to signal domain-specific semantics and intermediaries can be oblivious to it.
   New specification versions are not required for every new use-case or custom data type.
-- **Top Level Streaming**. The formats should support top-level value streams. This means the top
-  level value can be conveyed in small chunks over a long-lived connection, and could grow to
+- **Top Level Streaming**. The formats should support top-level value streams. This means a fin data
+  payload can be conveyed as a sequence of values over a long-lived connection, and could grow to
   arbitrary length. We consider comprehensive streaming protocols to be a higher level concept (out
   of scope) that could be built on top of this specification.
 - **Canonical output**. Text decoders are flexible to the layout of incoming fin data, encoders are
@@ -127,7 +127,7 @@ The fin data model describes a set of 8 value types.
   - also has strings, numbers and booleans.
   - does not have a null type.
   - introduces byte arrays, symbols and timestamps.
-- 2 collection types (arrays, objects) are analogous to those (arrays, maps) in fin.
+- 2 collection types (arrays, objects) are analogous to those in fin (arrays, maps).
 
 {% /box %}
 
@@ -187,8 +187,8 @@ Booleans have two possible values `true` and `false`.
 
 ### Numbers
 
-Numbers represent a [real number](https://en.wikipedia.org/wiki/Real_number) using arbitrary
-precision decimal notation.
+Represent [real numbers](https://en.wikipedia.org/wiki/Real_number) using arbitrary precision
+decimal notation.
 
 - Includes all integers.
 - In practice, only approximates some rationals.
@@ -241,6 +241,8 @@ Arrays are an **ordered** collection of values (elements).
   arrays recursive.
 - Arrays can be tagged (prefixed) with a symbol. Consumers can interpret the tag as a signal that
   the array has extended semantics.
+- Empty arrays (zero elements) are allowed.
+- Duplicate elements are allowed. Use tagged arrays to extend arrays with set semantics.
 
 ### Maps
 
@@ -251,14 +253,39 @@ Maps are an **unordered** collection of pairs.
 - Duplicate keys with different values are invalid (error).
   - Encoders _should_ not produce duplicate keys.
   - Decoders must ignore duplicate keys.
+- Decoder implementations may expose the order of key-value pairs. Consumers can maintain this order
+  but should not derive any meaning from it. The reason being intermediate processors may have
+  legally changed the order from the original source. That's fine, maps convey a mapping of keys to
+  values, independent of order.
 - Like arrays Maps can be tagged with a symbol to signal extended semantics.
+- Empty maps (zero pairs) are allowed.
 
-### Top Level Value
+{% box %}
 
-The top level (root) value must be a map.
+**Why have a map type?** Technically arrays are enough for a working data model (see lisps and
+s-expressions).
 
-- You can not send a single primitive or array (just send it in the map instead).
-- The majority of JSON payloads in the wild are objects (mappings).
+- An array of arrays (each length 2) could represent a map.
+- However order is now significant, duplicate keys are not prohibited, and it's not obvious at a
+  glance that the value is a mapping.
+- Tagging the array can solve these issues, but now it's not automatic, all consumers must provide
+  this logic and significantly more syntax is required.
+- These downsides are magnified by how prolific "mapping data structures" are in computing and
+  information exchange.
+  - Look at almost any JSON payload in the wild, chances are it contains an object, often lots of
+    them.
+
+{% /box %}
+
+### Top Level Semantics
+
+A fin payload is always implicitly a map.
+
+- This means fin data is created by encoding key-value pairs one at a time until there's no more
+  input.
+- The sequence of pairs is interpreted by the consumer as a map.
+- The sequence may be transferred in its entirety or one pair at a time over a long-lived
+  connection.
 
 ---
 
@@ -497,9 +524,6 @@ map[[k1, v1], [k2, v2]]
   - A single starting symbol is required to signal to the reader that it's a map which may not
     always be visible.
   - A different syntax is less verbose and makes it immediately obvious it's a map.
-- Other than the syntax change semantically it's equiv to an array of key value pairs
-  - Two maps with different order are two different values. Is this ok?
-  - Consumers can decide if order is significant or not
 - Syntax classification: `aggregate`, `inline` & `expanded`.
 
 #### Top-level Map

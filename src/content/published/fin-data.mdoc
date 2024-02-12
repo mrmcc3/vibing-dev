@@ -6,7 +6,31 @@ pubDate: "2024-01-01T23:38:33.561Z"
 slug: "draft/fin-data"
 ---
 
-> Alpha. Expect changes.
+> Unstable. Expect changes.
+
+{% box %}
+
+**Ideas**
+
+- Standard set of **built-in tags** which libraries are expected to implement on best-effort basis?
+  - local/bare symbols that end with `_` are reserved for this set.
+  - can support different primitives depending on the target format.
+    - cannot support custom binary layout must use primitives? is this true?
+  - the set could grow over time?
+  - `array_` and `map_` are implicit ?
+  - `set_`, `ts_` (timestamp) remove timestamp literal?
+  - perhaps with ubiquitous data types have syntax that is transformed into builtin tags.
+    - could this work with maps?
+- ~~Allow primitives with delimiters to be tagged (strings, byte arrays)~~
+- `set_[1, 2, 3]`
+- `url_["http://github.com"]`
+- `uuid_["5f05a510-cde2-4f4e-80d7-6d94bc095688"]`
+- `uuid_[<5f 05 a5 10 cd e2 4f 4e 80 d7 6d 94 bc 09 56 88>]`
+- `ts_["2024-01-22T22:53:52.548Z"]`
+- `rfc3339_["2024-01-22T22:53:52.548Z"]`
+- `zdt_["2024-01-22T22:53:52.548Z", "Australia/Brisbane"]`
+
+{% /box %}
 
 This document describes what fin data is and how to format it for transmission or storage. This
 includes a [data model](#fin-data-model) and two formats.
@@ -159,9 +183,12 @@ Symbols are simplified strings used to represent names and identifiers.
 - Must not start with a digit.
 - `true` and `false` are invalid symbols
 - The underscore is provided to break up words
+  - Double underscore is not allowed.
   - Only `snake_case` is possible
 - The colon is provided to support breaking up the symbol into segments.
-  - Enables higher level semantics like namespaces/aliasing.
+  - Intended to allow higher level semantics like namespaces/aliasing.
+  - Double colon is not allowed.
+  - Symbols must not end with a colon.
 - Symbols are part of fins extension mechanism (tagged collections).
 
 {% box %}
@@ -443,7 +470,20 @@ valid sequence of Unicode code points. Two syntax forms are provided for strings
 - **TODO** can they be trailing? Does line normalisation still apply?
 - Syntax classification: `primitive`, `block`.
 
-**TODO** perhaps single quotes or backticks for inline raw strings?
+{% box %}
+
+**why no inline raw strings?**
+
+- Allow inline raw strings?
+  - `'a raw \n string'`
+    - but these would have to escape at least `\n`
+    - or make it illegal, or change into expanded form by formatter...
+    - if raw strings contain `\n` they use `|` otherwise they use `''`
+    - `'` would need to be escaped though?
+    - alternatively use backticks and just make internal backticks illegal like golang
+  - `"esc"` is sugar for `str:'esc'` ?
+
+{% /box %}
 
 ### Bytes
 

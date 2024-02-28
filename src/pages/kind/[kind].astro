@@ -1,0 +1,26 @@
+---
+import { getCollection } from "astro:content";
+import FeedItem from "components/feed-item.astro";
+import Html from "components/html.astro";
+import Nav from "components/navbar.astro";
+
+export async function getStaticPaths() {
+  const pub = await getCollection("published");
+  const kinds = new Set(pub.map((entry) => entry.data.kind));
+  return Array.from(kinds).map((kind) => ({ params: { kind } }));
+}
+
+let pub = await getCollection("published");
+if (import.meta.env.PROD) pub = pub.filter((p) => p.data.list && !p.slug.startsWith("draft/"));
+pub = pub.filter((p) => p.data.kind === Astro.params.kind);
+pub.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<Html title="vibing.dev" description="Outlet for whatever I'm vibing. Mostly web dev.">
+  <Nav />
+  <main class="px-4 pb-12" transition:animate="slide" transition:name="main">
+    <ul class="mx-auto max-w-prose">
+      {pub.map((entry) => <FeedItem entry={entry} />)}
+    </ul>
+  </main>
+</Html>

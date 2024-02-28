@@ -46,9 +46,16 @@ const draft = entry.slug.startsWith("draft/");
           <div class="text-sm text-zinc-600 dark:text-zinc-400">
             {
               kind === "article" ? (
-                <span class="font-medium text-blue-600 dark:text-blue-400">Article</span>
+                <a href={`/kind/${kind}`} class="font-medium text-blue-600 dark:text-blue-400">
+                  Article
+                </a>
               ) : kind === "note" ? (
-                <span class="font-medium text-emerald-700 dark:text-emerald-400">Note</span>
+                <a
+                  href={`/kind/${kind}`}
+                  class="font-medium text-emerald-700 dark:text-emerald-400"
+                >
+                  Note
+                </a>
               ) : null
             } published on {format(pubDate, "do MMM yy")}
           </div>

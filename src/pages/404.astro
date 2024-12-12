@@ -1,14 +1,22 @@
 ---
-import Html from "components/html.astro";
-import Nav from "components/navbar.astro";
+import HomeIcon from "assets/home-modern.svg";
+import Html from "html.astro";
 ---
 
-<Html title="No Vibe" description="Not Found" robots="noindex">
-  <Nav />
+<Html title="Not Found" description="Not Found" robots="noindex">
   <main class="px-4 text-center">
     <div class="py-12">
       <p class="font-mono text-2xl font-bold text-rose-500">404</p>
       <h1 class="text-4xl font-bold">Page not found</h1>
+    </div>
+    <div class="flex flex-row flex-wrap items-center justify-center pb-4">
+      <a
+        class="inline-flex items-center font-medium underline underline-offset-2"
+        href="/"
+      >
+        <HomeIcon class="mr-1.5 h-6 w-6" />
+        <span>Home</span>
+      </a>
     </div>
   </main>
 </Html>

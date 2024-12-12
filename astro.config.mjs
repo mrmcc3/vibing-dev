@@ -1,26 +1,22 @@
+// @ts-check
 import { defineConfig } from "astro/config";
-import svelte from "@astrojs/svelte";
-import markdoc from "@astrojs/markdoc";
-import sitemap from "@astrojs/sitemap";
-import tailwind from "@astrojs/tailwind";
-
-import vercel from "@astrojs/vercel/static";
+import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://vibing.dev",
-  trailingSlash: "never",
-  integrations: [
-    svelte(),
-    tailwind(),
-    markdoc(),
-    sitemap({
-      filter: (p) => !p.includes("/draft/"),
-    }),
-  ],
-  output: "static",
-  adapter: vercel({
-    webAnalytics: { enabled: true },
-    speedInsights: { enabled: true },
-  }),
+  experimental: {
+    svg: true,
+  },
+  vite: {
+    plugins: [tailwindcss()],
+  },
+  markdown: {
+    shikiConfig: {
+      themes: {
+        light: "github-light",
+        dark: "github-dark",
+      },
+    },
+  },
 });

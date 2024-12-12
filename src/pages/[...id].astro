@@ -1,0 +1,86 @@
+---
+import { getCollection, render } from "astro:content";
+import Html from "html.astro";
+import HomeIcon from "assets/home-modern.svg";
+import EnvelopeIcon from "assets/envelope.svg";
+import GithubIcon from "assets/github.svg";
+import { format } from "date-fns";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { title = "Draft", description = "Draft", draft, pub_date } = post.data;
+const robots = draft ? "noindex" : undefined;
+const formatted_date = pub_date
+  ? format(pub_date, "do MMMM yyyy")
+  : new Date().toISOString();
+const { Content } = await render(post);
+---
+
+<Html {title} {description} {robots} og_type="article">
+  <main class="py-10 sm:py-16 px-4 space-y-12 sm:space-y-16">
+    <div>
+      <div
+        class="text-sm sm:text-base text-zinc-800 dark:text-zinc-300 text-center"
+      >
+        {formatted_date}
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-bold text-center">
+        {title}
+      </h1>
+    </div>
+    <article
+      class:list={[
+        "prose prose-zinc dark:prose-invert mx-auto",
+        // text
+        "font-serif prose-headings:font-sans break-words sm:text-lg ",
+        // fences (code blocks)
+        "prose-pre:-mx-4 prose-pre:rounded-none prose-pre:sm:rounded-md",
+        "prose-pre:border-y prose-pre:border-zinc-400/20 prose-pre:sm:border-x",
+        // strong
+        "prose-strong:font-bold",
+        // link
+        "prose-a:decoration-1 prose-a:underline-offset-2",
+        // blockquote
+        "prose-blockquote:border-zinc-900 prose-blockquote:dark:border-zinc-100",
+        // image
+        "prose-img:mx-auto prose-img:rounded-md",
+      ]}
+    >
+      <Content />
+    </article>
+    <div
+      class="flex flex-row flex-wrap items-center justify-between gap-6 sm:justify-center pb-4"
+    >
+      <a
+        class="inline-flex items-center font-medium underline underline-offset-2"
+        href="/"
+      >
+        <HomeIcon class="mr-1.5 h-6 w-6" />
+        <span>Home</span>
+      </a>
+      <a
+        class="inline-flex items-center font-medium underline underline-offset-2"
+        href="https://github.com/mrmcc3/vibing-dev/discussions"
+      >
+        <GithubIcon class="mr-1.5 h-6 w-6" />
+        <span>Discuss</span>
+      </a>
+      <a
+        class="inline-flex items-center font-medium underline underline-offset-2"
+        href={`mailto:feedback@vibing.dev?subject=${encodeURIComponent(
+          `Feedback ${title}`,
+        )}`}
+      >
+        <EnvelopeIcon class="mr-1.5 h-6 w-6" />
+        <span>Feedback</span>
+      </a>
+    </div>
+  </main>
+</Html>

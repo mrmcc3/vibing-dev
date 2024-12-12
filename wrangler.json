@@ -1,0 +1,9 @@
+{
+	"name": "vibing-dev",
+	"compatibility_date": "2024-12-09",
+	"assets": {
+		"directory": "dist",
+		"html_handling": "drop-trailing-slash",
+		"not_found_handling": "404-page"
+	}
+}

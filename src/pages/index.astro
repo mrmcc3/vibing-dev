@@ -1,19 +1,45 @@
 ---
+import Html from "html.astro";
+import { format } from "date-fns";
 import { getCollection } from "astro:content";
-import FeedItem from "components/feed-item.astro";
-import Html from "components/html.astro";
-import Nav from "components/navbar.astro";
-
-let pub = await getCollection("published");
-if (import.meta.env.PROD) pub = pub.filter((p) => p.data.list && !p.slug.startsWith("draft/"));
-pub.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const posts = await getCollection("blog", ({ data }) => !data.draft);
+posts.sort((a, b) => b.data.pub_date!.getTime() - a.data.pub_date!.getTime());
 ---
 
-<Html title="vibing.dev" description="Outlet for whatever I'm vibing. Mostly web dev.">
-  <Nav />
-  <main class="px-4 pb-12" transition:animate="slide" transition:name="main">
-    <ul class="mx-auto max-w-prose">
-      {pub.map((entry) => <FeedItem entry={entry} />)}
+<Html
+  title="vibing.dev"
+  description="Outlet for whatever I'm vibing. Mostly software."
+>
+  <main class="px-4">
+    <div class="flex flex-col items-center pt-4">
+      <a href="/site-info">
+        <h1
+          class="text-3xl sm:text-4xl font-bold hover:underline decoration-1 underline-offset-3"
+        >
+          vibing.dev
+        </h1>
+      </a>
+    </div>
+    <ul
+      class="mx-auto max-w-prose sm:text-lg space-y-10 sm:space-y-16 py-10 sm:py-16"
+    >
+      {
+        posts.map(({ id, data: { pub_date, title, description } }) => (
+          <li class="flex flex-col items-start">
+            <div class="text-sm sm:text-base text-zinc-600 dark:text-zinc-300">
+              {format(pub_date!, "do MMMM yyyy")}
+            </div>
+            <a href={`/${id}`}>
+              <h2 class="text-xl sm:text-2xl font-bold leading-snug underline sm:no-underline hover:underline decoration-1 underline-offset-2">
+                {title}
+              </h2>
+            </a>
+            <p class="text-zinc-600 dark:text-zinc-300 leading-snug pt-1">
+              {description}
+            </p>
+          </li>
+        ))
+      }
     </ul>
   </main>
 </Html>

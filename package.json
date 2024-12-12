@@ -1,33 +1,20 @@
 {
-  "name": "@mrmcc3/vibing-dev",
-  "type": "module",
-  "version": "v1",
-  "private": true,
-  "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro",
-    "format": "prettier --write ./**/*.astro ./**/*.mdoc ./**/*.svelte ."
-  },
-  "dependencies": {
-    "@astrojs/markdoc": "^0.11.1",
-    "@astrojs/rss": "^4.0.7",
-    "@astrojs/sitemap": "^3.1.6",
-    "@astrojs/svelte": "^5.6.0",
-    "@astrojs/tailwind": "^5.1.0",
-    "@astrojs/vercel": "^7.7.2",
-    "@tailwindcss/typography": "^0.5.13",
-    "@vercel/speed-insights": "^1.0.12",
-    "astro": "^4.11.5",
-    "date-fns": "^3.6.0",
-    "prettier": "^3.3.2",
-    "prettier-plugin-astro": "^0.14.0",
-    "prettier-plugin-svelte": "^3.2.5",
-    "prettier-plugin-tailwindcss": "^0.6.5",
-    "sharp": "^0.33.4",
-    "svelte": "^4.2.18",
-    "tailwindcss": "^3.4.4"
-  }
+	"name": "@mrmcc3/vibing-dev",
+	"type": "module",
+	"version": "v2",
+	"scripts": {
+		"dev": "astro dev",
+		"build": "astro build",
+		"pub": "astro build && wrangler deploy"
+	},
+	"dependencies": {
+		"@astrojs/rss": "^4.0.10",
+		"@tailwindcss/typography": "^0.5.15",
+		"@tailwindcss/vite": "4.0.0-beta.6",
+		"astro": "^5.0.4",
+		"date-fns": "^4.1.0",
+		"sharp": "^0.33.5",
+		"tailwindcss": "4.0.0-beta.6",
+		"wrangler": "^3.95.0"
+	}
 }

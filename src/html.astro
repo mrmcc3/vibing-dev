@@ -1,0 +1,59 @@
+---
+import "styles.css";
+import apple_touch_icon from "assets/apple-touch-icon.png";
+import banner from "assets/banner.jpg";
+import icon from "assets/icon.svg";
+
+interface Props {
+  title: string;
+  description: string;
+  robots?: "noindex";
+  og_type?: "website" | "article";
+  og_image?: string;
+}
+
+const {
+  title,
+  description,
+  robots,
+  og_type = "website",
+  og_image = banner.src,
+} = Astro.props;
+
+let canonical_url = new URL(Astro.url.pathname, Astro.site).toString();
+if (canonical_url.endsWith("/")) canonical_url = canonical_url.slice(0, -1);
+---
+
+<!doctype html>
+<html class="antialiased" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical_url} />
+    {robots && <meta name="robots" content={robots} />}
+    <link rel="icon" href={icon.src} type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href={apple_touch_icon.src} />
+    <link rel="manifest" href="/site.webmanifest" />
+    <slot name="og">
+      <meta property="og:type" content={og_type} />
+      <meta property="og:url" content={canonical_url} />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta property="og:image" content={new URL(og_image, Astro.url)} />
+    </slot>
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      href="/rss.xml"
+      title="rss"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <slot name="head" />
+  </head>
+  <body class="bg-white dark:bg-zinc-900">
+    <slot />
+  </body>
+</html>

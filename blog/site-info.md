@@ -25,7 +25,7 @@ Except where otherwise noted, content on this site is licensed under
   - `font-serif` is the "Transitional" stack.
   - `font-mono` is the "Monospace Code" stack.
 - There's an [RSS Feed](/rss.xml).
-- Hosted using [Cloudflare Workers Static Assets](static-assets).
+- Hosted using [Cloudflare Workers Static Assets][static-assets].
 
 [cc]: https://creativecommons.org/licenses/by/4.0/
 [mit]: https://github.com/mrmcc3/vibing-dev/blob/main/LICENSE

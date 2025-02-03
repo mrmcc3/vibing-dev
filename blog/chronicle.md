@@ -10,6 +10,8 @@ immutable records where every record has the same five-part structure. As
 information accumulates, Chronicle efficiently organizes it into globally
 replicated indexes, enabling low-latency queries from any location.
 
+![A high level diagram of chronicle](./images/chronicle-high-level.png)
+
 > Chronicle is **not** a transaction processing system, a requirement for many
 > applications. Databases provide transactions, in part, by owning the current
 > state of system entities. This leads developers (perhaps unknowingly) to

@@ -17,11 +17,11 @@ spends 10 paragraphs on this trivial concept, concluding with:
 
 > This downward trajectory is obviously not a good look
 
-I can't wait for a matching article on Vercel's inevitable doom for
-[Fluid Compute](https://vercel.com/blog/introducing-fluid-compute#dense-global-compute-and-multi-region-failover)
-where they move from "Edge" to "Regional". Look, Deno Deploy may be struggling,
-it might not? But come on, do we really need to pile on? How is this productive
-in any way?
+Can we expect a "Vercel's Decline" article as they move from "Edge" to
+"Regional" with
+[Fluid Compute](https://vercel.com/blog/introducing-fluid-compute#dense-global-compute-and-multi-region-failover).
+Look, Deno Deploy may be struggling, it might not? But come on, do we really
+need to pile on? How is this productive in any way?
 
 It's comical the author mentions alternatives. Viral articles like this run
 completely counter to alternatives existing. Seriously, if you don't like their

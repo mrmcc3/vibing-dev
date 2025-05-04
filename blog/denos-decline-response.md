@@ -18,10 +18,10 @@ spends 10 paragraphs on this trivial concept, concluding with:
 > This downward trajectory is obviously not a good look
 
 I can't wait for a matching article on Vercel's inevitable doom for
-[Fluid Compute](https://vercel.com/blog/introducing-fluid-compute) where they
-move from "Edge" to "Regional". Look, Deno Deploy may be struggling, it might
-not? But come on, do we really need to pile on? How is this productive in any
-way?
+[Fluid Compute](https://vercel.com/blog/introducing-fluid-compute#dense-global-compute-and-multi-region-failover)
+where they move from "Edge" to "Regional". Look, Deno Deploy may be struggling,
+it might not? But come on, do we really need to pile on? How is this productive
+in any way?
 
 It's comical the author mentions alternatives. Viral articles like this run
 completely counter to alternatives existing. Seriously, if you don't like their
@@ -30,15 +30,14 @@ new ideas.
 
 > Deno KV looks like nothing short of abandonware.
 
-It's a minimal data API. Does it work or not? Have production workloads stopped
-working? Any performance issues? No, none of that. Instead, let's talk about the
-most important thing in software - is there a recently tagged version number?
+It's a minimal data API. Does it work or not? How does it perform in production?
+No, none of that. Instead, let's talk about the most important thing in
+software - is there a recently tagged version number?
 
 Maybe instead we could talk about how they're offering a unique API to
 FoundationDB with at-least-once semantic queues where message handlers
 automatically scale using v8 isolates. Or how you can atomically enqueue
-messages and interact with KV state in the same transaction. We **should**
-celebrate this kind of innovation.
+messages and interact with KV state in the same transaction.
 
 The article then goes on a tirade against [JSR](https://jsr.io). Let's have a
 look:

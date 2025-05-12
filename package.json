@@ -10,15 +10,16 @@
 	"dependencies": {
 		"@astrojs/rss": "^4.0.11",
 		"@tailwindcss/typography": "^0.5.16",
-		"@tailwindcss/vite": "4.1.5",
-		"astro": "^5.7.10",
+		"@tailwindcss/vite": "4.1.6",
+		"astro": "^5.7.12",
 		"date-fns": "^4.1.0",
 		"sharp": "^0.34.1",
-		"tailwindcss": "4.1.5",
-		"wrangler": "^4.14.1"
+		"tailwindcss": "4.1.6",
+		"wrangler": "^4.14.4"
 	},
 	"pnpm": {
 		"onlyBuiltDependencies": [
+			"@tailwindcss/oxide",
 			"esbuild",
 			"sharp",
 			"workerd"

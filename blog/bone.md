@@ -25,30 +25,33 @@ are a good example.
 - Each typecode (0-255) defines the type of value being read and the **method**
   used to read the value to completion.
 - There are 4 value processing methods
-  - **Fixed** number of bytes. For example
+  - **(F)ixed** number of bytes. For example
     - `F0` no extra bytes. The value is the typecode.
     - `F2` read two more bytes.
-  - **String** of bytes. `S`
-    - a single low sentinel `0x00` terminates the byte string.
-    - consecutive low sentinels `0x0000` escapes the null byte.
-  - **List** of nested values. `L`
+  - **(S)tring** of bytes.
+    - non-terminal null bytes (those within the byte string) are replaced with
+      the escape pattern `0x0001`
+    - `0x00` followed by any other byte terminates the string.
+    - this works well for natural text encodings.
+    - the size increase for escaping should be taken into consideration when
+      using this method for extension
+  - **(L)ist** of nested values.
     - the typecode initiates the nested interpretation of values.
-    - a high sentinal `0x1F` terminates the list.
-  - **Invalid** value. `I`
+    - a null sentinel `0x00` terminates the list.
+  - **(I)nvalid** value.
     - Processing should stop with an error.
 
 ### Typecodes
 
 ```
 CORE PRIMITIVES
-  0x00    | I      | low sentinel
-  0x01    | F0     | false
-  0x02    | F0     | true
-  0x03... | F0-F8  | packed 64bit signed integers
-  0x14    | F8     | 64bit floating point numbers
-  0x15    | S      | arbitrary bytes
+  0x00    | I      | null sentinal
+  0x01    | I      | null escape
+  0x02    | F0     | false
+  0x03    | F0     | true
+  0x04... | F0-F8  | packed 64bit signed integers
+  0x15    | F8     | 64bit floating point numbers
   0x16... | I      | unused
-  0x1F    | I      | high sentinel
 BUILTIN EXTENSIONS
   0x20... | F0     |
   0x30... | F1     |

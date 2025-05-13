@@ -46,21 +46,23 @@ are a good example.
 ### Typecodes
 
 ```
-CORE PRIMITIVES
-  0x00    | I      | null sentinal
-  0x01    | I      | null escape
-  0x02    | B0     | false
-  0x03    | B0     | true
-  0x04... | B0-B8  | packed 64bit signed integers
-  0x15    | B8     | 64bit floating point numbers
-  0x16... | I      | unused
+SENTINELS
+  0x00... | I      |
+    0x00  | I      | null sentinal
+    0x01  | I      | null escape
+INTEGERS
+  0x10... | B0-B8  | variable 64bit signed integers
 BYTE EXTENSIONS (0-9 are builtin, A-F are avail. to user)
-  0x30... | B0     |
-  0x40... | B1     |
-  0x50... | B2     |
-  0x60... | B3     |
-  0x70... | B4     |
-  0x80... | B8     |
+  0x20... | B0     | literals
+    0x20  | B0     | false
+    0x21  | B0     | true
+  0x30... | B1     |
+  0x40... | B2     |
+  0x50... | B3     |
+  0x60... | B4     |
+  0x70... | B8     |
+    0x70  | B8     | 64 bit floating point numbers
+  0x80... | B16    |
   0x90... | S      |
     0x90  | S      | UTF-8 unicode string
 VALUE EXTENSIONS (0-9 are builtin, A-F are avail. to user)

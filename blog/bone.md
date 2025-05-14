@@ -42,8 +42,8 @@ is a production-grade example.
     - `0x00` terminates the list.
   - **(E)xtend**: The next byte must be another extension typecode.
     - Creates another level of extensions.
-    - If for example the extensions for `0xFA-0xFF` are all used `0x02FA` can be
-      used.
+    - If for example the extensions for `0xFA-0xFF` are all taken `0xFFFA` can
+      be used.
   - **(I)nvalid**: Stop processing with an error.
 
 ### Typecodes
@@ -52,7 +52,7 @@ is a production-grade example.
 CODE      METHOD   TYPE
 0x00    | I      | null
 0x01    | I      | escape
-0x03... | I      | unused
+0x02... | I      | unused
 0x08    | B8     | - 8 byte ints
 0x09    | B7     | - 7 byte ints
 0x0A    | B6     | - 6 byte ints
@@ -88,19 +88,19 @@ CODE      METHOD   TYPE
 0xD0... | T4     |
 0xE0... | T8     |
 0xF0... | L      |
-0xFF    | E      | new level
+0xFF    | E      | level
 ```
 
 ### Extensions
 
-- The majority of the typecode space is dedicated to extensions `0x20...0xFF`
+- The majority of the typecode space is dedicated to extensions `0x20...0xFF`.
 - Each block of 16 extension codes defines a processing method (forward
-  compatibility)
-  - The first 8 blocks `0x20...0x9F` are byte extensions
-  - The remaining 6 blocks `0xA0...0xFF` are value extensions
-  - The first 10 codes of each block `0-9` are builtin (reserved for BONE)
-  - The remaining 6 codes of each block `A-F` are available for user extension
-- The level typecode `0x02` creates an new level of the extension space
+  compatibility).
+  - The first 8 blocks `0x20...0x9F` are byte extensions.
+  - The remaining 6 blocks `0xA0...0xFF` are value extensions.
+  - The first 10 codes of each block `0-9` are builtin (reserved for BONE).
+  - The remaining 6 codes of each block `A-F` are available for user extension.
+- The level typecode `0xFF` creates an new level of the extension space.
 
 ### Examples
 

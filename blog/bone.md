@@ -16,7 +16,7 @@ to create a format with:
 6. Space efficient encodings.
 
 Resulting in (B)inary, (O)rdered, (N)otation with (E)xtension. These kind of
-encoding schemes are useful in index/databases where ordering is the goal.
+encoding schemes are useful in indexing/databases where ordering is the goal.
 [FoundationDB tuple encoding](https://github.com/apple/foundationdb/blob/main/design/tuple.md)
 is a production-grade example.
 
@@ -41,9 +41,7 @@ is a production-grade example.
   - **(L)ist**: Read a variable number of nested values.
     - `0x00` terminates the list.
   - **(E)xtend**: The next byte must be another extension typecode.
-    - Creates another level of extensions.
-    - If for example the extensions for `0xFA-0xFF` are all taken `0xFFFA` can
-      be used.
+    - Creates another level of typecodes available for extension.
   - **(I)nvalid**: Stop processing with an error.
 
 ### Typecodes
@@ -102,10 +100,20 @@ CODE      METHOD   TYPE
   - The remaining 6 codes of each block `A-F` are available for user extension.
 - The level typecode `0xFF` creates an new level of the extension space.
 
-### Examples
+### Implementations
 
-TODO
+- https://github.com/mrmcc3/bone-go
 
-### Implentations
+### TODO
 
-TODO
+- js decoder/encoder with fast-check
+  - check ordering properties of the format hold
+- go
+  - provide interpretation api over base encoder/decoder
+  - fuzz test ordering properties
+- zig/other languages
+  - perhaps do a gigantic prop test that chains through different impl. with
+    different extensions
+- benchmark them all alongside something like FDB tuples perhaps a general
+  purpose binary scheme and JSON?
+- space comparison with some other formats?

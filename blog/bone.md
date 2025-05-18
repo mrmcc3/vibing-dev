@@ -100,6 +100,12 @@ CODE      METHOD   TYPE
   - The remaining 6 codes of each block `A-F` are available for user extension.
 - The level typecode `0xFF` creates an new level of the extension space.
 
+### Non Values
+
+BONE is designed to encode **values** with well-defined ordering. `null`,
+`undefined`, and `NaN` are deliberately omitted. If you must, BONE is
+extensible.
+
 ### Implementations
 
 - https://github.com/mrmcc3/bone-go

@@ -108,18 +108,5 @@ extensible.
 
 ### Implementations
 
+- https://github.com/mrmcc3/bone-js
 - https://github.com/mrmcc3/bone-go
-
-### TODO
-
-- js decoder/encoder with fast-check
-  - check ordering properties of the format hold
-- go
-  - provide interpretation api over base encoder/decoder
-  - fuzz test ordering properties
-- zig/other languages
-  - perhaps do a gigantic prop test that chains through different impl. with
-    different extensions
-- benchmark them all alongside something like FDB tuples perhaps a general
-  purpose binary scheme and JSON?
-- space comparison with some other formats?

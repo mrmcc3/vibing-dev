@@ -4,70 +4,70 @@ with data is really saying very little. So what more can we say?
 
 ## Entity, State and Transactions
 
-Our problems often demand solutions that manage entities and constrain how their
+Our problems often demand solutions that create entities and constrain how their
 state evolves given outside input. To achieve this requires varying degrees of
-coordination. OLTP databases do exactly that! They provide transactions that
-allow us to express "business rules" to atomically transition the state of
-entities (state machines).
+coordination. OLTP databases do exactly that! They provide transactions that let
+us atomically transition the state of entities while maintaining invariants
+("business rules"). In essence, they're fancy state machines.
 
-Transactions are fundamentally about coordination and locality plays a big role.
-Having decision makers in the same room (or nearby) is important.
+Coordination requires observing state and communicating changes - both easier
+when co-located. If orchestrating state across distance was easy, it would be
+trivial to run all our OLTP systems on the edge. That's not the reality.
 
 > The degree of coordination is problem dependent. <br> Transactions perform the
 > coordination and state evolution. <br> It's better if everything involved is
-> in the same place.
+> in the same place (locality).
 
 ## Information is built different
 
-Information is created the moment the state of an entity is observed. It has a
+Information is created the moment the state of any entity is observed. It has a
 reference to the entity, the state being observed and the time.
 
-It's not an entity with evolving state. It's the same everywhere, to everyone,
-whenever they see it. It's an immutable record! Consistent by definition. No
-coordination required. Replicate it, distribute it, cache it forever.
+It's not an entity with evolving state - it's an immutable record that's the
+same everywhere, to everyone, whenever they see it. This makes it consistent by
+definition, requiring no coordination to replicate, distribute, or cache
+forever.
 
-It's data yes, but with completely different characteristics to the state
-managed by OLTP databases. Just saying "data" conflates entities, state and
-information.
+> Information really is nothing like entities that change state. Conflating them
+> is a mistake.
 
 ## OLTP for everything?
 
 Let's look at some outcomes if we decide to use an OLTP database for all our
 "data" requirements.
 
-### Forget by default
+### Remembering is on you
 
-A common pitfall is not identifying when the problem has information
-requirements in the first place.
+OLTP is great at orchestrating entities and state but it won't store past states
+or how entities change for you. If you're lucky you might be able to completely
+solve your problem by only tracking the current state of everything. But more
+than likely that's not the case and failing to proactively collect records will
+lead to the unpleasant discovery that it's impossible to answer questions about
+the past. 😬
 
-You can get the database to correctly model entities and enforce the "business
-rules" that govern their state transitions, but it won't automatically record
-how it came to be. Oops, what if we have to answer questions about that stuff?
-😬
+The situation becomes worse when the questions about the past aren't even known
+when you first build the application. Hoping there's a backup that can answer
+your question, or sifting through logs is all accidental record-keeping.
 
-Remembering is on you. Hoping there's backup that can answer your question, or
-sifting through logs is all accidental information capture.
+> Forgetting past states isn't really an option for most applications. In those
+> cases whether we realize it or not we **must** record information.
 
-> Forgetting isn't really an option for most applications. Whether we realize it
-> or not we need records.
+### Into the Tar Pit
 
-### More questions
+Okay, so we need records in the database.
 
-Okay, I need records, now what?
+Which entities need record-keeping? What if we don't know what historical
+questions might be asked? Do we store complete state snapshots or just diffs?
+Event sourcing? Change data capture? What's the schema and will it conflict as
+the rest of the system evolves? Oh no, more complex migrations? How do we index
+temporal data? Will queries be more challenging? What about read performance?
+Write performance? Storage costs? User experience?
 
-- Do we store complete state snapshots (row copies) on every change?
-- Or maybe just the diff? Event sourcing? Change data capture?
-- Is it any state change or do we just add `created_at`, `updated_at` columns
-  and call it a day?
-- What if we can't anticipate the information requirements of our problem yet?
-- What's the schema? Will it evolve with the state?
-- How do we index the records?
-- Will record queries be harder? (narrator: yes, much harder)
-- Will all this extra work affect my read performance? write performance? the
-  end user?
+Maybe the biggest red flag: these questions have nothing to do with your actual
+problem. It's pure accidental complexity.
 
-> This seems harder than it should be. None of this is about transactions.
-> Perhaps it's a clue - wrong tool for the job.
+> When a tool makes simple things complex, it's usually the wrong tool for the
+> job.
 
 ### Leaving value on the table
 
@@ -81,19 +81,3 @@ Creating artificial scarcity in a landscape of abundant global storage and
 content delivery networks.
 
 > We're under-utilizing one of the most distribution-friendly types of data.
-
-### Transaction/Query friction
-
-Many problems exhibit natural transaction boundaries - coordination is only
-needed within specific groups of entities. Shared-nothing architectures leverage
-this well, especially when these groups align with geographic regions. Local
-transactions stay local.
-
-But this makes querying the aggregate more complex. You need distributed
-queries, data pipelines, or other mechanisms to recreate the whole picture.
-
-## OLAP for everything?
-
-Trying to enforce "business rules" on inconsistent or eventually consistent
-state is a recipe for disaster. When you need the guarantees transactions
-provides there's no substitute.

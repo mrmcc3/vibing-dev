@@ -81,3 +81,15 @@ Creating artificial scarcity in a landscape of abundant global storage and
 content delivery networks.
 
 > We're under-utilizing one of the most distribution-friendly types of data.
+
+## OLAP for everything?
+
+State transitions are either coordinated or they're not. If you're problem
+demands strict constraints there's no middle ground for "mostly transactional"
+where it's fine to break the rules. Lost writes and ambiguos states often
+manifest as severe outcomes with unaccepteable consequences.
+
+Contrast this with using OLTP for information: extra complexity for record
+keeping that starts small and some underutilized distribution potential. Those
+problems seem tolerable by comparison. It leads to workarounds after the fact
+that often miss the mark.

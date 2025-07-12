@@ -84,12 +84,21 @@ content delivery networks.
 
 ## OLAP for everything?
 
-State transitions are either coordinated or they're not. If you're problem
-demands strict constraints there's no middle ground for "mostly transactional"
-where it's fine to break the rules. Lost writes and ambiguos states often
-manifest as severe outcomes with unaccepteable consequences.
+State transitions are either coordinated or they're not. If your problem demands
+strict constraints there's no middle ground for "mostly transactional" where
+it's fine to break the rules. Lost writes and ambiguous states often manifest as
+severe outcomes with unacceptable consequences. Fortunately, we've mostly agreed
+this is a bad idea.
 
-Contrast this with using OLTP for information: extra complexity for record
-keeping that starts small and some underutilized distribution potential. Those
-problems seem tolerable by comparison. It leads to workarounds after the fact
-that often miss the mark.
+Contrast this with using OLTP for information: Some extra complexity for record
+keeping and underutilized distribution potential. Those problems seem tolerable
+by comparison.
+
+## Release the Records!
+
+![database and archive vs database only](images/db-arc.png)
+
+It's clear information needs to be extracted from OLTP databases (left) and put
+somewhere else (right). The shift is simple. OLTP database revert back to what
+they do best - transaction processing. The archive can focus on storing records
+and distributing to wherever the questions may be.

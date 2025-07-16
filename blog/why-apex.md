@@ -1,3 +1,10 @@
+---
+{
+  title: "Why Apex?",
+  description: "The case for a global information archive",
+}
+---
+
 The software we create manipulates data to solve problems. Yet data is too broad
 a term - an opaque sequence of ones and zeros. Saying our software deals with
 data is really saying very little. So what more can we say?
@@ -214,11 +221,12 @@ possible!
 > approximately 50 ms. - [Cloudflare](https://www.cloudflare.com/security/)
 
 But why stop there? Immutable records can be cached directly in your
-applications, directly on user devices - some queries could be almost instant!
+applications, directly on user devices - some queries could be effectively
+instant!
 
-If you use an OLTP database for everything (diagram on the left) you're leaving
-all this value on the table. Anyone that believes "the edge" is incompatible
-with our "data" systems is missing out!
+If you use an OLTP database for everything you're leaving all this value on the
+table. Anyone that believes "the edge" is incompatible with our "data" systems
+is missing out!
 
 ### Write throughput/latency
 

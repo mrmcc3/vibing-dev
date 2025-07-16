@@ -179,6 +179,51 @@ unnoticed? An archival system designed for information mitigates this risk.
 Overall, OLTP components become low-ceremony parts of the system rather than a
 single point of failure that everyone is afraid to touch.
 
-### Unlock the benefits of information
+### Information unlocked
+
+With all state coordination taken care of, we can shift our focus to an archive
+that best leverages the immutable nature of information. What characteristics
+should we realistically aim for in an ideal solution?
+
+#### Extreme durability
+
+A defining characteristic of an archive is keeping records safe. They should be
+enduring, pristine and free from tampering. If the archive delivers on
+durability, OLTP backups become the less reliable option.
+
+Let's replace scattered, point-in-time backups with a unified archive that
+preserves everything.
+
+#### High Availability
+
+Having rich information isn't much use if it's not available when you need it.
+Since immutable records require no coordination to replicate, high availability
+should be achievable without the usual tradeoffs.
+
+So let's do that - build something users can count on to answer their questions.
+
+#### Fast Answers Everywhere
+
+Once you carefully capture information you get this wonderful property that it's
+the same everywhere. So we absolutely should send it everywhere! The outcome is
+global low-latency queries. Imagine if you could just query a CDN. It's
+possible!
+
+> Our vast global network spanning 330 cities is one of the fastest on the
+> planet. In fact, we can reach about 95% of the world’s population within
+> approximately 50 ms. - [Cloudflare](https://www.cloudflare.com/security/)
+
+But why stop there? Immutable records can be cached directly in your
+applications, directly on user devices - some queries could be almost instant!
+
+If you use an OLTP database for everything (diagram on the left) you're leaving
+all this value on the table. Anyone that believes "the edge" is incompatible
+with our "data" systems is missing out!
+
+### Write throughput/latency
+
+TODO
+
+### Comparison/Ordering/Indexing
 
 TODO

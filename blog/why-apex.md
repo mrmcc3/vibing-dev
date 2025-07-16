@@ -104,11 +104,16 @@ by comparison.
 ## Release the Records!
 
 The previous sections argue that information and record-keeping don't belong in
-OLTP databases. So let's pull them apart! Revert OLTP databases back to what
-they do best - transactions and introduce an archive to store and distribute
-information to wherever the questions are.
+OLTP databases. So let's pull them apart!
 
 ![database and archive vs database only](images/db-arc.png)
+
+Keep your existing transaction technology, we don't need to reinvent the wheel
+here, just stop burdening them with record-keeping and use them for what they do
+best - transactions.
+
+On the information side I'll make the case for Apex: an archive to store and
+distribute information to wherever the questions are.
 
 ### OLTP restored
 
@@ -186,11 +191,13 @@ unnoticed? An archival system designed for information mitigates this risk.
 Overall, OLTP components become low-ceremony parts of the system rather than a
 single point of failure that everyone is afraid to touch.
 
-### Information unlocked
+### Apex: Information unlocked
 
 With all state coordination taken care of, we can shift our focus to an archive
-that best leverages the immutable nature of information. What characteristics
-should we realistically aim for in an ideal solution?
+that best leverages the immutable nature of information.
+
+Apex is my take on what should be possible when we build specifically for
+information. What capabilities and outcomes should we realistically aim for?
 
 #### Extreme durability
 
@@ -211,27 +218,41 @@ So let's do that - build something users can count on to answer their questions.
 
 #### Fast Answers Everywhere
 
-Once you carefully capture information you get this wonderful property that it's
-the same everywhere. So we absolutely should send it everywhere! The outcome is
-global low-latency queries. Imagine if you could just query a CDN. It's
-possible!
+If you haven't caught on yet, information has this wonderful property that it's
+the same everywhere. The constraints of storage are essentially gone, so we
+absolutely should store it everywhere! The outcome is global low-latency
+queries. Imagine just querying a CDN instead of the database. It's possible!
 
 > Our vast global network spanning 330 cities is one of the fastest on the
 > planet. In fact, we can reach about 95% of the world’s population within
 > approximately 50 ms. - [Cloudflare](https://www.cloudflare.com/security/)
 
-But why stop there? Immutable records can be cached directly in your
-applications, directly on user devices - some queries could be effectively
-instant!
+Why stop there? Immutable records can be cached directly in our applications,
+directly on user devices - some queries could be effectively instant perhaps
+even offline! What's more, all queries are independent, they don't affect any
+other queries or transactions in any way.
 
 If you use an OLTP database for everything you're leaving all this value on the
 table. Anyone that believes "the edge" is incompatible with our "data" systems
 is missing out!
 
-### Write throughput/latency
+#### A proper basis
 
-TODO
+Content addressing gives every set of information a unique, verifiable hash.
+Sharing the hash conveys the entire set of records - a true immutable basis. Any
+computed results or analysis become completely reproducible by anyone with the
+hash.
 
-### Comparison/Ordering/Indexing
+Where this matters: A user reports a bug, but you've got no way to reproduce it
+because the state of the database has evolved. A proper basis solves that.
 
-TODO
+#### Other constraints
+
+- We gain leverage over information by comparing records so let's provide all
+  the records sorted (indexed).
+- Scalable writes. If there's a lot of information we need to be able to ingest
+  it all in a reasonable amount of time globally.
+
+---
+
+If you're excited about any of this or have questions, get in touch!

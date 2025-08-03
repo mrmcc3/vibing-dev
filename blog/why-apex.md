@@ -43,8 +43,8 @@ authoritative state of an entity.
 ## Information is built different
 
 Information is created the moment the state of any entity is observed and
-recorded. It contains a reference to the entity, the observed state, and a
-timestamp/id of the record.
+recorded. A record contains a reference to the observed entity, its state, and a
+timestamp. Information is simply a set of records.
 
 Obviously it's still "data" and even though it contains values for entity &
 state the record itself is fundamentally different - it's not an entity with
@@ -54,24 +54,19 @@ Records are immutable - the same everywhere, to everyone, whenever they're read.
 No coordination is required to view, replicate or distribute them. Cached
 records are valid forever.
 
-Information and recordkeeping systems are nothing new. But analyzing records is
-a completely different problem than coordinating state changes. The 'data'
-exhibits completely different characteristics in each case - conflating them is
-a mistake.
-
 ## OLTP for everything?
 
-So let's look at some outcomes when we make the mistake of using an OLTP
-database for all our "data" requirements.
+What happens when we use a general-purpose OLTP database to store both state and
+information?
 
 ### Remembering is on you
 
-OLTP is great at orchestrating entities and state but most won't store past
-states or how entities change for you. If you're lucky you might be able to
-completely solve your problem by only tracking the current state of everything.
-But more than likely that's not the case and failing to proactively collect
-records will lead to the unpleasant discovery that it's impossible to answer
-questions about the past. 😬
+OLTP is great at orchestrating entities and state but most won't automatically
+store past states or how entities change for you. If you're lucky you might be
+able to completely solve your problem by only tracking the current state of
+everything. But more than likely that's not the case and failing to proactively
+collect records will lead to the unpleasant discovery that it's impossible to
+answer questions about the past. 😬
 
 The situation becomes worse when the questions about the past aren't even known
 when you first build the application. Hoping there's a backup that can answer
@@ -85,11 +80,12 @@ cases whether we realize it or not we **must** record information.
 Okay, so we need records in the database.
 
 Which entities need record-keeping? What if we don't know what historical
-questions might be asked? Do we store complete state snapshots or just diffs?
-What's the schema and will it conflict as the rest of the system evolves?
-Migrations become even harder - oh no. Wait, can a bug accidentally erase
-history? 😱 How do we index temporal data? Will queries be more challenging?
-What about read performance? Write performance? Storage costs? User experience?
+questions might be asked? Do we store complete state snapshots or diffs to
+recreate state? What's the schema and will it conflict as the rest of the system
+evolves? Migrations become even harder - oh no. Wait, can a bug accidentally
+erase history? 😱 How do we index temporal data? Will queries be more
+challenging? What about read performance? Write performance? Storage costs? Will
+all this impact user experience?
 
 Maybe the biggest red flag: these questions have nothing to do with your actual
 problem. They're related to the tool. It's pure accidental complexity. When a
@@ -97,13 +93,13 @@ tool makes simple things complex, it's usually the wrong tool for the job.
 
 ### Leaving value on the table
 
-The OLTP database has ownership of its entities to provide transactions that
-change their state. But immutable records can't change! They are not bound to a
-specific location. By storing them in OLTP databases, we're artificially
-constraining them to the database's transaction scope.
+The OLTP database has ownership of its entities, allowing it to run transactions
+that can change their state. But immutable records can't change! They are not
+bound to a specific location. By storing them in OLTP databases, we're
+artificially constraining them to the database's transaction scope.
 
 Information is the perfect candidate for being close to where it's needed. The
-world is increasingly more connected, storage is abundant and cheap. Yet in this
+world is increasingly connected, storage is abundant and cheap. Yet in this
 approach we choose to keep it isolated.
 
 We're under-utilizing one of the most distribution-friendly types of data.
@@ -121,9 +117,6 @@ best - transactions.
 
 On the information side I'll make the case for Apex: an archive to store and
 distribute information to wherever the questions are.
-
-> The reader might be making the connection to Command Query Responsibility
-> Segregation (CQRS). Yes, that's the idea!
 
 ### OLTP restored
 
@@ -203,6 +196,7 @@ single point of failure that everyone is afraid to touch.
 
 ### Apex: Information unlocked
 
+<!--
 With all state coordination taken care of, we can shift our focus to an archive
 that best leverages the immutable nature of information.
 
@@ -266,3 +260,4 @@ because the state of the database has evolved. A proper basis solves that.
 ---
 
 If you're excited about any of this or have questions, get in touch!
+-->

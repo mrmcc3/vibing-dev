@@ -5,59 +5,80 @@
 }
 ---
 
-The software we create manipulates data to solve problems. Yet data is too broad
-a term - an opaque sequence of ones and zeros. Saying our software deals with
-data is really saying very little. So what more can we say?
+Software manipulates data to solve problems. Yet data is a general term - an
+uninterpreted sequence of ones and zeros. Data solutions, data platforms, data
+engineering, data warehouses, even databases - we use "data" everywhere to mean
+pretty much anything.
 
-## Entity, State and Transactions
+Imprecise marketing is everywhere, but as programmers I'm not so sure we really
+understand the characteristics of the "stuff" our systems are built to handle.
+And it matters! Real benefits emerge when we're more specific about what we're
+using data for and what it actually represents.
 
-Our problems often demand solutions that create entities and constrain how their
-state evolves given outside input. To achieve this requires varying degrees of
-coordination. OLTP databases do exactly that! They provide transactions that let
-us atomically transition the state of entities while maintaining invariants
-("business rules"). In essence, they're fancy state machines.
+## Entity and State
 
-Coordination requires observing state and communicating changes - both easier
-when co-located. If orchestrating state across distance was easy, it would be
-trivial to run all our OLTP systems on the edge. That's not the reality.
+Our problems often demand solutions that create entities and control how their
+state evolves based on external requests.
 
-> The degree of coordination is problem dependent. <br> Transactions perform the
-> coordination and state evolution. <br> It's better if everything involved is
-> in the same place (locality).
+> The classic example is a system that manages bank accounts (entities) where
+> users request money transfers. The system should enforce that the state of the
+> accounts change correctly or not at all.
+
+This type of coordination challenge is exactly what OLTP databases solve with
+**transactions**. They can atomically transition the state of entities according
+to specific rules. The "data" in these systems models the state of an entity -
+eligible to be changed via a transaction. In essence, they're fancy state
+machines.
+
+The degree of coordination varies depending on the problem - the number of
+entities involved and the complexity of the rules being enforced. It involves
+observing state and communicating changes - both easier when co-located. When
+you hear "databases can't run on the edge" this is what's really at play -
+coordinating state change is fundamentally at odds with distribution.
+
+The "data" in these systems exhibits certain properties (like anti-distribution)
+because of what it represents and how it's used! But not all data represents the
+authoritative state of an entity.
 
 ## Information is built different
 
-Information is created the moment the state of any entity is observed. It
-contains a reference to the entity, the observed state, and a timestamp.
+Information is created the moment the state of any entity is observed and
+recorded. It contains a reference to the entity, the observed state, and a
+timestamp/id of the record.
 
-It's not an entity with evolving state - it's an immutable record that's the
-same everywhere, to everyone, whenever they see it. This makes it consistent by
-definition, requiring no coordination to replicate, distribute, or cache
-forever.
+Obviously it's still "data" and even though it contains values for entity &
+state the record itself is fundamentally different - it's not an entity with
+evolving state.
 
-> Information really is nothing like entities that change state. Conflating them
-> is a mistake.
+Records are immutable - the same everywhere, to everyone, whenever they're read.
+No coordination is required to view, replicate or distribute them. Cached
+records are valid forever.
+
+Information and recordkeeping systems are nothing new. But analyzing records is
+a completely different problem than coordinating state changes. The 'data'
+exhibits completely different characteristics in each case - conflating them is
+a mistake.
 
 ## OLTP for everything?
 
-Let's look at some outcomes if we decide to use an OLTP database for all our
-"data" requirements.
+So let's look at some outcomes when we make the mistake of using an OLTP
+database for all our "data" requirements.
 
 ### Remembering is on you
 
-OLTP is great at orchestrating entities and state but it won't store past states
-or how entities change for you. If you're lucky you might be able to completely
-solve your problem by only tracking the current state of everything. But more
-than likely that's not the case and failing to proactively collect records will
-lead to the unpleasant discovery that it's impossible to answer questions about
-the past. 😬
+OLTP is great at orchestrating entities and state but most won't store past
+states or how entities change for you. If you're lucky you might be able to
+completely solve your problem by only tracking the current state of everything.
+But more than likely that's not the case and failing to proactively collect
+records will lead to the unpleasant discovery that it's impossible to answer
+questions about the past. 😬
 
 The situation becomes worse when the questions about the past aren't even known
 when you first build the application. Hoping there's a backup that can answer
 your question, or sifting through logs is all accidental record-keeping.
 
-> Forgetting past states isn't really an option for most applications. In those
-> cases whether we realize it or not we **must** record information.
+Forgetting past states isn't really an option for most applications. In those
+cases whether we realize it or not we **must** record information.
 
 ### Into the Tar Pit
 
@@ -65,41 +86,27 @@ Okay, so we need records in the database.
 
 Which entities need record-keeping? What if we don't know what historical
 questions might be asked? Do we store complete state snapshots or just diffs?
-Event sourcing? What's the schema and will it conflict as the rest of the system
-evolves? Oh no, migrations become even harder? Wait can a bug accidentally erase
+What's the schema and will it conflict as the rest of the system evolves?
+Migrations become even harder - oh no. Wait, can a bug accidentally erase
 history? 😱 How do we index temporal data? Will queries be more challenging?
 What about read performance? Write performance? Storage costs? User experience?
 
 Maybe the biggest red flag: these questions have nothing to do with your actual
-problem. They're related to the tool. It's pure accidental complexity.
-
-> When a tool makes simple things complex, it's usually the wrong tool for the
-> job.
+problem. They're related to the tool. It's pure accidental complexity. When a
+tool makes simple things complex, it's usually the wrong tool for the job.
 
 ### Leaving value on the table
 
 The OLTP database has ownership of its entities to provide transactions that
-change their state. But immutable records can't change! They are not bound to
-the databases transaction scope.
+change their state. But immutable records can't change! They are not bound to a
+specific location. By storing them in OLTP databases, we're artificially
+constraining them to the database's transaction scope.
 
-Information is the perfect candidate for being close to where it's needed. We
-take something that could be everywhere and constrain it to be somewhere.
-Creating artificial scarcity in a landscape of abundant global storage and
-content delivery networks.
+Information is the perfect candidate for being close to where it's needed. The
+world is increasingly more connected, storage is abundant and cheap. Yet in this
+approach we choose to keep it isolated.
 
-> We're under-utilizing one of the most distribution-friendly types of data.
-
-## OLAP for everything?
-
-State transitions are either coordinated or they're not. If your problem demands
-strict constraints there's no middle ground for "mostly transactional" where
-it's fine to break the rules. Lost writes and ambiguous states often manifest as
-severe outcomes with unacceptable consequences. Fortunately, we've mostly agreed
-this is a bad idea.
-
-Contrast this with using OLTP for information: Some extra complexity for record
-keeping and underutilized distribution potential. Those problems seem tolerable
-by comparison.
+We're under-utilizing one of the most distribution-friendly types of data.
 
 ## Release the Records!
 
@@ -114,6 +121,9 @@ best - transactions.
 
 On the information side I'll make the case for Apex: an archive to store and
 distribute information to wherever the questions are.
+
+> The reader might be making the connection to Command Query Responsibility
+> Segregation (CQRS). Yes, that's the idea!
 
 ### OLTP restored
 
@@ -196,8 +206,8 @@ single point of failure that everyone is afraid to touch.
 With all state coordination taken care of, we can shift our focus to an archive
 that best leverages the immutable nature of information.
 
-Apex is my take on what should be possible when we build specifically for
-information. What capabilities and outcomes should we realistically aim for?
+Apex is my take on an information archive. Below is a discussion about what we
+should realistically hope to provide with an Apex implementation
 
 #### Extreme durability
 

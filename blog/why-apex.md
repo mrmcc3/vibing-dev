@@ -42,17 +42,17 @@ authoritative state of an entity.
 
 ## Information is built different
 
-Information is created the moment the state of any entity is observed and
-recorded. A record contains a reference to the observed entity, its state, and a
-timestamp. Information is simply a set of records.
+A **record** is created the moment the state of an entity is observed. It
+contains a reference to the entity, its state, and a timestamp. Information is
+simply a set of records. It's still "data", so why the distinction?
 
-Obviously it's still "data" and even though it contains values for entity &
-state the record itself is fundamentally different - it's not an entity with
-evolving state.
+Records are fundamentally different from the entities they describe because they
+never change! Records are immutable - the same everywhere, to everyone, whenever
+they're read. No coordination is required to view, replicate or distribute them.
+Cached records are valid forever.
 
-Records are immutable - the same everywhere, to everyone, whenever they're read.
-No coordination is required to view, replicate or distribute them. Cached
-records are valid forever.
+Recordkeeping and information analysis is often just as important as
+transactions in our software - but they're very different things!
 
 ## OLTP for everything?
 
@@ -113,15 +113,15 @@ OLTP databases. So let's pull them apart!
 
 Keep your existing transaction technology, we don't need to reinvent the wheel
 here, just stop burdening them with record-keeping and use them for what they do
-best - transactions.
+best - entitiy, state and transactions.
 
 On the information side I'll make the case for Apex: an archive to store and
-distribute information to wherever the questions are.
+distribute records to wherever the questions are.
 
 ### OLTP restored
 
-So what are the outcomes for OLTP systems when we shift to the diagram on the
-right?
+What's the effect on OLTP databases if we shift from the left to the right of
+the diagram?
 
 #### Fewer entities
 
@@ -129,37 +129,44 @@ Entities representing information disappear entirely. Outside information that's
 inserted "because there's nowhere else to put it" can now go straight to the
 archive.
 
-What's left? only the entities that require coordinated state transitions. For
+What's left? Only the entities that require managed state transitions. For
 applications currently using OLTP for everything, the reduction can be
 significant.
 
 #### Less schema
 
-For OLTPs with strong schemas you might be familiar with these
+For databases with strong schemas you might be familiar with these:
 
 - Temporal fields (`created_at` and `updated_at`)
 - History tables (`order_history`, `product_changes`)
 - Audit logs (`user_events`)
 
 They're all modelling information. Migrating transactional schema in lock step
-with information schema and existing records is no easy task. No one wants
-migrations to be **more** complicated. With the archive shift we can just get
-rid of all of this. Evolving our software becomes more understandable and less
-risky.
+with information schema and existing records is no easy task. Why are we doing
+this in the first place?
+
+If you think about schema, it's a constraint that ensures state is valid - part
+of the transaction system. But recording "what happened" is always valid! Add it
+to the archive and move on.
+
+Schema reverts back to its core purpose - constraining state. There's less of
+it, complexity drops, migrations are easier = Better software.
 
 #### No more queries
 
-Shouldn't need repeating, but OLTP systems are good at transactions, yet we
-often have them doing significant work that has nothing to do with transactions.
+OLTP systems are good at transactions, yet we often have them doing significant
+read-only work that has nothing to do with transactions.
 
-When a client observes the state of an entity, the result is information. The
-archive distributes information of all entities - it can answer the same
-questions.
+When a client makes a query, for example, "what's the balance of account 123?"
+the database observes the state of entities involved before running computations
+and returning the result. All queries are just computations over entity states.
 
-So let's offload all outside queries to the archive. Yes, that work has been
-shifted elsewhere, but for now focus on the OLTP impact: fewer indexes, more
-effective caching, more predictable memory usage, less resource competition. Do
-more with less.
+However, the archive has records of all entity states - so it can answer the
+exact same questions. In fact it can often answer more questions - ones that you
+didn't conceive when you first built the application.
+
+When we shift queries to the archive the effect on OLTP is: everything aligns
+toward one goal - processing transactions efficiently.
 
 #### New possibilities
 
@@ -171,9 +178,8 @@ light.
 - Maybe entities have isolated coordination patterns, and it was query concerns
   keeping them together. A partitioned OLTP system could be a better choice:
   microservices that own their database and share the archive.
-  - If the isolation patterns are geographic, then solutions like Cloudflare
-    Durable Objects might deliver significant throughput and latency
-    improvements.
+- If the isolation patterns are geographic, then solutions like Cloudflare
+  Durable Objects might deliver significant improvements.
 
 #### Reduced risk
 
@@ -185,11 +191,11 @@ With a shared archive if a database becomes unavailable or is completely lost:
   the archive.
 - The role of "backups" shifts to the archive.
 
-One problem with representing records in a system designed for mutable state is
+Another issue with storing records in a system designed for mutable state is
 that it's not only possible but easy to change the past. As developers, we write
-bugs and make mistakes all the time, so it's almost inevitable that we'll change
-things that shouldn't be changed. Backups might help, but what if it goes
-unnoticed? An archival system designed for information mitigates this risk.
+bugs all the time, We'll inevitably change things that shouldn't be changed.
+Backups might help, but what if it goes unnoticed? An archival system designed
+for information mitigates this risk.
 
 Overall, OLTP components become low-ceremony parts of the system rather than a
 single point of failure that everyone is afraid to touch.

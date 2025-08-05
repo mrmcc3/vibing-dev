@@ -202,6 +202,50 @@ single point of failure that everyone is afraid to touch.
 
 ### Apex: Information unlocked
 
+So what would a purpose-built information archive look like? Let's start with
+simple API examples. Here are some records show as opaque binary data:
+
+```
+[1011, 11, 010, 11011]
+```
+
+Now let's add the ability to **write** records to a **file** in the archive
+where success means durability.
+
+```
+write("foo", [1011, 11])
+```
+
+Later we can ask to **open** a file and see what's in it. The result is always
+an immutable set of records (information).
+
+```
+s1 = open("foo")
+scan(s1) // [1011, 11]
+```
+
+Let's write some more records.
+
+```
+write("foo", [11, 11011, 010])
+s2 = open("foo")
+scan(s1) // [1011, 11]
+scan(s2) // [010, 1011, 11, 11011]
+```
+
+`s1` hasn't changed, `s2` has the new records. The records are in lexicographic
+order with no duplicates - a sorted set. The interface is straightforward
+
+- you can write records to a file
+- you can open a file and get an immutable sorted set of records
+
+#### Write Anywhere, Read Everywhere
+
+Earlier we argued that immutable records should be close to where they're
+needed. Here's what that looks like:
+
+![apex - an information archive](images/apex.png)
+
 <!--
 With all state coordination taken care of, we can shift our focus to an archive
 that best leverages the immutable nature of information.

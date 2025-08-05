@@ -246,68 +246,35 @@ needed. Here's what that looks like:
 
 ![apex - an information archive](images/apex.png)
 
+Operational characteristics
+
+- **High Durability**. Backed by S3-like object storage. In the extreme,
+  multiple storage providers can be used (multi-cloud). The archive is your data
+  backup.
+- **High Availability**. Each server runs identical code and are able to serve
+  requests independently. They can run multi-zone, multi-region and even
+  multi-cloud.
+- **Write Latency**. The time for a write to become durable. Requires
+  acknowledgement from object storage and other servers. Target `< 500ms`.
+  Throughput should be large and scale with the number of servers.
+- **Read Optimized**. Multi-level caching that starts directly at the client
+  results in CDN-like performance.
+- **Propagation Lag**. The time for a record to reach all servers. Target
+  `< 20s`. Files on every server will eventually converge to the same set of
+  records.
+
 <!--
-With all state coordination taken care of, we can shift our focus to an archive
-that best leverages the immutable nature of information.
+A note on **eventual consistency** for information. First, records never
+change - they're always consistent. This is an immediate improvement over
+eventual consistency applied to state. So what is eventually consistent in Apex?
+Every time you open a file it can have more information. Each file on every
+server will eventually converge to the same set of records. This might seem like
+a problem but it's really not - it's how all distributed systems work.
 
-Apex is my take on an information archive. Below is a discussion about what we
-should realistically hope to provide with an Apex implementation
-
-#### Extreme durability
-
-A defining characteristic of an archive is keeping records safe. They should be
-enduring, pristine and free from tampering. If the archive delivers on
-durability, OLTP backups become the less reliable option.
-
-Let's replace scattered, point-in-time backups with a unified archive that
-preserves everything.
-
-#### High Availability
-
-Having rich information isn't much use if it's not available when you need it.
-Since immutable records require no coordination to replicate, high availability
-should be achievable without the usual tradeoffs.
-
-So let's do that - build something users can count on to answer their questions.
-
-#### Fast Answers Everywhere
-
-If you haven't caught on yet, information has this wonderful property that it's
-the same everywhere. The constraints of storage are essentially gone, so we
-absolutely should store it everywhere! The outcome is global low-latency
-queries. Imagine just querying a CDN instead of the database. It's possible!
-
-> Our vast global network spanning 330 cities is one of the fastest on the
-> planet. In fact, we can reach about 95% of the world’s population within
-> approximately 50 ms. - [Cloudflare](https://www.cloudflare.com/security/)
-
-Why stop there? Immutable records can be cached directly in our applications,
-directly on user devices - some queries could be effectively instant perhaps
-even offline! What's more, all queries are independent, they don't affect any
-other queries or transactions in any way.
-
-If you use an OLTP database for everything you're leaving all this value on the
-table. Anyone that believes "the edge" is incompatible with our "data" systems
-is missing out!
-
-#### A proper basis
-
-Content addressing gives every set of information a unique, verifiable hash.
-Sharing the hash conveys the entire set of records - a true immutable basis. Any
-computed results or analysis become completely reproducible by anyone with the
-hash.
-
-Where this matters: A user reports a bug, but you've got no way to reproduce it
-because the state of the database has evolved. A proper basis solves that.
-
-#### Other constraints
-
-- We gain leverage over information by comparing records so let's provide all
-  the records sorted (indexed).
-- Scalable writes. If there's a lot of information we need to be able to ingest
-  it all in a reasonable amount of time globally.
-
----
-
-If you're excited about any of this or have questions, get in touch!
+Consider a query to a strongly consistent OLTP system. When you get the results
+of a query do you have all the information for that system? Do all users have
+the same information at the same time? No, of course not the database may have
+changed, only later can you learn about those changes. All applications quering
+the database will eventually learn about those changes. Consistency only matters
+for transaction and state change.
 -->

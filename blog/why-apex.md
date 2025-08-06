@@ -89,7 +89,8 @@ all this impact user experience?
 
 Maybe the biggest red flag: these questions have nothing to do with your actual
 problem. They're related to the tool. It's pure accidental complexity. When a
-tool makes simple things complex, it's usually the wrong tool for the job.
+tool makes simple things overly complex, it's usually the wrong tool for the
+job.
 
 ### Leaving value on the table
 
@@ -113,7 +114,7 @@ OLTP databases. So let's pull them apart!
 
 Keep your existing transaction technology, we don't need to reinvent the wheel
 here, just stop burdening them with record-keeping and use them for what they do
-best - entitiy, state and transactions.
+best - entity, state and transactions.
 
 On the information side I'll make the case for Apex: an archive to store and
 distribute records to wherever the questions are.
@@ -205,39 +206,36 @@ single point of failure that everyone is afraid to touch.
 So what would a purpose-built information archive look like? Let's start with
 simple API examples. Here are some records show as opaque binary data:
 
-```
-[1011, 11, 010, 11011]
+```js
+[0b1011, 0b11, 0b010, 0b11011];
 ```
 
 Now let's add the ability to **write** records to a **file** in the archive
 where success means durability.
 
-```
-write("foo", [1011, 11])
+```js
+write("foo", [0b1011, 0b11]);
 ```
 
 Later we can ask to **open** a file and see what's in it. The result is always
 an immutable set of records (information).
 
-```
-s1 = open("foo")
-scan(s1) // [1011, 11]
+```js
+s1 = open("foo");
+scan(s1); // [0b1011, 0b11]
 ```
 
 Let's write some more records.
 
-```
-write("foo", [11, 11011, 010])
-s2 = open("foo")
-scan(s1) // [1011, 11]
-scan(s2) // [010, 1011, 11, 11011]
+```js
+write("foo", [0b11, 0b11011, 0b010]);
+s2 = open("foo");
+scan(s1); // [0b1011, 0b11]
+scan(s2); // [0b010, 0b1011, 0b11, 0b11011]
 ```
 
 `s1` hasn't changed, `s2` has the new records. The records are in lexicographic
-order with no duplicates - a sorted set. The interface is straightforward
-
-- you can write records to a file
-- you can open a file and get an immutable sorted set of records
+order with no duplicates - a sorted set.
 
 #### Write Anywhere, Read Everywhere
 
@@ -246,7 +244,23 @@ needed. Here's what that looks like:
 
 ![apex - an information archive](images/apex.png)
 
-Operational characteristics
+Apex clients can write new records to files in the archive. Apex servers will
+accept the records, persist them to object storage and communicate with the
+other servers. Eventually the files for all servers will converge on the same
+set of records.
+
+It's important to emphasize what's changing here - the **files** at each server
+are growing to be larger and larger sets of records. Each set and the records
+they contain are all 100% immutable. They're a proper basis for reproducible
+analysis.
+
+> Eventual consistency and "data" might cause the reader to have an immediate
+> negative reaction, and rightly so, it's a bad idea for transactions that
+> coordinate state. But that's not what's going on here - it's a fact that
+> distributed processes receive information at different times. Querying a
+> strongly consistent database still gives you information about the past.
+
+#### Operational characteristics
 
 - **High Durability**. Backed by S3-like object storage. In the extreme,
   multiple storage providers can be used (multi-cloud). The archive is your data
@@ -260,21 +274,20 @@ Operational characteristics
 - **Read Optimized**. Multi-level caching that starts directly at the client
   results in CDN-like performance.
 - **Propagation Lag**. The time for a record to reach all servers. Target
-  `< 20s`. Files on every server will eventually converge to the same set of
-  records.
+  `< 20s`.
 
 <!--
-A note on **eventual consistency** for information. First, records never
-change - they're always consistent. This is an immediate improvement over
-eventual consistency applied to state. So what is eventually consistent in Apex?
-Every time you open a file it can have more information. Each file on every
-server will eventually converge to the same set of records. This might seem like
-a problem but it's really not - it's how all distributed systems work.
 
-Consider a query to a strongly consistent OLTP system. When you get the results
-of a query do you have all the information for that system? Do all users have
-the same information at the same time? No, of course not the database may have
-changed, only later can you learn about those changes. All applications quering
-the database will eventually learn about those changes. Consistency only matters
-for transaction and state change.
+#### Why sorted sets of binary records?
+
+Sorted sets of binary records is the lowest level interface that can be pro
+
+Apex maintains records in sorted sets for a simple reason: it enables efficient
+range queries without client-side sorting. Query engines built on top of
+Apex can process sets larger than client memory.
+
+
+#### What's next.
+
+### thanks for reading
 -->

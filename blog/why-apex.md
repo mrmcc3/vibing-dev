@@ -47,7 +47,7 @@ contains a reference to the entity, its state, and a timestamp. Information is
 simply a set of records. It's still "data", so why the distinction?
 
 Records are fundamentally different from the entities they describe because they
-never change! Records are immutable - the same everywhere, to everyone, whenever
+never change. Records are immutable - the same everywhere, to everyone, whenever
 they're read. No coordination is required to view, replicate or distribute them.
 Cached records are valid forever.
 
@@ -203,22 +203,22 @@ single point of failure that everyone is afraid to touch.
 
 ### Apex: Information unlocked
 
-So what would a purpose-built information archive look like? Let's start with
-simple API examples. Here are some records show as opaque binary data:
+Imagine an old school archive - a filing cabinet. You can locate a **file** by
+name and **open** it. Inside you'll find an **ordered set** of records that you
+can **scan** through. You can also **write** new records to a file.
 
-```js
-[0b1011, 0b11, 0b010, 0b11011];
-```
+#### API Example
 
-Now let's add the ability to **write** records to a **file** in the archive
-where success means durability.
+Let's write two records to a file named `"foo"` in the archive. Records are
+treated as raw binary data.
 
 ```js
 write("foo", [0b1011, 0b11]);
 ```
 
-Later we can ask to **open** a file and see what's in it. The result is always
-an immutable set of records (information).
+If the write succeeds then the records are durable. Later we can ask to open a
+file and see what's in it. The result is always an immutable sorted set of
+records that we can scan through.
 
 ```js
 s1 = open("foo");
@@ -230,35 +230,34 @@ Let's write some more records.
 ```js
 write("foo", [0b11, 0b11011, 0b010]);
 s2 = open("foo");
-scan(s1); // [0b1011, 0b11]
-scan(s2); // [0b010, 0b1011, 0b11, 0b11011]
+scan(s1); // [0b1011, 0b11] - hasn't changed
+scan(s2); // [0b010, 0b1011, 0b11, 0b11011] - has the new records
 ```
-
-`s1` hasn't changed, `s2` has the new records. The records are in lexicographic
-order with no duplicates - a sorted set.
 
 #### Write Anywhere, Read Everywhere
 
-Earlier we argued that immutable records should be close to where they're
-needed. Here's what that looks like:
+Earlier we argued that records should be close to where they're needed, where
+the questions are. Here's what that looks like:
 
 ![apex - an information archive](images/apex.png)
 
 Apex clients can write new records to files in the archive. Apex servers will
 accept the records, persist them to object storage and communicate with the
-other servers. Eventually the files for all servers will converge on the same
-set of records.
+other servers. Eventually the files for all servers will converge on the set of
+all written records.
 
-It's important to emphasize what's changing here - the **files** at each server
-are growing to be larger and larger sets of records. Each set and the records
-they contain are all 100% immutable. They're a proper basis for reproducible
-analysis.
+It's important to emphasize that the named files are the **only** part of the
+archive that actually changes - they grow. Whenever a client opens a file they
+might get a different set of records, one with more information than last time
+they looked. Each set and the records they contain are all 100% immutable.
+They're a proper basis for reproducible analysis.
 
-> Eventual consistency and "data" might cause the reader to have an immediate
-> negative reaction, and rightly so, it's a bad idea for transactions that
-> coordinate state. But that's not what's going on here - it's a fact that
-> distributed processes receive information at different times. Querying a
-> strongly consistent database still gives you information about the past.
+> Eventually consistent "data" might trigger an immediate negative reaction, and
+> rightly so, it's a bad idea for coordinating state. But that's not what's
+> going on here - distributed processes receive information at different times,
+> you can't sidestep the speed of light. Even if clients query a strongly
+> consistent database the results are records from the past! The information
+> clients have can only ever be eventually consistent with the database.
 
 #### Operational characteristics
 

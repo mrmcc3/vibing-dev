@@ -27,8 +27,8 @@ state evolves based on external requests.
 This type of coordination challenge is exactly what OLTP databases solve with
 **transactions**. They can atomically transition the state of entities according
 to specific rules. The "data" in these systems models the state of an entity -
-eligible to be changed via a transaction. In essence, they're fancy state
-machines.
+eligible to be changed via a transaction. They're essentially sophisticated
+state machines.
 
 The degree of coordination varies depending on the problem - the number of
 entities involved and the complexity of the rules being enforced. It involves
@@ -52,7 +52,7 @@ they're read. No coordination is required to view, replicate or distribute them.
 Cached records are valid forever.
 
 Recordkeeping and information analysis is often just as important as
-transactions in our software - but they're very different things!
+transactions in our software, but they're very different things!
 
 ## OLTP for everything?
 
@@ -204,7 +204,7 @@ single point of failure that everyone is afraid to touch.
 ### Apex: Information unlocked
 
 Imagine an old school archive - a filing cabinet. You can locate a **file** by
-name and **open** it. Inside you'll find an **ordered set** of records that you
+name and **open** it. Inside you'll find a **sorted set** of records that you
 can **scan** through. You can also **write** new records to a file.
 
 #### API Example
@@ -216,9 +216,9 @@ treated as raw binary data.
 write("foo", [0b1011, 0b11]);
 ```
 
-If the write succeeds then the records are durable. Later we can ask to open a
-file and see what's in it. The result is always an immutable sorted set of
-records that we can scan through.
+If the write succeeds then the records are durable. Next we can open the file
+and see what's in it. The result is always an immutable sorted set of records
+that we can scan through.
 
 ```js
 s1 = open("foo");
@@ -243,50 +243,130 @@ the questions are. Here's what that looks like:
 
 Apex clients can write new records to files in the archive. Apex servers will
 accept the records, persist them to object storage and communicate with the
-other servers. Eventually the files for all servers will converge on the set of
+other servers. Eventually, the files for all servers will converge on the set of
 all written records.
 
-It's important to emphasize that the named files are the **only** part of the
-archive that actually changes - they grow. Whenever a client opens a file they
-might get a different set of records, one with more information than last time
-they looked. Each set and the records they contain are all 100% immutable.
-They're a proper basis for reproducible analysis.
+It's important to emphasize that files are the **only** part of the archive that
+actually changes - they grow. Whenever a client opens a file they might get a
+different set of records, one with more information than last time they looked.
+Each set and the records they contain are all 100% immutable. They provide a
+proper basis for reproducible analysis.
 
-> Eventually consistent "data" might trigger an immediate negative reaction, and
-> rightly so, it's a bad idea for coordinating state. But that's not what's
-> going on here - distributed processes receive information at different times,
-> you can't sidestep the speed of light. Even if clients query a strongly
-> consistent database the results are records from the past! The information
-> clients have can only ever be eventually consistent with the database.
+## What's next?
 
-#### Operational characteristics
+Apex is intentionally minimal, it's a solution for sorted, immutable record
+storage and distribution - meant as a foundation. But there's a lot left
+unanswered.
 
-- **High Durability**. Backed by S3-like object storage. In the extreme,
-  multiple storage providers can be used (multi-cloud). The archive is your data
-  backup.
-- **High Availability**. Each server runs identical code and are able to serve
-  requests independently. They can run multi-zone, multi-region and even
-  multi-cloud.
-- **Write Latency**. The time for a write to become durable. Requires
-  acknowledgement from object storage and other servers. Target `< 500ms`.
-  Throughput should be large and scale with the number of servers.
-- **Read Optimized**. Multi-level caching that starts directly at the client
-  results in CDN-like performance.
-- **Propagation Lag**. The time for a record to reach all servers. Target
-  `< 20s`.
+**What happens when this thing goes down - am I now maintaining two systems that
+can both fail?**
 
-<!--
+Architecturally, Apex is extremely durable and available. A better question is:
+what happens when your database fails and all your historical data along with
+it. With Apex, your information stays accessible even when transactions go
+offline.
 
-#### Why sorted sets of binary records?
+Durability - Backed by S3-like object storage (eleven 9s). It's also possible to
+use multiple storage providers. The archive becomes your data backup!
 
-Sorted sets of binary records is the lowest level interface that can be pro
+Availability - Each server runs identical code and is able to serve requests
+from any client independently. They can run multi-zone, multi-region and even
+multi-cloud.
 
-Apex maintains records in sorted sets for a simple reason: it enables efficient
-range queries without client-side sorting. Query engines built on top of
-Apex can process sets larger than client memory.
+**What read/write latencies can I expect globally?**
 
+The write latency is the time for records to become durable. It requires
+acknowledgement from object storage and other servers. The design target is
+under `500ms` globally. Write throughput should be large and scale with the
+number of servers.
 
-#### What's next.
+Propagation lag is the time for a new record to be included in the file for all
+servers. The design target is under `20s`.
 
-### thanks for reading
--->
+Read latencies are extremely low due to aggressive multi-level caching. The read
+path starts directly at the client, then the server before falling back to
+object storage.
+
+**Isn't eventual consistency a nightmare for business-critical data?**
+
+Eventually consistent "data" might trigger an immediate negative reaction, and
+rightly so, it's a bad idea for coordinating state. But that's not what's going
+on here, distributed processes receive information at different times, you can't
+sidestep the speed of light. Even if clients query a strongly consistent
+database, the results are records from the past! The information clients have
+can only ever be eventually consistent with the source (database).
+
+**Even so, 20sec is way too long to replace operational database queries!**
+
+20 seconds is the worst-case global propagation time. Reading from your
+geographic region is much faster - around 5 seconds. But still that's beside the
+point it's never zero!
+
+What you really want is "read your own writes" to the archive, or when a
+transaction is made, to see all records up to and including the transaction.
+Both can be solved by apex clients. It's not a concern for the archive.
+
+**Why binary records? Why no format, schema or query language? How do
+applications actually use this in practice?**
+
+The short answer is: an Apex client library.
+
+The archive deals with binary records because that's all it needs, everything
+else can happen at the client level. Implementors can experiment with different
+query-engines, information schemas, AI etc, and not be stuck with what the
+database provides.
+
+**How do you delete data when everything is designed to be permanent and
+distributed everywhere?**
+
+Sometimes systems have to forget. User requests, court order, GDPR compliance,
+etc. It's possible with apex but not straightforward. This is by design, you
+don't want to accidentally forget valuable information. The approach is to
+construct a new file with the problematic records filtered out. At which point
+the previous file can be completely erased.
+
+**Most systems aren't globally distributed. Why do I need this if I'm just
+running a typical app?**
+
+Globally distributing information is a bonus. Apex servers don't _have_ to be
+distributed. They can run in a single region if data sovereignty is a concern.
+
+However, this article puts forward two other issues with using an OLTP database
+for everything.
+
+1. Remembering is on you. A database with an integrated Apex client can keep
+   records automatically from the start - even ones you might not know you need
+   yet.
+2. Into the tar pit. Recordkeeping in most transactional databases comes with a
+   lot of incidental complexity. It starts small but as software evolves it
+   rapidly becomes a big concern. Apex can fix this.
+
+**Why wouldn't I just use Kafka or Snowflake with CDC?**
+
+Does solution `X`
+
+- replace operational queries served by user facing databases?
+- retain transactional constructs like schema?
+- natural distribute information globally like a CDN?
+- give access to pre-sorted records or require re-indexing locally or on the
+  fly?
+
+There's a lot of great OLAP technology out there and if they suit your system,
+great! That being said there's always room for more ideas.
+
+**Why sort the records? Are records stored redundantly for every index?**
+
+The records are sorted in storage because it means all the clients don't have to
+repeat the work - they get query-ready information directly.
+
+Apex just sorts binary records lexicographically, to sort records differently
+you have to encode the record accordingly and write to a separate file. So yes,
+redundant storage, but storage is cheap.
+
+As for the number of indexes it's up to the apex clients to decide how to model
+information and the number of indexes required.
+
+**This is interesting, how can I try it?**
+
+Apex is just a concept at the moment, pure vapourware. I'm working on it. If
+you're interested get in touch!

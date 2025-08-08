@@ -270,8 +270,8 @@ could fail. The reason is that CDNs specialize in a specific task (content
 delivery), handling it more reliably and efficiently than origin servers alone.
 Apex is designed to have the same effect on OLTP databases.
 
-But consider the inverse scenario: what happens when the OLTP database goes down
-or becomes unavailable? With Apex, your information stays accessible even when
+Consider the inverse scenario: what happens when the OLTP database goes down or
+becomes unavailable? With Apex, your information stays accessible even when
 transactions go offline.
 
 **What about backups?**
@@ -279,13 +279,12 @@ transactions go offline.
 All records reside in S3-like object storage. With this level of durability
 (eleven 9s), Apex replaces your existing database backups!
 
-<!--
 **What read/write latencies can I expect globally?**
 
 The write latency is the time for records to become durable. It requires
 acknowledgement from object storage and other servers. The design target is
-under `500ms` globally. Write throughput should be large and scale with the
-number of servers.
+under `500ms` globally. Write throughput is high and scales with the number of
+servers.
 
 Propagation lag is the time for a new record to be included in the file for all
 servers. The design target is under `20s`.
@@ -299,9 +298,14 @@ object storage.
 Eventually consistent "data" might trigger an immediate negative reaction, and
 rightly so, it's a bad idea for coordinating state. But that's not what's going
 on here, distributed processes receive information at different times, you can't
-sidestep the speed of light. Even if clients query a strongly consistent
-database, the results are records from the past! The information clients have
-can only ever be eventually consistent with the source (database).
+sidestep the speed of light.
+
+Even if clients query a strongly consistent database, the results are records
+from the past! The information clients have can only ever be eventually
+consistent with the source (database). The physics of information sharing *is*
+eventual consistency - it's the correct choice for Apex.
+
+<!--
 
 **Even so, 20sec is way too long to replace operational database queries!**
 
@@ -384,7 +388,6 @@ you're interested get in touch!
 
 - better explanation around "read your own writes" improve the 20s delay i think
   the reader will be unconvinced.
-- operational complexity is probably still unconvincing
 - answers are too hand wavey: client handles this. I need to make that more
   obvious
 

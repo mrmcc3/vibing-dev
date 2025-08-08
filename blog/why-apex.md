@@ -254,25 +254,32 @@ proper basis for reproducible analysis.
 
 ## What's next?
 
-Apex is intentionally minimal, it's a solution for sorted, immutable record
-storage and distribution - meant as a foundation. But there's a lot left
+Apex is intentionally minimal - it sorts and distributes binary records. The
+goal is to provide a foundation for information systems. But there's a lot left
 unanswered.
 
-**What happens when this thing goes down - am I now maintaining two systems that
-can both fail?**
+**What happens when Apex goes down? Am I now maintaining two systems that can
+both fail?**
 
-Architecturally, Apex is extremely durable and available. A better question is:
-what happens when your database fails and all your historical data along with
-it. With Apex, your information stays accessible even when transactions go
-offline.
+Apex is designed like a CDN. Each apex server runs identical code and is able to
+serve requests from any client independently. They can run multi-zone,
+multi-region and even multi-cloud.
 
-Durability - Backed by S3-like object storage (eleven 9s). It's also possible to
-use multiple storage providers. The archive becomes your data backup!
+Why is it common to use CDNs for websites? That's also an extra system that
+could fail. The reason is that CDNs specialize in a specific task (content
+delivery), handling it more reliably and efficiently than origin servers alone.
+Apex is designed to have the same effect on OLTP databases.
 
-Availability - Each server runs identical code and is able to serve requests
-from any client independently. They can run multi-zone, multi-region and even
-multi-cloud.
+But consider the inverse scenario: what happens when the OLTP database goes down
+or becomes unavailable? With Apex, your information stays accessible even when
+transactions go offline.
 
+**What about backups?**
+
+All records reside in S3-like object storage. With this level of durability
+(eleven 9s), Apex replaces your existing database backups!
+
+<!--
 **What read/write latencies can I expect globally?**
 
 The write latency is the time for records to become durable. It requires
@@ -343,11 +350,11 @@ for everything.
 
 **Why wouldn't I just use Kafka or Snowflake with CDC?**
 
-Does solution `X`
+Does solution `X`:
 
 - replace operational queries served by user facing databases?
 - retain transactional constructs like schema?
-- natural distribute information globally like a CDN?
+- naturally distribute information globally like a CDN?
 - give access to pre-sorted records or require re-indexing locally or on the
   fly?
 
@@ -366,7 +373,19 @@ redundant storage, but storage is cheap.
 As for the number of indexes it's up to the apex clients to decide how to model
 information and the number of indexes required.
 
+**Is this just event sourcing? CQRS?**
+
 **This is interesting, how can I try it?**
 
 Apex is just a concept at the moment, pure vapourware. I'm working on it. If
 you're interested get in touch!
+
+#### TODO
+
+- better explanation around "read your own writes" improve the 20s delay i think
+  the reader will be unconvinced.
+- operational complexity is probably still unconvincing
+- answers are too hand wavey: client handles this. I need to make that more
+  obvious
+
+  -->

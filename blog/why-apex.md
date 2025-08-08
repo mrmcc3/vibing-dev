@@ -330,83 +330,59 @@ It's all up to the Apex client! The archive provides the foundation to allow
 client libraries to create information formats, query-engines, OLTP connectors,
 AI integrations etc.
 
-Apex doesn't exist yet, nor do these client libraries - but that's the point. 
+Apex doesn't exist yet, nor do these client libraries - but that's the point.
 The case here is for the right foundation to enable it to happen.
 
-<!--
+**Why are records kept in order?**
 
-**Why binary records? Why no format, schema or query language? How do
-applications actually use this in practice?**
+Order is how we get leverage over information, it's how query engines do it.
+Indexing unordered records on-the-fly where the query happens could require
+pulling all records across the network. If you've got lots of data and limited
+memory that's a concern. Pre-sorted records solve this - clients can efficiently
+locate what they need without repeating any indexing work.
 
-The short answer is: an Apex client library.
-
-The archive deals with binary records because that's all it needs, everything
-else can happen at the client level. Implementors can experiment with different
-query-engines, information schemas, AI etc, and not be stuck with what the
-database provides.
-
-**How do you delete data when everything is designed to be permanent and
+**What happens when you need to delete or update information that's already been
 distributed everywhere?**
 
-Sometimes systems have to forget. User requests, court order, GDPR compliance,
-etc. It's possible with apex but not straightforward. This is by design, you
-don't want to accidentally forget valuable information. The approach is to
-construct a new file with the problematic records filtered out. At which point
-the previous file can be completely erased.
+You never want to update records, it's not state, make a new one that corrects
+it instead. But sometimes systems have to _forget_. User requests, court order,
+GDPR compliance, etc. It is possible to delete records from an Apex file but
+it's not straightforward. This is by design, you don't want to accidentally lose
+valuable information.
 
-**Most systems aren't globally distributed. Why do I need this if I'm just
-running a typical app?**
+The approach is to construct a new file with the problematic records filtered
+out. At which point the old file can be completely erased.
 
-Globally distributing information is a bonus. Apex servers don't _have_ to be
-distributed. They can run in a single region if data sovereignty is a concern.
+**Is this just event sourcing? CDC? CQRS?**
 
-However, this article puts forward two other issues with using an OLTP database
-for everything.
+It's a form of CQRS. CDC literally is recording state change, so absolutely.
+Event sourcing? Events can go directly to the archive, sure. If these terms mean
+nothing, carry on, it's not important.
 
-1. Remembering is on you. A database with an integrated Apex client can keep
-   records automatically from the start - even ones you might not know you need
-   yet.
-2. Into the tar pit. Recordkeeping in most transactional databases comes with a
-   lot of incidental complexity. It starts small but as software evolves it
-   rapidly becomes a big concern. Apex can fix this.
+**Why wouldn't I just use OLAP solution X?**
 
-**Why wouldn't I just use Kafka or Snowflake with CDC?**
+If it works for you, great, keep using it! That being said, there's always room
+for more ideas. Does `X`:
 
-Does solution `X`:
-
-- replace operational queries served by user facing databases?
+- replace operational queries served by user-facing databases?
 - retain transactional constructs like schema?
 - naturally distribute information globally like a CDN?
-- give access to pre-sorted records or require re-indexing locally or on the
-  fly?
+- give access to pre-sorted records or require re-indexing locally?
 
-There's a lot of great OLAP technology out there and if they suit your system,
-great! That being said there's always room for more ideas.
+**My app isn't globally distributed. Why would I want this?**
 
-**Why sort the records? Are records stored redundantly for every index?**
+Apex is not just about geographic distribution - far from it, that's a bonus.
+Don't forget that most OLTP databases:
 
-The records are sorted in storage because it means all the clients don't have to
-repeat the work - they get query-ready information directly.
+1. don't record state changes out of the box (remembering is on you)
+2. come with a lot of incidental complexity for recordkeeping. It starts small
+   but as software evolves it rapidly becomes a big concern that always gets
+   worse (into the tar pit).
 
-Apex just sorts binary records lexicographically, to sort records differently
-you have to encode the record accordingly and write to a separate file. So yes,
-redundant storage, but storage is cheap.
-
-As for the number of indexes it's up to the apex clients to decide how to model
-information and the number of indexes required.
-
-**Is this just event sourcing? CQRS?**
+Apex can fix that. On top of that, there are operational benefits mentioned
+above.
 
 **This is interesting, how can I try it?**
 
-Apex is just a concept at the moment, pure vapourware. I'm working on it. If
+Apex is just a concept at the moment, pure vaporware. I'm working on it. If
 you're interested get in touch!
-
-#### TODO
-
-- better explanation around "read your own writes" improve the 20s delay i think
-  the reader will be unconvinced.
-- answers are too hand wavey: client handles this. I need to make that more
-  obvious
-
-  -->

@@ -66,7 +66,7 @@ store past states or how entities change for you. If you're lucky you might be
 able to completely solve your problem by only tracking the current state of
 everything. But more than likely that's not the case and failing to proactively
 collect records will lead to the unpleasant discovery that it's impossible to
-answer questions about the past. 😬
+answer questions about the past.
 
 The situation becomes worse when the questions about the past aren't even known
 when you first build the application. Hoping there's a backup that can answer
@@ -83,7 +83,7 @@ Which entities need record-keeping? What if we don't know what historical
 questions might be asked? Do we store complete state snapshots or diffs to
 recreate state? What's the schema and will it conflict as the rest of the system
 evolves? Migrations become even harder - oh no. Wait, can a bug accidentally
-erase history? 😱 How do we index temporal data? Will queries be more
+erase history? How do we index temporal data? Will queries be more
 challenging? What about read performance? Write performance? Storage costs? Will
 all this impact user experience?
 
@@ -105,7 +105,7 @@ approach we choose to keep it isolated.
 
 We're under-utilizing one of the most distribution-friendly types of data.
 
-## Release the Records!
+## Release the Records
 
 The previous sections argue that information and record-keeping don't belong in
 OLTP databases. So let's pull them apart!
@@ -201,7 +201,7 @@ for information mitigates this risk.
 Overall, OLTP components become low-ceremony parts of the system rather than a
 single point of failure that everyone is afraid to touch.
 
-### Apex: Information unlocked
+### Apex: A protocol for information
 
 Imagine an old school archive - a filing cabinet. You can locate a **file** by
 name and **open** it. Inside you'll find a **sorted set** of records that you

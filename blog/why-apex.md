@@ -194,7 +194,7 @@ With a shared archive if a database becomes unavailable or is completely lost:
 
 Another issue with storing records in a system designed for mutable state is
 that it's not only possible but easy to change the past. As developers, we write
-bugs all the time, We'll inevitably change things that shouldn't be changed.
+bugs all the time. We'll inevitably change things that shouldn't be changed.
 Backups might help, but what if it goes unnoticed? An archival system designed
 for information mitigates this risk.
 
@@ -287,7 +287,7 @@ under `500ms` globally. Write throughput is high and scales with the number of
 servers.
 
 Propagation lag is the time for a new record to be included in the file for all
-servers. The design target is under `20s`.
+servers. The design target is under `20s` globally.
 
 Read latencies are extremely low due to aggressive multi-level caching. The read
 path starts directly at the client, then the server before falling back to
@@ -302,20 +302,38 @@ sidestep the speed of light.
 
 Even if clients query a strongly consistent database, the results are records
 from the past! The information clients have can only ever be eventually
-consistent with the source (database). The physics of information sharing *is*
+consistent with the source (database). The physics of information sharing _is_
 eventual consistency - it's the correct choice for Apex.
 
+**How does a user immediately see their own changes if Apex has a 20-second
+propagation delay?**
+
+This concern is largely contrived. First, the 20-second figure represents global
+propagation - a situation a single client would rarely encounter. Local
+propagation happens within seconds.
+
+Second, the ability to "read your own writes" is not incompatible with an
+eventually consistent archive. Apex clients can handle it.
+
+1. If a client writes directly to the archive, it can simply construct a set
+   that includes the new records.
+2. If a client performs a transaction, the system can also return a set that
+   includes all records up to and including the transaction result.
+
+Finally, if the time it takes the archive to converge is unacceptable, just send
+the correct basis (set of records) directly.
+
+**How do applications actually model and query their information using just
+sorted binary records?**
+
+It's all up to the Apex client! The archive provides the foundation to allow
+client libraries to create information formats, query-engines, OLTP connectors,
+AI integrations etc.
+
+Apex doesn't exist yet, nor do these client libraries - but that's the point. 
+The case here is for the right foundation to enable it to happen.
+
 <!--
-
-**Even so, 20sec is way too long to replace operational database queries!**
-
-20 seconds is the worst-case global propagation time. Reading from your
-geographic region is much faster - around 5 seconds. But still that's beside the
-point it's never zero!
-
-What you really want is "read your own writes" to the archive, or when a
-transaction is made, to see all records up to and including the transaction.
-Both can be solved by apex clients. It's not a concern for the archive.
 
 **Why binary records? Why no format, schema or query language? How do
 applications actually use this in practice?**

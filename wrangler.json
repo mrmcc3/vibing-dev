@@ -1,10 +1,18 @@
 {
 	"name": "vibing-dev",
 	"compatibility_date": "2024-12-09",
+	"observability": {
+		"enabled": true
+	},
 	"assets": {
 		"directory": "dist",
 		"html_handling": "drop-trailing-slash",
 		"not_found_handling": "404-page"
 	},
-	"routes": [{ "pattern": "vibing.dev", "custom_domain": true }]
+	"routes": [
+		{
+			"pattern": "vibing.dev",
+			"custom_domain": true
+		}
+	]
 }

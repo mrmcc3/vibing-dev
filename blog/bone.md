@@ -66,18 +66,26 @@ CODE      METHOD   INTERPRETATION
 0x1E    | B7     | + 7 byte ints
 0x1F    | B8     | + 8 byte ints
 0x20... | B0     |
-  0x20  | B0     | boolean false
-  0x21  | B0     | boolean true
+  0x20  |        | boolean false
+  0x21  |        | boolean true
 0x30... | B1     |
+  0x30  |        | opaque blob
 0x40... | B2     |
+  0x40  |        | opaque blob
 0x50... | B3     |
+  0x50  |        | opaque blob
 0x60... | B4     |
+  0x60  |        | opaque blob
 0x70... | B8     |
-  0x70  | B8     | float64 - IEEE 754 double
+  0x70  |        | opaque blob
+  0x71  |        | float64 - IEEE 754 double
 0x80... | B16    |
-0x90... | S      |
-  0x90  | S      | UTF-8 encoded unicode text
-0xA0... | T1     |
+  0x80  |        | opaque blob
+0x90... | B32    |
+  0x90  |        | opaque blob
+0xA0... | S      |
+  0xA0  |        | opaque blob
+  0xA1  |        | UTF-8 encoded unicode text
 0xB0... | T2     |
 0xC0... | T3     |
 0xD0... | T4     |
@@ -90,11 +98,11 @@ CODE      METHOD   INTERPRETATION
 
 - The majority of the typecode space is dedicated to extensions `0x20...0xFF`.
 - Each group of 16 extension codes defines a processing method.
-  - The first 8 groups `0x20...0x9F` are **byte** extensions (scalars).
-    - The first 7 are fixed-length **blocks**.
+  - The first 9 groups `0x20...0xAF` are **byte** extensions (scalars).
+    - The first 8 are fixed-length **blocks**.
     - The last is for variable-length **strings**.
-  - The remaining 6 groups `0xA0...0xFF` are **value** extensions (containers).
-    - The first 5 are fixed-length **tuples**.
+  - The remaining 5 groups `0xB0...0xFF` are **value** extensions (containers).
+    - The first 4 are fixed-length **tuples**.
     - The last is for variable-length **lists**.
   - The first 10 codes of each group `0-9` are builtin (reserved for BONE).
   - The remaining 6 codes of each group `A-F` are available for user extension.

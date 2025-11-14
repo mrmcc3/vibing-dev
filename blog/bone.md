@@ -86,10 +86,10 @@ CODE      METHOD   INTERPRETATION
 0xA0... | S      |
   0xA0  |        | opaque blob
   0xA1  |        | UTF-8 encoded unicode text
-0xB0... | T2     |
-0xC0... | T3     |
-0xD0... | T4     |
-0xE0... | T5     |
+0xB0... | T1     |
+0xC0... | T2     |
+0xD0... | T3     |
+0xE0... | T4     |
 0xF0... | L      |
 0xFF    | E      | level
 ```

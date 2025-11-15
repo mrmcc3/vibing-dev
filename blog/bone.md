@@ -87,11 +87,16 @@ CODE      METHOD   INTERPRETATION
   0xA0  |        | opaque blob
   0xA1  |        | UTF-8 encoded unicode text
 0xB0... | T1     |
+  0xB0  |        | heterogeneous 1-tuple (box)
 0xC0... | T2     |
+  0xC0  |        | heterogeneous 2-tuple
 0xD0... | T3     |
+  0xD0  |        | heterogeneous 3-tuple
 0xE0... | T4     |
+  0xE0  |        | heterogeneous 3-tuple
 0xF0... | L      |
-0xFF    | E      | level
+  0xF0  |        | heterogeneous list
+0xFF    | E      | level extension
 ```
 
 ### Extension Groups

@@ -8,14 +8,14 @@
 		"pub": "astro build && wrangler deploy"
 	},
 	"dependencies": {
-		"@astrojs/rss": "^4.0.13",
+		"@astrojs/rss": "^4.0.14",
 		"@tailwindcss/typography": "^0.5.19",
 		"@tailwindcss/vite": "4.1.17",
-		"astro": "^5.15.5",
+		"astro": "^5.16.4",
 		"date-fns": "^4.1.0",
 		"sharp": "^0.34.5",
 		"tailwindcss": "4.1.17",
-		"wrangler": "^4.47.0"
+		"wrangler": "^4.53.0"
 	},
 	"pnpm": {
 		"onlyBuiltDependencies": [

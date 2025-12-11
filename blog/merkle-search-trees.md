@@ -2,7 +2,7 @@
 {
   title: "Merkle Search Trees",
   description: "What are they? Why use them?",
-  pub_date: "2025-12-11T00:21:48.196Z"
+  pub_date: "2025-12-11T00:21:48.196Z",
 }
 ---
 
@@ -67,9 +67,6 @@ The key insight (presented in the
 [Merkle Search Trees](https://inria.hal.science/hal-02303490/document) paper) is
 to compute the level of a key using only the key itself! Hash the key, the
 number of leading zeros[^base] is its level.
-
-Merkle Search Trees (MST) give you the indexing power of B-trees with the
-immutable value properties of a merkle tree.
 
 ## What are they good for?
 
